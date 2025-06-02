@@ -9,7 +9,7 @@ const HeroSection = () => {
       <div className="flex flex-col justify-center items-center gap-6 md:gap-10 ">
         <BlurText
           text="For Developers by a Developer"
-          className="text-xl font-mono"
+          className="text-xl font-mono tracking-wide"
         />
 
         <div className="text-center space-y-1 md:space-y-2 text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-neutral-200 to-neutral-400 text-transparent bg-clip-text">
