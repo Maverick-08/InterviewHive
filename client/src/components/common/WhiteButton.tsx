@@ -1,14 +1,15 @@
 import { cn } from "@/lib/utils"
+import type { ButtonHTMLAttributes } from "react"
 
-interface ButtonProps{
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
     text:string,
     className?:string
 }
 
 
-const WhiteButton = ({text,className}:ButtonProps) => {
+const WhiteButton = ({text,className,...rest}:ButtonProps) => {
   return (
-    <button className={cn(`${className} px-4 py-1 rounded-md bg-white hover:bg-white/80 text-black text-lg cursor-pointer`)}>
+    <button {...rest} className={cn(`${className} px-4 py-1 rounded-md bg-white hover:bg-white/80 text-black text-lg cursor-pointer`)}>
       {text}
     </button>
   )
