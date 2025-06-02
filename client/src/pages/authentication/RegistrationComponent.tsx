@@ -5,10 +5,12 @@ import { IoPersonOutline } from "react-icons/io5";
 import { LuNotebookPen } from "react-icons/lu";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import WhiteButton from "@/components/common/WhiteButton";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationComponent = () => {
+  const navigate = useNavigate();
   return (
-    <div className="w-full max-w-md px-4 flex flex-col gap-4 text-white">
+    <div className="w-full max-w-md px-4 flex flex-col gap-4 text-white select-none">
       <p className="text-2xl text-center">Welcome Back ! 👋</p>
       <div className="flex flex-col gap-6">
         <InputComponent
@@ -45,6 +47,7 @@ const RegistrationComponent = () => {
         />
       </div>
         <WhiteButton text="Register" className="mt-4 w-full font-mono"/>
+         <div>Have an account ? <span onClick={()=>navigate("/login")}  className="underline cursor-pointer">Sign In</span></div>
     </div>
   );
 };

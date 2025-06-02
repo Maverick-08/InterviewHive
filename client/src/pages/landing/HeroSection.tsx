@@ -2,8 +2,10 @@ import BlurText from "@/blocks/TextAnimations/BlurText/BlurText";
 import TrueFocus from "@/blocks/TextAnimations/TrueFocus/TrueFocus";
 import BlackButton from "@/components/common/BlackButton";
 import WhiteButton from "@/components/common/WhiteButton";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   return (
     <div className="container h-[200vh] pt-30 sm:pt-36 md:pt-42 selection:bg-neutral-300 selection:text-neutral-900">
       <div className="flex flex-col justify-center items-center gap-6 md:gap-10 ">
@@ -31,8 +33,8 @@ const HeroSection = () => {
         </div>
 
         <div className="flex px-2 gap-2 md:gap-8 select-none">
-          <BlackButton text="Try Interview Hive" className="hidden md:block font-mono text-xs md:text-lg" />
-          <WhiteButton text="Explore Now" className="font-mono text-xs md:text-lg" />
+          <BlackButton text="Try Interview Hive" className="hidden md:block font-mono text-xs md:text-lg" onClick={()=>navigate("/login")}/>
+          <WhiteButton text="Explore Now" className="font-mono text-xs md:text-lg" onClick={()=>navigate("/")}/>
         </div>
       </div>
     </div>
