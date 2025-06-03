@@ -8,7 +8,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
   return (
     <div className="container h-[200vh] pt-30 sm:pt-36 md:pt-42 selection:bg-neutral-300 selection:text-neutral-900">
-      <div className="flex flex-col justify-center items-center gap-6 md:gap-10 ">
+      <div className="flex flex-col justify-center items-center text-center gap-6 md:gap-10 ">
         <BlurText
           text="For Developers by a Developer"
           className="text-xl font-mono tracking-wide"
