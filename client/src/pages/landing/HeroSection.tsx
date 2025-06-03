@@ -34,7 +34,8 @@ const HeroSection = () => {
 
         <div className="flex px-2 gap-2 md:gap-8 select-none">
           <BlackButton text="Try Interview Hive" className="hidden md:block font-mono text-xs md:text-lg" onClick={()=>navigate("/login")}/>
-          <WhiteButton text="Explore Now" className="font-mono text-xs md:text-lg" onClick={()=>navigate("/")}/>
+          <WhiteButton text="Explore Now" className="hidden md:block font-mono text-xs md:text-lg" onClick={()=>navigate("/")}/>
+          <WhiteButton text="Explore Now" className="block md:hidden font-mono text-lg" onClick={()=>navigate("/login")}/>
         </div>
       </div>
     </div>
