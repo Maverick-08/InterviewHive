@@ -1,3 +1,4 @@
+import Loading from "@/components/common/Loading";
 import { useEffect, useState } from "react";
 
 const ReadInterviewExperience = () => {
@@ -11,18 +12,15 @@ const ReadInterviewExperience = () => {
     return () => clearInterval(Id);
   }, []);
 
-    if (isLoading) {
-      return (
-        <div className="w-screen h-screen bg-[#111111] flex justify-center items-center gap-2">
-          <div className="w-10 h-10 border-4 border-white rounded-full border-dotted animate-spin"></div>
-          <p className="text-2xl font-mono text-white">Loading</p>
-        </div>
-      );
-    }
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <div className="text-white">
-      <p>Read Interview Experience</p>
+    <div className="w-full min-h-screen max-w-7xl px-8 lg:px-20 text-white">
+      <div className="h-full border">
+        <p>Content</p>
+      </div>
     </div>
   );
 };

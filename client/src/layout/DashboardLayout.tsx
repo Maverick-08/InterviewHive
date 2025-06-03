@@ -1,26 +1,36 @@
+// import { Outlet } from "react-router-dom";
+
+// import IconComponent from "@/components/common/IconComponent";
+
 import { Outlet } from "react-router-dom";
-import { RiDashboardFill } from "react-icons/ri";
-import { LuNotebookPen } from "react-icons/lu";
-import { FaBookmark } from "react-icons/fa6";
-import { CgProfile } from "react-icons/cg";
-import IconComponent from "@/components/common/IconComponent";
+import DashboardNavbar from "./DashboardNavbar";
+import LowerNavbar from "./LowerNavbar";
+import SideNavbar from "./SideNavbar";
 
 const DashboardLayout = () => {
   return (
-    <div className="relative w-screen h-screen bg-[#111111]">
-      <div className="container mx-auto">
+    <div className="relative min-h-screen bg-[#111111]">
+      {/* Top Navbar  */}
+      <div className="fixed top-0 w-full flex justify-center items-center py-4 border-b-[1px] border-neutral-500/90">
+        <DashboardNavbar />
+      </div>
+
+      {/* Side Navbar  */}
+      <div className="hidden lg:block fixed z-50 left-0 h-screen">
+        <SideNavbar />
+      </div>
+
+      {/* Lower Navbar  */}
+      <div className="lg:hidden fixed bottom-0 w-full py-4 flex justify-center items-center">
+        <LowerNavbar />
+      </div>
+
+      {/* Content  */}
+      <div className="pt-20 flex justify-center items-center">
         <Outlet />
       </div>
-      <div className="fixed bottom-8 w-full flex justify-center items-center ">
-        <div className="flex gap-16 px-8 py-4 text-white rounded-md border border-neutral-500">
-            <IconComponent Icon={RiDashboardFill} iconTitle="Dashboard"/>
-            <IconComponent Icon={LuNotebookPen} iconTitle="Share Interview Experience"/>
-            <IconComponent Icon={FaBookmark} iconTitle="Saved Interviews"/>
-            <IconComponent Icon={CgProfile} iconTitle="Profile"/>
-        </div>
-      </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;
