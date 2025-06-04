@@ -1,4 +1,3 @@
-import TooltipComponent from "@/components/common/TooltipComponent";
 import { FaBookmark } from "react-icons/fa6";
 
 interface Interview {
@@ -117,7 +116,7 @@ const tempData: Interview[] = [
 
 const ListExperiences = () => {
   return (
-    <div className="py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8  select-none">
+    <div className="py-16 grid grid-cols-1 md:grid-cols-2  gap-8  select-none">
       {tempData.map((data, index) => {
         return (
           <div
@@ -144,13 +143,12 @@ const ListExperiences = () => {
                 <span className="font-mono font-semibold text-lg text-slate-400">
                   Candidate :{" "}
                 </span>
-                {/* <span className="font-mono text-lg">{data.name}</span> */}
-                <TooltipComponent title={`${data.batch}-${data.yearOfPassingOut}`} name={data.name}/>
+                <span className="font-mono text-lg">{data.name}</span>
               </div>
-              {/* <div className="flex justify-center items-center text-[10px] px-2 bg-teal-200 text-black rounded-sm  font-mono">
+              <div className="flex justify-center items-center text-sm px-2 bg-teal-200 text-black rounded-sm  font-mono">
                 <span>{data.batch}</span>
                 <span className="hidden md:block">-{data.yearOfPassingOut}</span>
-              </div> */}
+              </div>
             </div>
 
             {/* Offer Details  */}
