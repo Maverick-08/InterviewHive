@@ -1,3 +1,4 @@
+import FeatureSection from "./FeatureSection"
 import HeroSection from "./HeroSection"
 import Navbar from "./Navbar"
 
@@ -7,6 +8,7 @@ const Landing = () => {
         <div className="container mx-auto overflow-hidden">
             <Navbar />
             <HeroSection />
+            <FeatureSection />
         </div>
     </div>
   )
