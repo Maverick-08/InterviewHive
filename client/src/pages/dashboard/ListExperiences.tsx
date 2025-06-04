@@ -1,9 +1,11 @@
+import TooltipComponent from "@/components/common/TooltipComponent";
 import { FaBookmark } from "react-icons/fa6";
 
 interface Interview {
   name: string;
   companyName: string;
   batch: string;
+  yearOfPassingOut:number;
   numberOfRounds: number;
   ctcOffered: number;
   role: string;
@@ -14,7 +16,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Texsas Instruments",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "SDE",
@@ -23,7 +26,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Texsas Instruments",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "SDE",
@@ -32,7 +36,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Texsas Instruments",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "SDE",
@@ -41,7 +46,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Texsas Instruments",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "SDE",
@@ -50,7 +56,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Indus Tower",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "QA",
@@ -59,7 +66,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Microsoft",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "SDE",
@@ -68,7 +76,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Amazon",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "SDET",
@@ -77,7 +86,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Browser Stack",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "DevOps",
@@ -86,7 +96,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Browser Stack",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "DevOps",
@@ -95,7 +106,8 @@ const tempData: Interview[] = [
   {
     name: "Vinay Ojha",
     companyName: "Browser Stack",
-    batch: "MCA-2026",
+    batch: "MCA",
+    yearOfPassingOut:2026,
     numberOfRounds: 3,
     ctcOffered: 12,
     role: "DevOps",
@@ -105,12 +117,12 @@ const tempData: Interview[] = [
 
 const ListExperiences = () => {
   return (
-    <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 select-none">
+    <div className="py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8  select-none">
       {tempData.map((data, index) => {
         return (
           <div
             key={index}
-            className="px-4 py-2 flex flex-col bg-slate-800/90 rounded-md cursor-pointer"
+            className="px-4 py-2 flex flex-col bg-slate-800/90 rounded-md  cursor-pointer"
           >
             {/* Company Name and save icon  */}
             <div className="pb-1 flex justify-between items-center border-b border-neutral-500/90">
@@ -127,16 +139,18 @@ const ListExperiences = () => {
             </div>
 
             {/* Candidate name and batch  */}
-            <div className="pt-2 flex gap-2">
+            <div className="pt-2 flex gap-4">
               <div>
                 <span className="font-mono font-semibold text-lg text-slate-400">
                   Candidate :{" "}
                 </span>
-                <span className="font-mono text-lg">{data.name}</span>
+                {/* <span className="font-mono text-lg">{data.name}</span> */}
+                <TooltipComponent title={`${data.batch}-${data.yearOfPassingOut}`} name={data.name}/>
               </div>
-              <span className="text-xs px-2 bg-teal-200 text-black rounded-sm flex justify-center items-center font-mono">
-                {data.batch}
-              </span>
+              {/* <div className="flex justify-center items-center text-[10px] px-2 bg-teal-200 text-black rounded-sm  font-mono">
+                <span>{data.batch}</span>
+                <span className="hidden md:block">-{data.yearOfPassingOut}</span>
+              </div> */}
             </div>
 
             {/* Offer Details  */}

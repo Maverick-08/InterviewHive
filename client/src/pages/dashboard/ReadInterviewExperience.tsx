@@ -15,7 +15,7 @@ const ReadInterviewExperience = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full min-h-screen flex justify-center items-center">
+      <div className="w-full h-[60vh] flex justify-center items-center">
         <Loading />
       </div>
     );
@@ -23,7 +23,7 @@ const ReadInterviewExperience = () => {
 
   return (
     <div className="w-full min-h-screen max-w-7xl px-8 lg:px-20 text-white">
-      <div>
+      <div className="">
         <ListExperiences />
       </div>
     </div>
