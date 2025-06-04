@@ -1,5 +1,6 @@
 import Loading from "@/components/common/Loading";
 import { useEffect, useState } from "react";
+import ListExperiences from "./ListExperiences";
 
 const ReadInterviewExperience = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,13 +14,17 @@ const ReadInterviewExperience = () => {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="w-full min-h-screen flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
 
   return (
     <div className="w-full min-h-screen max-w-7xl px-8 lg:px-20 text-white">
-      <div className="h-full border">
-        <p>Content</p>
+      <div>
+        <ListExperiences />
       </div>
     </div>
   );

@@ -1,7 +1,3 @@
-// import { Outlet } from "react-router-dom";
-
-// import IconComponent from "@/components/common/IconComponent";
-
 import { Outlet } from "react-router-dom";
 import DashboardNavbar from "./DashboardNavbar";
 import LowerNavbar from "./LowerNavbar";
@@ -11,7 +7,7 @@ const DashboardLayout = () => {
   return (
     <div className="relative min-h-screen bg-[#111111]">
       {/* Top Navbar  */}
-      <div className="fixed top-0 w-full flex justify-center items-center py-4 border-b-[1px] border-neutral-500/90">
+      <div className="fixed top-0 w-full flex justify-center items-center py-4 border-b-[1px] border-neutral-500/90 backdrop-blur-lg">
         <DashboardNavbar />
       </div>
 
@@ -21,7 +17,7 @@ const DashboardLayout = () => {
       </div>
 
       {/* Lower Navbar  */}
-      <div className="lg:hidden fixed bottom-0 w-full py-4 flex justify-center items-center">
+      <div className="lg:hidden fixed bottom-0 w-full py-4 flex justify-center items-center bg-[#111111]">
         <LowerNavbar />
       </div>
 
