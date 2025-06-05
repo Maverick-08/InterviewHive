@@ -1,126 +1,18 @@
+import InterviewDialog from "@/components/common/InterviewDialog";
+import { useState } from "react";
 import { FaBookmark } from "react-icons/fa6";
+import { tempData } from "./temp";
 
-interface Interview {
-  name: string;
-  companyName: string;
-  batch: string;
-  yearOfPassingOut:number;
-  numberOfRounds: number;
-  ctcOffered: number;
-  role: string;
-  tags: string[];
-}
-
-const tempData: Interview[] = [
-  {
-    name: "Vinay Ojha",
-    companyName: "Texsas Instruments",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "SDE",
-    tags: ["DSA", "ML", "OS"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Texsas Instruments",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "SDE",
-    tags: ["DSA", "ML", "OS"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Texsas Instruments",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "SDE",
-    tags: ["DSA", "ML", "OS"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Texsas Instruments",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "SDE",
-    tags: ["DSA", "ML", "OS"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Indus Tower",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "QA",
-    tags: ["DSA", "DBMS", "OS"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Microsoft",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "SDE",
-    tags: ["DSA", "HLD", "Projects"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Amazon",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "SDET",
-    tags: ["DSA", "System Design", "CN"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Browser Stack",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "DevOps",
-    tags: ["DevOps", "Cloud", "Linux"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Browser Stack",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "DevOps",
-    tags: ["DevOps", "Cloud", "Linux"],
-  },
-  {
-    name: "Vinay Ojha",
-    companyName: "Browser Stack",
-    batch: "MCA",
-    yearOfPassingOut:2026,
-    numberOfRounds: 3,
-    ctcOffered: 12,
-    role: "DevOps",
-    tags: ["DevOps", "Cloud", "Linux"],
-  },
-];
 
 const ListExperiences = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="py-16 grid grid-cols-1 md:grid-cols-2  gap-8  select-none">
       {tempData.map((data, index) => {
         return (
           <div
             key={index}
+            onClick={() => setIsModalOpen((prev) => !prev)}
             className="px-4 py-2 flex flex-col bg-slate-800/90 rounded-md  cursor-pointer"
           >
             {/* Company Name and save icon  */}
@@ -143,18 +35,22 @@ const ListExperiences = () => {
                 <span className="font-mono font-semibold text-lg text-slate-400">
                   Candidate :{" "}
                 </span>
-                <span className="font-mono text-lg">{data.name}</span>
+                <span className="font-mono text-lg">{data.candidate}</span>
               </div>
               <div className="flex justify-center items-center text-sm px-2 bg-teal-200 text-black rounded-sm  font-mono">
                 <span>{data.batch}</span>
-                <span className="hidden md:block">-{data.yearOfPassingOut}</span>
+                <span className="hidden md:block">
+                  -{data.yearOfPassingOut}
+                </span>
               </div>
             </div>
 
             {/* Offer Details  */}
             <div className="flex flex-col border-b border-neutral-500/90 pb-1">
               <div className="flex gap-2">
-                <span className="font-mono font-semibold text-lg text-slate-400">Role : </span>
+                <span className="font-mono font-semibold text-lg text-slate-400">
+                  Role :{" "}
+                </span>
                 <span className="font-mono text-lg">{data.role}</span>
               </div>
               <div className="flex gap-2">
@@ -174,9 +70,29 @@ const ListExperiences = () => {
             {/* Tags  */}
             <div className="pt-2 h-full flex items-center gap-4">
               {data.tags.map((tag, idx) => {
-                return <span key={idx} className="bg-slate-700 text-slate-200 px-2 rounded-sm">{tag}</span>;
+                return (
+                  <span
+                    key={idx}
+                    className="bg-slate-700 text-slate-200 px-2 rounded-sm"
+                  >
+                    {tag}
+                  </span>
+                );
               })}
             </div>
+            {isModalOpen && (
+              <InterviewDialog
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                candidate={`${data.candidate}`}
+                batch={`${data.batch}`}
+                yearOfPassingOut={data.yearOfPassingOut}
+                role={`${data.role}`}
+                ctcOffered={data.ctcOffered}
+                companyName={`${data.companyName}`}
+                allRounds={data.allRounds}
+              />
+            )}
           </div>
         );
       })}
