@@ -13,10 +13,10 @@ const ListExperiences = () => {
           <div
             key={index}
             onClick={() => setIsModalOpen((prev) => !prev)}
-            className="px-4 py-2 flex flex-col bg-slate-800/90 rounded-md  cursor-pointer"
+            className="px-4 py-2 flex flex-col bg-[#171717] border-2 border-[#333333] rounded-md  cursor-pointer"
           >
             {/* Company Name and save icon  */}
-            <div className="pb-1 flex justify-between items-center border-b border-neutral-500/90">
+            <div className="pb-1 flex justify-between items-center text-neutral-400 border-b border-neutral-500/90">
               <span className="text-3xl font-mono font-semibold ">
                 {data.companyName}
               </span>
@@ -32,12 +32,12 @@ const ListExperiences = () => {
             {/* Candidate name and batch  */}
             <div className="pt-2 flex gap-4">
               <div>
-                <span className="font-mono font-semibold text-lg text-slate-400">
+                <span className="font-mono font-semibold text-lg text-neutral-400">
                   Candidate :{" "}
                 </span>
                 <span className="font-mono text-lg">{data.candidate}</span>
               </div>
-              <div className="flex justify-center items-center text-sm px-2 bg-teal-200 text-black rounded-sm  font-mono">
+              <div className="flex justify-center items-center text-sm px-2 bg-[#111111] text-neutral-200 border border-gray-400 rounded-md  font-mono">
                 <span>{data.batch}</span>
                 <span className="hidden md:block">
                   -{data.yearOfPassingOut}
@@ -48,19 +48,19 @@ const ListExperiences = () => {
             {/* Offer Details  */}
             <div className="flex flex-col border-b border-neutral-500/90 pb-1">
               <div className="flex gap-2">
-                <span className="font-mono font-semibold text-lg text-slate-400">
+                <span className="font-mono font-semibold text-lg text-neutral-400">
                   Role :{" "}
                 </span>
                 <span className="font-mono text-lg">{data.role}</span>
               </div>
               <div className="flex gap-2">
-                <span className="font-mono font-semibold text-lg text-slate-400">
+                <span className="font-mono font-semibold text-lg text-neutral-400">
                   Number of Rounds :{" "}
                 </span>
                 <span className="font-mono text-lg">{data.numberOfRounds}</span>
               </div>
               <div className="flex gap-2">
-                <span className="font-mono font-semibold text-lg text-slate-400">
+                <span className="font-mono font-semibold text-lg text-neutral-400">
                   CTC Offered :{" "}
                 </span>
                 <span className="font-mono text-lg">{data.ctcOffered}</span>
@@ -73,7 +73,7 @@ const ListExperiences = () => {
                 return (
                   <span
                     key={idx}
-                    className="bg-slate-700 text-slate-200 px-2 rounded-sm"
+                    className="bg-[#111111] text-neutral-200 border border-gray-400 px-2 rounded-sm"
                   >
                     {tag}
                   </span>
