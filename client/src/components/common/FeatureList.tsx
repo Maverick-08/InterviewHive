@@ -27,7 +27,7 @@ const FeatureList = ({
   borderColor
 }: FeatureProps) => {
   return (
-    <div className=" w-full max-w-6xl flex-row md:flex ">
+    <div className=" w-full max-w-7xl flex flex-col md:flex-row ">
       {/* content  */}
       <div
         className={cn(`lg:pt-6 md:pt-8 px-8 flex-6 ${contentOrder}`)}
@@ -66,7 +66,7 @@ const FeatureList = ({
       {/* Image  */}
       <div
         className={cn(
-          `mt-10 md:mt-6 lg:mt-0  mx-10 md:mx-6 items-center justify-between shadow-lg    flex-4 rounded-lg md:overflow-hidden ${borderColor} ${shadowColor} ${imageOrder}`
+          `mt-10 md:mt-6 lg:mt-0  mx-10 md:mx-6 items-center justify-between shadow-lg  flex-4 rounded-lg md:overflow-hidden ${borderColor} ${shadowColor} ${imageOrder}`
         )}
       >
         <img

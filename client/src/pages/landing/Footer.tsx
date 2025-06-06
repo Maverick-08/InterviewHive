@@ -3,55 +3,55 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaGithubSquare } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
+import SocialLink from "@/components/common/SocialLink";
 
 const Footer = () => {
   return (
     <AnimatedSection>
-      <footer className="pt-10 lg:mt-14 mx-2 px-4 py-5 border-t-2 border-neutral-700">
-        {/* //Upper Section of the div */}
-        <div className="flex justify-center md:justify-between animate-fade-in-up">
-          <div className="hidden pt-1 md:flex gap-4">
-            
-            <div className="flex gap-2 items-center">
-              <a
-              href="https://x.com/Maverick_0_8?t=EV5tvrrqFmYBjdkWnK7hsQ&s=09"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Twitter"
-              >
-              <FaXTwitter className="h-6 w-7 transition-transform duration-300 hover:scale-110 hover:text-blue-600" />
-              </a>
-              <a
-              href="http://www.linkedin.com/in/nitb-vivek-ojha"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              >
-              <FaLinkedin className="h-6 w-7 transition-transform duration-300 hover:scale-110 hover:text-blue-600" />
-              </a>
-              <a
-              href="https://github.com/Maverick-08"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              >
-              <FaGithubSquare className="h-7 w-8 transition-transform duration-300 hover:scale-110 hover:text-blue-600" />
-              </a>
+      <div className="w-full flex justify-center border-t-[1px] border-neutral-700 py-8">
+        <footer className="w-full max-w-7xl flex justify-between items-center  text-white ">
+          {/* Socials  */}
+          <div className="flex gap-6">
+            <SocialLink
+              className="flex"
+              Icon={FaXTwitter}
+              iconStyle="md:h-8 md:w-8"
+              link="https://x.com/Maverick_0_8?t=EV5tvrrqFmYBjdkWnK7hsQ&s=09"
+              linkName="Handle"
+              linkStyle="hidden"
+            />
+
+            <SocialLink
+              className="flex"
+              Icon={FaLinkedin}
+              iconStyle="md:h-8 md:w-8"
+              link="http://www.linkedin.com/in/nitb-vivek-ojha"
+              linkName="LinkedIn"
+              linkStyle="hidden"
+            />
+
+            <SocialLink
+              className="flex"
+              Icon={FaGithubSquare}
+              iconStyle="md:h-8 md:w-8"
+              link="https://github.com/Maverick-08"
+              linkName="GitHub"
+              linkStyle="hidden"
+            />
+          </div>
+
+          {/* Developers  */}
+          <div>
+            <div className="flex items-center gap-4 font-mono text-xl">
+              <span>Developed with </span>
+              <span className="text-red-600">
+                <FaHeart className="h-8 w-8 animate-pulse" />
+              </span>
+              <span>by Vivek Ojha</span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <p className="font-mono font-bold text-xl bg-gradient-to-b from-neutral-400 via-neutral-500 to-neutral-700 bg-clip-text text-transparent">
-              Developed with
-            </p>
-            <div className="relative">
-              <FaHeart className="h-7 w-5 text-red-500 animate-pulse" />
-            </div>
-            <p className="font-mono font-bold text-xl bg-gradient-to-b from-neutral-400 via-neutral-500 to-neutral-700 bg-clip-text text-transparent">
-              by Vivek.
-            </p>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      </div>
     </AnimatedSection>
   );
 };

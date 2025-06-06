@@ -43,8 +43,8 @@ const FeatureSection = () => {
           icons={[FaFireFlameCurved, TiGroup, FaRegSave]}
           colors={["text-orange-400", "text-red-400", "text-green-400"]}
           image={CodeImage}
-          contentOrder={`order-2`}
-          imageOrder={`order-1`}
+          contentOrder={`order-1 md:order-2`}
+          imageOrder={`order-2 md:order-1`}
           shadowColor={`shadow-teal-500`}
           borderColor={`border-teal-500`}
         />
