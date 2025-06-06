@@ -1,14 +1,14 @@
 import InterviewDialog from "@/components/common/InterviewDialog";
 import { useState } from "react";
 import { FaBookmark } from "react-icons/fa6";
-import { tempData } from "./temp";
+import type { Interview } from "@/types";
 
 
-const ListExperiences = () => {
+const ListExperiences = ({interviewData}:{interviewData:Interview[]}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="py-16 grid grid-cols-1 md:grid-cols-2  gap-8  select-none">
-      {tempData.map((data, index) => {
+      {interviewData.map((data, index) => {
         return (
           <div
             key={index}

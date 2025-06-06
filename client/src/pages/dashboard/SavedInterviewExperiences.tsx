@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ListExperiences from "./ListExperiences";
 import { tempData } from "./temp";
 
-const ReadInterviewExperience = () => {
+const SavedInterviewExperiences = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,11 +24,9 @@ const ReadInterviewExperience = () => {
 
   return (
     <div className="w-full min-h-screen max-w-7xl px-8 lg:px-20 text-white">
-      <div className="">
-        <ListExperiences interviewData={tempData}/>
-      </div>
+      <ListExperiences interviewData={tempData}/>
     </div>
   );
 };
 
-export default ReadInterviewExperience;
+export default SavedInterviewExperiences;
