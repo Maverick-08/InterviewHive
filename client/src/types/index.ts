@@ -26,3 +26,25 @@ export interface Interview {
   tags: string[];
   allRounds: Round[];
 }
+
+export interface DeleteRound{
+    roundId: string,
+  roundIds: string[],
+  setRoundIds: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+export interface AddRound{
+    roundIds: string[],
+    setRoundIds: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+export interface AddRoundQuestion{
+    questionIds: string[],
+    setQuestionIds: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+export interface DeleteRoundQuestion{
+    questionId: string,
+    questionIds: string[],
+    setQuestionIds: React.Dispatch<React.SetStateAction<string[]>>
+}
