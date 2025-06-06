@@ -4,47 +4,75 @@ import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 import { MdLibraryAdd } from "react-icons/md";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import NavigationLink from "@/components/common/NavigationLink";
 
 const SideNavbar = () => {
   const [isTabOpen, setIsTabOpen] = useState(false);
+  const location = useLocation().pathname;
+  const navigate = useNavigate();
+
   return (
     <div
-      className={`h-full flex flex-col px-4 ${
-        isTabOpen ? "w-82" : "w-16"
+      className={`h-full flex flex-col ${
+        isTabOpen ? "w-[370px]" : "w-16"
       } bg-[#111111] text-white border-r-[1px] border-neutral-500/90 select-none transition-all duration-300 ease-in-out overflow-hidden`}
     >
-      <div className="flex-1 pb-0.5 flex items-center gap-4 border-neutral-500/90 transition-all duration-300 ease-in">
-        {isTabOpen ? (
-          <span onClick={()=>setIsTabOpen(prev=>!prev)}>
-            <FaArrowLeft className="h-6 w-6 cursor-pointer" />
-          </span>
-        ) : (
-          <span onClick={()=>setIsTabOpen(prev=>!prev)}>
-            <FaArrowRight className="h-6 w-6 cursor-pointer" />
-          </span>
-        )}
-        <span className={`${isTabOpen ? "block" : "hidden"} text-2xl font-mono font-semibold`}>Menu</span>
-      </div>
+       {/* Menu Icon  */}
+      <NavigationLink
+        onClick={() => setIsTabOpen((prev) => !prev)}
+        className={`w-full px-2 flex-1 flex items-center gap-4 cursor-pointer`}
+        Icon={isTabOpen ? FaArrowLeft : FaArrowRight}
+        iconContainerStyle={`hover:text-[#3B82F6] hover:bg-[#0F1831] rounded-sm p-2`}
+        linkName="Menue"
+        linkStyle={`${
+          isTabOpen ? "block" : "hidden"
+        } text-2xl font-mono font-semibold`}
+      />
 
-      <div className="flex-9 pt-8 flex flex-col text-xl font-mono  gap-16">
-        <div className="flex items-center gap-4">
-          <span>
-            <RiDashboardFill className="h-6 w-6" />
-          </span>
-          <span className={`${isTabOpen ? "block" : "hidden"}`}>All Interviews</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <span>
-            <MdLibraryAdd className="h-6 w-6" />
-          </span>
-          <span className={`${isTabOpen ? "block" : "hidden"}`}>Add Interview Experience</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <span>
-            <FaBookmark className="h-6 w-6" />
-          </span>
-          <span className={`${isTabOpen ? "block" : "hidden"}`}>Saved Items</span>
-        </div>
+      <div
+        className={`w-full flex-9 pt-8 px-2 flex flex-col ${
+          isTabOpen ? "items-start" : "items-center"
+        } text-xl font-mono gap-16`}
+      >
+        {/* Dashboard Icon  */}
+        <NavigationLink
+          onClick={() => navigate("/dashboard")}
+          className={`relative w-full flex items-center gap-4 ${
+            location.includes("dashboard")
+              ? "text-[#3B82F6] bg-[#0F1831]"
+              : "text-white"
+          } hover:text-[#3B82F6] hover:bg-[#0F1831] rounded-sm p-3 cursor-pointer`}
+          Icon={RiDashboardFill}
+          linkName="All Interviews"
+          linkStyle={`pl-10 fixed z-[60] ${isTabOpen ? "block" : "hidden"}`}
+        />
+
+        {/* Add Interview Icon  */}
+        <NavigationLink
+          onClick={() => navigate("/share")}
+          className={`relative w-full flex items-center gap-4 ${
+            location.includes("share")
+              ? "text-[#3B82F6] bg-[#0F1831]"
+              : "text-white"
+          } hover:text-[#3B82F6] hover:bg-[#0F1831] rounded-sm p-3 cursor-pointer`}
+          Icon={MdLibraryAdd}
+          linkName="Add Interview Experience"
+          linkStyle={`pl-10 fixed z-[60] ${isTabOpen ? "block" : "hidden"}`}
+        />
+
+        {/* Save Interview Icon  */}
+        <NavigationLink
+          onClick={() => navigate("/save")}
+          className={`relative w-full flex items-center gap-4 ${
+            location.includes("save")
+              ? "text-[#3B82F6] bg-[#0F1831]"
+              : "text-white"
+          } hover:text-[#3B82F6] hover:bg-[#0F1831] rounded-sm p-3 cursor-pointer`}
+          Icon={FaBookmark}
+          linkName="Saved Items"
+          linkStyle={`pl-10 fixed z-[60] ${isTabOpen ? "block" : "hidden"}`}
+        />
       </div>
     </div>
   );
