@@ -1,17 +1,18 @@
-import FeatureList from "@/components/common/FeatureList"
-import { LuDatabaseZap } from "react-icons/lu";
-import { FaCode } from "react-icons/fa";
-import { FaFileCode } from "react-icons/fa6";
+import FeatureList from "@/components/common/FeatureList";
 import CodeImage from "../../assets/code.png";
 import { FaRegSave } from "react-icons/fa";
 import { FaUniversalAccess } from "react-icons/fa6";
 import { GiClick } from "react-icons/gi";
 import { FaFireFlameCurved } from "react-icons/fa6";
 import { TiGroup } from "react-icons/ti";
+import { LuDatabaseZap } from "react-icons/lu";
+import { FaFileCode, FaCode } from "react-icons/fa";
+import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
 
 const FeatureSection = () => {
   return (
-    <div className="pt-30 py-10 w-full flex flex-col justify-center items-center gap-16 md:gap-20 lg:gap-36">
+    <div className="pt-30 w-full flex flex-col justify-center items-center gap-32 md:gap-32 lg:gap-42">
+      <AnimatedSection>
         <FeatureList
           title="Add an Experience, Empower a Peer"
           tagline="Your journey can light the way for someone else. Build a helpful placement community together."
@@ -28,7 +29,9 @@ const FeatureSection = () => {
           shadowColor={`shadow-purple-500`}
           borderColor={`border-purple-500`}
         />
+      </AnimatedSection>
 
+      <AnimatedSection>
         <FeatureList
           title="Improve Now, Prepare Better."
           tagline="Share and explore real interview experiences from seniors."
@@ -45,25 +48,28 @@ const FeatureSection = () => {
           shadowColor={`shadow-teal-500`}
           borderColor={`border-teal-500`}
         />
+      </AnimatedSection>
 
+      <AnimatedSection>
         <FeatureList
           title="Save for Later, Win Sooner"
           tagline="No more endless scrolling. Bookmark experiences that matter."
           features={[
             "Save any experience with one click",
             "Access it whenever you need a prep boost.",
-            
           ]}
           icons={[GiClick, FaUniversalAccess]}
           colors={["text-green-400", "text-yellow-400", "text-red-400"]}
           image={CodeImage}
-           contentOrder={`order-1`}
+          contentOrder={`order-1`}
           imageOrder={`order-2`}
           shadowColor={`shadow-blue-500`}
           borderColor={`border-blue-500`}
         />
-      </div>
-  )
-}
+      </AnimatedSection>
 
-export default FeatureSection
+    </div>
+  );
+};
+
+export default FeatureSection;

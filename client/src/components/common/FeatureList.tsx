@@ -33,7 +33,7 @@ const FeatureList = ({
         className={cn(`lg:pt-6 md:pt-8 px-8 flex-6 ${contentOrder}`)}
       >
         {/* Title  */}
-        <div className="border-l-12 rounded border-neutral-600 px-1">
+        <div className="border-l-8 border-neutral-600 px-1">
           <p className="font-mono text-neutral-300 text-xl md:text-2xl lg:text-3xl">
             {title}
           </p>
@@ -66,7 +66,7 @@ const FeatureList = ({
       {/* Image  */}
       <div
         className={cn(
-          `mt-10 md:mt-6 lg:mt-0  mx-10 md:mx-6 items-center justify-betweenshadow-xl  border  flex-4 rounded-lg md:overflow-hidden shadow-xl ${borderColor} ${shadowColor} ${imageOrder}`
+          `mt-10 md:mt-6 lg:mt-0  mx-10 md:mx-6 items-center justify-between shadow-lg    flex-4 rounded-lg md:overflow-hidden ${borderColor} ${shadowColor} ${imageOrder}`
         )}
       >
         <img
