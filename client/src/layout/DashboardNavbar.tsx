@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import WhiteButton from "@/components/common/WhiteButton";
 
 const DashboardNavbar = () => {
+  const navigate = useNavigate()
   return (
     <div className="w-full max-w-7xl px-4 sm:px-8 lg:px-20 flex justify-between items-center text-white">
 
@@ -13,7 +15,7 @@ const DashboardNavbar = () => {
 
         {/* Account Info & Logout */}
         <div>
-            <WhiteButton text="Account" className="bg-blue-500 text-white font-mono hover:bg-blue-500/80 text-sm sm:text-lg"/>
+            <WhiteButton onClick={()=>navigate("/profile")} text="Account" className="bg-blue-500 text-white font-mono hover:bg-blue-500/80 text-sm sm:text-lg"/>
         </div>
       
     </div>
