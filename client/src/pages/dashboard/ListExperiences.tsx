@@ -7,7 +7,7 @@ import type { Interview } from "@/types";
 const ListExperiences = ({interviewData}:{interviewData:Interview[]}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <div className="py-16 grid grid-cols-1 md:grid-cols-2  gap-8  select-none">
+    <div className="grid grid-cols-1 md:grid-cols-2  gap-8  select-none">
       {interviewData.map((data, index) => {
         return (
           <div
@@ -17,7 +17,7 @@ const ListExperiences = ({interviewData}:{interviewData:Interview[]}) => {
           >
             {/* Company Name and save icon  */}
             <div className="pb-1 flex justify-between items-center text-neutral-400 border-b border-neutral-500/90">
-              <span className="text-3xl font-mono font-semibold ">
+              <span className="text-3xl font-mono text-white ">
                 {data.companyName}
               </span>
               <span

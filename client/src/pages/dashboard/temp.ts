@@ -54,8 +54,8 @@ export const tempData: Interview[] = [
     tags: ["DSA", "ML", "OS"],
   },
   {
-    candidate: "Vinay Ojha",
-    companyName: "Texsas Instruments",
+    candidate: "Tyler Durden",
+    companyName: "Microsoft",
     batch: "MCA",
     yearOfPassingOut: 2026,
     role: "SDE",
@@ -106,8 +106,8 @@ export const tempData: Interview[] = [
     tags: ["DSA", "ML", "OS"],
   },
   {
-    candidate: "Vinay Ojha",
-    companyName: "Texsas Instruments",
+    candidate: "Benjamin Button",
+    companyName: "Apple",
     batch: "MCA",
     yearOfPassingOut: 2026,
     role: "SDE",
@@ -158,8 +158,8 @@ export const tempData: Interview[] = [
     tags: ["DSA", "ML", "OS"],
   },
   {
-    candidate: "Vinay Ojha",
-    companyName: "Texsas Instruments",
+    candidate: "Maverick",
+    companyName: "Top Gun",
     batch: "MCA",
     yearOfPassingOut: 2026,
     role: "SDE",
@@ -210,8 +210,8 @@ export const tempData: Interview[] = [
     tags: ["DSA", "ML", "OS"],
   },
   {
-    candidate: "Vinay Ojha",
-    companyName: "Texsas Instruments",
+    candidate: "Ethan Hunt",
+    companyName: "Mission Possible",
     batch: "MCA",
     yearOfPassingOut: 2026,
     role: "SDE",

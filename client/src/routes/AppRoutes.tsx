@@ -15,9 +15,9 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />}/>
       <Route path="/register" element={<Registration />}/>
       <Route element={<DashboardLayout />}>
-        <Route path="/dashboard" element={<ReadInterviewExperience />}/>
-        <Route path="/share" element={<ShareInterviewExperience />}/>
-        <Route path="/save" element={<SavedInterviewExperiences />}/>
+        <Route path="/interview/dashboard" element={<ReadInterviewExperience />}/>
+        <Route path="/interview/share" element={<ShareInterviewExperience />}/>
+        <Route path="/interview/save" element={<SavedInterviewExperiences />}/>
         <Route path="/profile/*" element={<Profile />}/>
       </Route>
     </Routes>

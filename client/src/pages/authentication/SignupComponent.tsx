@@ -25,7 +25,7 @@ const SignupComponent = () => {
           />
         </div>
         <p className="my-4 text-right underline cursor-pointer">Reset password</p>
-        <WhiteButton text="Sign In" onClick={()=>navigate("/dashboard")} className="w-full font-mono"/>
+        <WhiteButton text="Sign In" onClick={()=>navigate("/interview/dashboard")} className="w-full font-mono"/>
         <div className="my-4 ">Don't have an account ? <span onClick={()=>navigate("/register")}  className="underline cursor-pointer">Sign Up</span></div>
       </div>
     </div>
