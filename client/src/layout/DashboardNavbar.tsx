@@ -5,7 +5,7 @@ import WhiteButton from "@/components/common/WhiteButton";
 const DashboardNavbar = () => {
   const navigate = useNavigate()
   return (
-    <div className="w-full max-w-7xl px-4 sm:px-8 lg:px-20 flex justify-between items-center text-white">
+    <div className="w-full max-w-7xl px-4 sm:px-8 lg: flex justify-between items-center text-white">
 
         {/* Title and logo  */}
         <div className="flex items-center gap-2">

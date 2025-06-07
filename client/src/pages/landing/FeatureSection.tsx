@@ -11,7 +11,7 @@ import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
 
 const FeatureSection = () => {
   return (
-    <div className="pt-30 w-full flex flex-col justify-center items-center gap-32 md:gap-32 lg:gap-42">
+    <div id="features" className="w-full max-w-6xl pt-24 flex flex-col justify-center items-center gap-32 md:gap-32 lg:gap-42">
       <AnimatedSection>
         <FeatureList
           title="Add an Experience, Empower a Peer"

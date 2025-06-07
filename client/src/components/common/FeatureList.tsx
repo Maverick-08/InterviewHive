@@ -30,7 +30,7 @@ const FeatureList = ({
     <div className=" w-full max-w-7xl flex flex-col md:flex-row ">
       {/* content  */}
       <div
-        className={cn(`lg:pt-6 md:pt-8 px-8 flex-6 ${contentOrder}`)}
+        className={cn(`lg:pt-6 md:pt-8 px-8 sm:px-0 flex-6 ${contentOrder}`)}
       >
         {/* Title  */}
         <div className="border-l-8 border-neutral-600 px-1">

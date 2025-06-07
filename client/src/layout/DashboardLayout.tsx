@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import DashboardNavbar from "./DashboardNavbar";
 import LowerNavbar from "./LowerNavbar";
-import SideNavbar from "./SideNavbar";
+// import SideNavbar from "./SideNavbar";
 
 const DashboardLayout = () => {
   return (
@@ -12,9 +12,9 @@ const DashboardLayout = () => {
       </div>
 
       {/* Side Navbar  */}
-      <div className="hidden lg:block fixed z-50 left-0 h-screen">
+      {/* <div className="hidden lg:block fixed z-50 left-0 h-screen">
         <SideNavbar />
-      </div>
+      </div> */}
 
       {/* Lower Navbar  */}
       <div className="lg:hidden fixed bottom-0 w-full py-4 flex justify-center items-center bg-[#111111]">

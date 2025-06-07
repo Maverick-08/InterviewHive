@@ -12,7 +12,7 @@ import { IoIosRefresh } from "react-icons/io";
 const HeroSection = () => {
   const navigate = useNavigate();
   return (
-    <div className="container pt-30 sm:pt-36 md:pt-42 selection:bg-neutral-300 selection:text-neutral-900">
+    <div id="hero" className="w-full max-w-6xl pt-32 selection:bg-neutral-300 selection:text-neutral-900 text-white">
       <div className="flex flex-col justify-center items-center text-center gap-6 md:gap-10 ">
         <BlurText
           text="For Developers by a Developer"
@@ -66,7 +66,7 @@ const HeroSection = () => {
 
         {/* Mac experience */}
         <AnimatedSection>
-          <div className="w-full px-4 py-4 md:px-30 md:py-10 ">
+          <div className="w-full px-4 sm:px-0 py-4 md:py-10 ">
             <div className="flex flex-col m-3 md:m-0 ">
               {/* Navbar */}
               <div className="flex bg-[#333333] rounded-t-2xl px-1 py-1 md:px-4 md:py-2">
