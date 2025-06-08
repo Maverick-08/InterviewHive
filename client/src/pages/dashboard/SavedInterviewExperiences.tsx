@@ -23,7 +23,7 @@ const SavedInterviewExperiences = () => {
   }
 
   return (
-    <div className="w-full min-h-screen max-w-7xl px-8 lg:px-20 text-white">
+    <div className="w-full min-h-screen max-w-7xl pt-24  px-8 lg:px-20 text-white">
       <ListExperiences interviewData={tempData}/>
     </div>
   );

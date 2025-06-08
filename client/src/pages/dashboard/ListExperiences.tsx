@@ -13,16 +13,16 @@ const ListExperiences = ({interviewData}:{interviewData:Interview[]}) => {
           <div
             key={index}
             onClick={() => setIsModalOpen((prev) => !prev)}
-            className="px-4 py-2 flex flex-col bg-[#171717] border-2 border-[#333333] rounded-md  cursor-pointer"
+            className="px-4 py-2 flex flex-col bg-[#171717] border-1 border-[#333333] rounded-md  cursor-pointer"
           >
             {/* Company Name and save icon  */}
-            <div className="pb-1 flex justify-between items-center text-neutral-400 border-b border-neutral-500/90">
+            <div className="pb-1 flex justify-between items-center text-neutral-400 border-b-[1px] border-[#333333]">
               <span className="text-3xl font-mono text-white ">
                 {data.companyName}
               </span>
               <span
                 className={`${
-                  index % 4 == 0 ? "text-yellow-500" : "text-slate-500"
+                  index % 4 == 0 ? "text-yellow-500" : "text-neutral-500"
                 }`}
               >
                 <FaBookmark className="h-6 w-6" />
@@ -37,16 +37,16 @@ const ListExperiences = ({interviewData}:{interviewData:Interview[]}) => {
                 </span>
                 <span className="font-mono text-lg">{data.candidate}</span>
               </div>
-              <div className="flex justify-center items-center text-sm px-2 bg-[#111111] text-neutral-200 border border-gray-400 rounded-md  font-mono">
+              <div className="hidden sm:flex justify-center items-center text-sm px-2 bg-neutral-500 text-neutral-300 border border-[#333333] rounded-md  font-semibold">
                 <span>{data.batch}</span>
-                <span className="hidden md:block">
+                <span className="">
                   -{data.yearOfPassingOut}
                 </span>
               </div>
             </div>
 
             {/* Offer Details  */}
-            <div className="flex flex-col border-b border-neutral-500/90 pb-1">
+            <div className="flex flex-col border-b-[1px] border-[#333333] pb-1">
               <div className="flex gap-2">
                 <span className="font-mono font-semibold text-lg text-neutral-400">
                   Role :{" "}
@@ -73,7 +73,7 @@ const ListExperiences = ({interviewData}:{interviewData:Interview[]}) => {
                 return (
                   <span
                     key={idx}
-                    className="bg-[#111111] text-neutral-200 border border-gray-400 px-2 rounded-sm"
+                    className="bg-neutral-500  text-neutral-300 border-[1px] border-[#333333] px-2 rounded-sm"
                   >
                     {tag}
                   </span>

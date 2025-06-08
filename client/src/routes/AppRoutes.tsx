@@ -16,7 +16,7 @@ const AppRoutes = () => {
       <Route path="/register" element={<Registration />}/>
       <Route element={<DashboardLayout />}>
         <Route path="/interview/dashboard" element={<ReadInterviewExperience />}/>
-        <Route path="/interview/share" element={<ShareInterviewExperience />}/>
+        <Route path="/interview/add" element={<ShareInterviewExperience />}/>
         <Route path="/interview/save" element={<SavedInterviewExperiences />}/>
         <Route path="/profile/*" element={<Profile />}/>
       </Route>
