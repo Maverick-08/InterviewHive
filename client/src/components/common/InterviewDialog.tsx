@@ -55,18 +55,18 @@ const InterviewDialog = ({
   return (
     <div
       onClick={() => setIsModalOpen(false)}
-      className="fixed inset-0 z-50 bg-black/10 backdrop-blur-sm flex justify-center items-center"
+      className="fixed inset-0 z-50 px-2 sm:px-0 bg-black/10 backdrop-blur-sm flex justify-center items-center"
       role="dialog"
       aria-modal="true"
       aria-labelledby="dialog-title"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative max-h-[80vh] w-full max-w-2xl mx-4 bg-slate-800 text-white p-6 rounded-lg font-mono"
+        className="relative px-5 py-4 w-full max-w-3xl h-[520px] overflow-auto flex flex-col gap-4 bg-[#171717] border border-[#333333] rounded-md font-mono"
       >
         {/* company name  */}
         <div className="flex justify-between items-center">
-          <div className="text-4xl">{companyName}</div>
+          <div className="text-2xl sm:text-4xl">{companyName}</div>
           <button
             onClick={() => setIsModalOpen(false)}
             className="text-gray-400 hover:text-white transition-colors"
@@ -91,50 +91,94 @@ const InterviewDialog = ({
         {/* candidate details  */}
         <div className="flex flex-col gap-2">
           <div>
-            <span>Candidate : </span>
-            <span>{candidate}</span>
+            <span className="font-semibold text-lg text-neutral-400">
+              Candidate :{" "}
+            </span>
+            <span className="text-lg">{candidate}</span>
           </div>
           <div>
-            <span>Batch : </span>
-            <span>
+            <span className="font-mono font-semibold text-lg text-neutral-400">
+              Batch :{" "}
+            </span>
+            <span className="text-lg">
               {batch}-{yearOfPassingOut}
             </span>
           </div>
           <div>
-            <span>Role : </span>
-            <span>{role}</span>
+            <span className="font-mono font-semibold text-lg text-neutral-400">
+              Role :{" "}
+            </span>
+            <span className="text-lg">{role}</span>
           </div>
           <div>
-            <span>CTC Offered : </span>
-            <span>{ctcOffered}</span>
+            <span className="font-mono font-semibold text-lg text-neutral-400">
+              CTC Offered :{" "}
+            </span>
+            <span className="text-lg">{ctcOffered}</span>
           </div>
         </div>
 
         {/* Round details  */}
         <div>
-          <Accordion type="single" collapsible>
+          <Accordion type="single" collapsible className="flex flex-col gap-4">
             {allRounds.map((round, index) => {
               return (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger>
-                    {round.roundName}-{round.roundType}
+                <AccordionItem key={index} value={`item-${index}`} className="border-b border-b-neutral-700">
+                  <AccordionTrigger className=" text-xl sm:text-2xl underline-offset-8 decoration-[1px] ">
+                    {round.roundName} ({round.roundType})
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div>
-                      <div>{round.note}</div>
+                    <div className="flex flex-col gap-6">
+                      {round.note ? (
+                        <div className="flex flex-col gap-2">
+                          <p className="text-sm sm:text-xl">Note :</p>
+                          <div className="px-4 py-4 rounded-md text-sm sm:text-lg text-neutral-300 bg-[#333333]">
+                            {round.note}
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <div>
-                        <Accordion type="single" collapsible>
+                        <Accordion
+                          type="single"
+                          collapsible
+                          className="flex flex-col gap-4"
+                        >
                           {round.questions.map((question, idx) => {
                             return (
-                              <AccordionItem key={idx} value={`item-${index+10}`}>
-                                <AccordionTrigger>
-                                  Question-{idx+1}
+                              <AccordionItem
+                                key={idx}
+                                value={`item-${idx + 1}`}
+                                className="px-2 border border-neutral-800 last:border-b"
+                              >
+                                <AccordionTrigger className="text-lg sm:text-xl px-2">
+                                  Question-{idx + 1}
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                  <div>
-                                    <div>{question.title}</div>
-                                    <div>{question.description}</div>
-                                    <div>{question.link}</div>
+                                  <div className="px-2 font-mono text-sm sm:text-lg flex flex-col gap-4">
+                                    <div className="flex flex-col gap-2">
+                                      <p>Title :</p>
+                                      <div className="px-2 py-1 bg-[#333333] text-neutral-400 rounded-md">{question.title}</div>
+                                    </div>
+
+                                    {question.description ? (
+                                      <div className="flex flex-col gap-2">
+                                        <p>Description :</p>
+                                        <div className="px-2 py-1 bg-[#333333] text-neutral-400 rounded-md">{question.description}</div>
+                                      </div>
+                                    ) : (
+                                      <></>
+                                    )}
+
+                                    {question.link ? (
+                                      <div className="flex flex-col gap-2">
+                                        <p>Link :</p>
+                                        <div className="px-2 py-1 bg-[#333333] text-neutral-400 rounded-md">{question.link}</div>
+                                      </div>
+                                    ) : (
+                                      <></>
+                                    )}
                                   </div>
                                 </AccordionContent>
                               </AccordionItem>

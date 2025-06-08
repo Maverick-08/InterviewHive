@@ -56,7 +56,7 @@ const ReadInterviewExperience = () => {
   }
 
   return (
-    <div className="w-full max-w-7xl pt-24 lg:pt-32">
+    <div className="w-full max-w-7xl pt-24 md:pt-32">
       <div className="flex flex-col gap-4 px-4 text-white font-mono">
         {/* Top title and search component  */}
         <div className="px-2 flex flex-col md:flex-row items-center gap-4 md:gap-0">
