@@ -46,7 +46,7 @@ const Navbar = () => {
       </span>
 
       <span
-        onClick={() => navigate("/alumni/connect")}
+        onClick={() => navigate("/connect")}
         className={`md:p-4 md:border-[1px] rounded-md ${
           location.includes("connect")
             ? "scale-125 border-yellow-400 text-yellow-400 md:shadow-md md:shadow-amber-400"
@@ -57,9 +57,9 @@ const Navbar = () => {
       </span>
 
       <span
-        onClick={() => navigate("/interview/prepare")}
+        onClick={() => navigate("/interview/practice")}
         className={`md:p-4 md:border-[1px] rounded-md ${
-          location.includes("prepare")
+          location.includes("practice")
             ? "scale-125 border-yellow-400 text-yellow-400 md:shadow-md md:shadow-amber-400"
             : "hover:scale-125 hover:rotate-[25] border-neutral-800"
         } duration-300 cursor-pointer`}
