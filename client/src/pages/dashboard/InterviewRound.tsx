@@ -35,24 +35,26 @@ const InterviewRound = ({
   return (
     <div className="pt-4 w-full flex gap-4">
       <AccordionItem value={`item-${roundNumber}`} className="flex-1">
-        <AccordionTrigger className="text-2xl">{`Round ${roundNumber}`}</AccordionTrigger>
+        <AccordionTrigger className="text-xl sm:text-2xl">{`Round ${roundNumber}`}</AccordionTrigger>
         <AccordionContent>
-          <div className="px-4 flex flex-col gap-4">
+          <div className="flex flex-col gap-6 sm:gap-4">
             {/* select round type  */}
             <Popover onOpenChange={setIsPopoverOpen} open={isPopoverOpen}>
-              <PopoverTrigger className="w-full text-left text-lg cursor-pointer">
+              <PopoverTrigger className="w-full text-left text-sm sm:text-xl cursor-pointer">
                 <div className="w-full flex flex-col gap-2">
-                  <span className="tracking-wide">Select Round Type : </span>
+                  <span className="">Select Round Type : </span>
+
                   <div className="w-full px-4 py-1.5 flex justify-between items-center bg-[#333333] rounded-sm">
-                    <span className="text-neutral-400">{roundType}</span>
+                    <span className="text-neutral-400 text-sm sm:text-lg">{roundType}</span>
                     <FaAngleDown className="h-4 w-4" />
                   </div>
+
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="bg-[#171717] border-1 border-[#333333] text-neutral-400 text-lg">
+              <PopoverContent className="bg-[#171717] border-1 border-[#333333] text-neutral-400 text-sm sm:text-lg">
                 <div
                   onClick={() => setIsPopoverOpen(false)}
-                  className="flex flex-col gap-2 cursor-pointer"
+                  className="flex flex-col gap-3 sm:gap-2 cursor-pointer"
                 >
                   <div
                     onClick={() => setRoundType(" Online Assessment (OA)")}
@@ -102,11 +104,11 @@ const InterviewRound = ({
 
             {/* add a note  */}
             <div className="flex flex-col gap-2">
-              <p className="text-lg tracking-wide">Add Note (optional) : </p>
+              <p className="text-sm sm:text-xl">Add Note (optional) : </p>
               <textarea
                 name="thoughts"
                 placeholder={`Share guidance for this round.`}
-                className="bg-[#333333] h-52 w-full text-neutral-400 resize-none px-4 py-4 rounded-md text-lg focus:outline-none"
+                className="bg-[#333333] h-52 w-full text-neutral-400 resize-none px-4 py-4 rounded-md text-sm sm:text-lg focus:outline-none placeholder:text-neutral-400 placeholder:text-lg"
               ></textarea>
             </div>
 
@@ -122,7 +124,7 @@ const InterviewRound = ({
                 </div>
               </Accordion>
             ) : (
-              <div className="w-full py-4 text-center text-xl">
+              <div className="w-full py-4 text-center text-lg sm:text-xl">
                 Click 'Add Question' button to add question.
               </div>
             )}
@@ -135,7 +137,7 @@ const InterviewRound = ({
                 }}
                 text="Add Question"
                 Icon={IoIosAddCircleOutline}
-                className="font-bold"
+                className="bg-transparent text-neutral-400 hover:text-black"
               />
             </div>
           </div>
@@ -145,7 +147,7 @@ const InterviewRound = ({
         onClick={() => deleteRound({ roundId, roundIds, setRoundIds })}
         className="pt-4 px-2 flex justify-center text-red-400 cursor-pointer"
       >
-        <FaTrash className="w-5 h-6" />
+        <FaTrash className="w-4 h-4 sm:w-6 sm:h-6" />
       </span>
     </div>
   );

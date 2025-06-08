@@ -16,7 +16,7 @@ const AddCompanyInfo = ({
     <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md">
       <div>
         <h3 className="text-xl sm:text-2xl md:text-4xl">
-          Share Interview Experience
+          Add Interview Experience
         </h3>
         <div className="pt-8 flex flex-col gap-8">
           <div className="w-full flex flex-col md:flex-row gap-8 md:gap-4">
