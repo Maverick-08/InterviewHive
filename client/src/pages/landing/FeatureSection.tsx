@@ -1,5 +1,7 @@
 import FeatureList from "@/components/common/FeatureList";
-import CodeImage from "../../assets/code.png";
+import SavedInterviews from "../../assets/SavedInterviews.png";
+import FeatureSectionImage1 from "../../assets/LandingFeatureSection/featureSection1.png";
+import FeatureSectionImage2 from "../../assets/LandingFeatureSection/featureSection2.png";
 import { FaRegSave } from "react-icons/fa";
 import { FaUniversalAccess } from "react-icons/fa6";
 import { GiClick } from "react-icons/gi";
@@ -23,11 +25,9 @@ const FeatureSection = () => {
           ]}
           icons={[LuDatabaseZap, FaFileCode, FaCode]}
           colors={["text-violet-400", "text-red-400", "text-green-400"]}
-          image={CodeImage}
+          image={FeatureSectionImage1}
           contentOrder={`order-1`}
           imageOrder={`order-2`}
-          shadowColor={`shadow-purple-500`}
-          borderColor={`border-purple-500`}
         />
       </AnimatedSection>
 
@@ -42,11 +42,9 @@ const FeatureSection = () => {
           ]}
           icons={[FaFireFlameCurved, TiGroup, FaRegSave]}
           colors={["text-orange-400", "text-red-400", "text-green-400"]}
-          image={CodeImage}
+          image={FeatureSectionImage2}
           contentOrder={`order-1 md:order-2`}
           imageOrder={`order-2 md:order-1`}
-          shadowColor={`shadow-teal-500`}
-          borderColor={`border-teal-500`}
         />
       </AnimatedSection>
 
@@ -60,11 +58,9 @@ const FeatureSection = () => {
           ]}
           icons={[GiClick, FaUniversalAccess]}
           colors={["text-green-400", "text-yellow-400", "text-red-400"]}
-          image={CodeImage}
+          image={SavedInterviews}
           contentOrder={`order-1`}
           imageOrder={`order-2`}
-          shadowColor={`shadow-blue-500`}
-          borderColor={`border-blue-500`}
         />
       </AnimatedSection>
 
