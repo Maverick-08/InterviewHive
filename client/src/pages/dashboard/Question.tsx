@@ -6,6 +6,7 @@ import {
 import { FaTrash } from "react-icons/fa6";
 import { deleteQuestion } from "./utils";
 import { RxCross2 } from "react-icons/rx";
+import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 
 const Question = ({
   questionId,
@@ -20,6 +21,7 @@ const Question = ({
 }) => {
   return (
     <div className="pt-4 w-full flex gap-4">
+      <SmoothScrollProvider />
       <AccordionItem
         value={`item-${questionNumber}`}
         className="w-full border border-neutral-800"

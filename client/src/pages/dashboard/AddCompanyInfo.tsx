@@ -6,6 +6,7 @@ import { LiaToolsSolid } from "react-icons/lia";
 import { MdCurrencyRupee } from "react-icons/md";
 import { LuNotepadText } from "react-icons/lu";
 import WhiteButton from "@/components/common/WhiteButton";
+import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 
 const AddCompanyInfo = ({
   isNextComponentActive,
@@ -14,6 +15,7 @@ const AddCompanyInfo = ({
 }) => {
   return (
     <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md">
+      <SmoothScrollProvider />
       <div>
         <h3 className="text-xl sm:text-2xl md:text-4xl">
           Add Interview Experience

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ListExperiences from "./ListExperiences";
 import { tempData } from "./temp";
 import { Combobox } from "@/components/ui/combobox";
+import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 
 const ReadInterviewExperience = () => {
   const options = [
@@ -57,6 +58,7 @@ const ReadInterviewExperience = () => {
 
   return (
     <div className="mb-12 w-full max-w-7xl pt-24 md:pt-32">
+      <SmoothScrollProvider />
       <div className="flex flex-col gap-4 px-4 text-white font-mono">
         {/* Top title and search component  */}
         <div className="px-2 flex flex-col md:flex-row items-center gap-4 md:gap-0">

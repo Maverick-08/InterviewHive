@@ -2,11 +2,13 @@ import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
 import UserInfo from "./UserInfo";
 import UserInterviews from "./UserInterviews";
 import { Accordion } from "@/components/ui/accordion";
+import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 
 const Profile = () => {
   return (
     <AnimatedSection>
       <div className="w-full max-w-6xl pt-32 flex flex-col gap-8 sm:gap-12">
+        <SmoothScrollProvider />
         {/* Title  */}
         {/* <div className="w-full flex justify-center">
         <div className="w-full max-w-4xl bg-gradient-to-b from-white to-zinc-600 bg-clip-text text-transparent">
