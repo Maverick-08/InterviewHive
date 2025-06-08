@@ -4,7 +4,7 @@ import BlackButton from "@/components/common/BlackButton";
 import WhiteButton from "@/components/common/WhiteButton";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import ImageC from "../../assets/image.png";
+import HeroSectionImage from "../../assets/heroSection.png";
 import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
 import { CiSearch } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";
@@ -66,7 +66,7 @@ const HeroSection = () => {
 
         {/* Mac experience */}
         <AnimatedSection>
-          <div className="w-full px-4 sm:px-0 py-4 md:py-10 ">
+          <div className="w-full py-4 md:py-10 px-2">
             <div className="flex flex-col m-3 md:m-0 ">
               {/* Navbar */}
               <div className="flex bg-[#333333] rounded-t-2xl px-1 py-1 md:px-4 md:py-2">
@@ -84,9 +84,11 @@ const HeroSection = () => {
                       <CiSearch className="size-3 md:size-5" />
                     </span>
                     <div className="px-2 md:px-16">
-                      <span className="overflow-hidden font-mono text-xs md:text-md md:text-lg">
+                      <a href="https://interview-hive-five.vercel.app/">
+                        <span className="overflow-hidden font-mono text-xs md:text-md md:text-lg">
                         https://InterviewHive.com
                       </span>
+                      </a>
                     </div>
                     <span>
                       <IoIosRefresh className="size-3 md:size-5" />
@@ -97,7 +99,7 @@ const HeroSection = () => {
 
               {/* Image */}
               <div className="bg-[#222222] p-1">
-                <img src={ImageC} alt="" className="mt-1 rounded-2xl"/>
+                <img src={HeroSectionImage} alt="" className="mt-1 rounded-2xl"/>
               </div>
             </div>
           </div>

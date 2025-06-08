@@ -10,8 +10,6 @@ interface FeatureProps {
   image: string;
   contentOrder: string;
   imageOrder: string;
-  shadowColor: string;
-  borderColor: string;
 }
 
 const FeatureList = ({
@@ -23,14 +21,13 @@ const FeatureList = ({
   colors,
   contentOrder,
   imageOrder,
-  shadowColor,
-  borderColor
+  
 }: FeatureProps) => {
   return (
     <div className=" w-full max-w-7xl flex flex-col md:flex-row ">
       {/* content  */}
       <div
-        className={cn(`lg:pt-6 md:pt-8 px-8 sm:px-0 flex-6 ${contentOrder}`)}
+        className={cn(`lg:pt-6 md:pt-8 px-4 flex-6 ${contentOrder}`)}
       >
         {/* Title  */}
         <div className="border-l-8 border-neutral-600 px-1">
@@ -66,13 +63,13 @@ const FeatureList = ({
       {/* Image  */}
       <div
         className={cn(
-          `mt-10 md:mt-6 lg:mt-0  mx-10 md:mx-6 items-center justify-between shadow-lg  flex-4 rounded-lg md:overflow-hidden ${borderColor} ${shadowColor} ${imageOrder}`
+          `mt-10 md:mt-6 lg:mt-0  mx-10 md:mx-6 items-center justify-between flex-4 rounded-lg md:overflow-hidden ${imageOrder}`
         )}
       >
         <img
           src={image}
           alt="Code Image"
-          className="h-full w-auto rounded-3xl"
+          className="h-full w-auto rounded-lg"
         />
       </div>
     </div>
