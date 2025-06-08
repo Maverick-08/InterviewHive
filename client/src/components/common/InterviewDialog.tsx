@@ -65,7 +65,7 @@ const InterviewDialog = ({
         className="relative px-5 py-4 w-full max-w-3xl h-[520px] overflow-auto flex flex-col gap-4 bg-[#171717] border border-[#333333] rounded-md font-mono"
       >
         {/* company name  */}
-        <div className="flex justify-between items-center">
+        <div className="h-full flex justify-between items-center">
           <div className="text-2xl sm:text-4xl">{companyName}</div>
           <button
             onClick={() => setIsModalOpen(false)}
