@@ -5,7 +5,7 @@ import Doodle from "../../assets/doodle.png";
 
 const UserInfo = () => {
   return (
-    <div className="w-full max-w-4xl  px-2 flex gap-12 flex-col lg:flex-row md:justify-between items-center ">
+    <div className="w-full max-w-4xl  px-4 flex gap-12 flex-col lg:flex-row md:justify-between items-center ">
       {/* profile image  */}
       <div className="p-1 bg-neutral-400/40 rounded-full">
         <img src={Doodle} alt="" className="h-36 w-36 rounded-full" />
@@ -22,34 +22,31 @@ const UserInfo = () => {
         </div>
 
         {/* Name  */}
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <span className="text-neutral-400 text-nowrap">Name : </span>
           <span>Vivek Ojha</span>
         </div>
 
         {/* Degree  */}
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <span className="text-neutral-400 text-nowrap">Degree : </span>
           <span>Bachelor of Technology (BTech)</span>
         </div>
 
         {/* Branch  */}
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <span className="text-neutral-400 text-nowrap">Branch : </span>
 
           <span>Computer Science & Engineering (CSE)</span>
         </div>
 
         {/* Year of passing out  */}
-        <div className="flex gap-4">
-          <span className="hidden sm:block  text-neutral-400 text-wrap">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+          <span className="text-neutral-400 text-wrap">
             Year of Passing Out :{" "}
           </span>
-          <span className="block sm:hidden  text-neutral-400 text-wrap">
-            Year of Passing Out :{" "}
-            <span className="text-white">&nbsp;{2026}</span>
-          </span>
-          <span className="hidden sm:block">2026</span>
+
+          <span>2026</span>
         </div>
 
         {/* socials  */}
