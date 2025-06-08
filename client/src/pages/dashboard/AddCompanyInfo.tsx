@@ -3,7 +3,7 @@ import InputComponent from "@/components/common/InputComponent";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { LiaToolsSolid } from "react-icons/lia";
-import { AiOutlineDollarCircle } from "react-icons/ai";
+import { MdCurrencyRupee } from "react-icons/md";
 import { LuNotepadText } from "react-icons/lu";
 import WhiteButton from "@/components/common/WhiteButton";
 
@@ -13,7 +13,7 @@ const AddCompanyInfo = ({
   isNextComponentActive: (x: boolean) => void;
 }) => {
   return (
-    <Card componentStyle="px-2 sm:px-4 py-4 sm:py-8 rounded-md">
+    <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md">
       <div>
         <h3 className="text-xl sm:text-2xl md:text-4xl">
           Share Interview Experience
@@ -27,6 +27,8 @@ const AddCompanyInfo = ({
               Icon={HiOutlineBuildingOffice2}
               componentStyle="gap-3 flex-6"
               titleStyle="text-lg sm:text-xl"
+              iconColor="text-sky-500"
+              inputTagStyle="rounded-sm"
             />
             <InputComponent
               title="Year Of Interview"
@@ -35,6 +37,8 @@ const AddCompanyInfo = ({
               Icon={IoCalendarNumberOutline}
               componentStyle="gap-3 flex-4"
               titleStyle="text-lg sm:text-xl"
+              iconColor="text-purple-500"
+              inputTagStyle="rounded-sm"
             />
           </div>
           <InputComponent
@@ -44,16 +48,19 @@ const AddCompanyInfo = ({
             Icon={LiaToolsSolid}
             componentStyle="gap-3"
             titleStyle="text-lg sm:text-xl"
+            iconColor="text-green-500"
+            inputTagStyle="rounded-sm"
           />
           <InputComponent
             title="CTC Offered (in lpa)"
             placeholder="Ex - 12"
             inputType={`number`}
-            Icon={AiOutlineDollarCircle}
+            Icon={MdCurrencyRupee}
             componentStyle="gap-3"
             titleStyle="text-lg sm:text-xl"
             iconColor={`text-yellow-500`}
-            iconSize="h-8 w-8"
+            iconSize="h-6 w-6"
+            inputTagStyle="rounded-sm"
           />
           <InputComponent
             title="Interview Status"
@@ -62,6 +69,8 @@ const AddCompanyInfo = ({
             Icon={LuNotepadText}
             componentStyle="gap-3"
             titleStyle="text-lg sm:text-xl"
+            iconColor="text-red-500"
+            inputTagStyle="rounded-sm"
           />
         </div>
       </div>
@@ -69,7 +78,7 @@ const AddCompanyInfo = ({
         <WhiteButton
           onClick={() => isNextComponentActive(true)}
           text="Next Section"
-          className="w-full max-w-md sm:max-w-lg text-lg sm:text-xl"
+          className="w-full max-w-sm sm:max-w-md text-lg sm:text-xl"
         />
       </div>
     </Card>
