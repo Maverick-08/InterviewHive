@@ -8,11 +8,15 @@ import HeroSectionImage from "../../assets/heroSection.png";
 import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
 import { CiSearch } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";
+import { HashLink } from "react-router-hash-link";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   return (
-    <div id="hero" className="w-full max-w-6xl pt-32 selection:bg-neutral-300 selection:text-neutral-900 text-white">
+    <div
+      id="hero"
+      className="w-full max-w-6xl pt-32 selection:bg-neutral-300 selection:text-neutral-900 text-white"
+    >
       <div className="flex flex-col justify-center items-center text-center gap-6 md:gap-10 ">
         <BlurText
           text="For Developers by a Developer"
@@ -48,13 +52,13 @@ const HeroSection = () => {
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <WhiteButton
-              text="Explore Now"
-              className="hidden md:block font-mono text-xs md:text-lg"
-              onClick={() => {
-                setTimeout(() => navigate("/"), 150);
-              }}
-            />
+            <HashLink smooth to={"#features"}>
+              {" "}
+              <WhiteButton
+                text="Explore Now"
+                className="hidden md:block font-mono text-xs md:text-lg"
+              />
+            </HashLink>
           </motion.div>
 
           <WhiteButton
@@ -86,8 +90,8 @@ const HeroSection = () => {
                     <div className="px-2 md:px-16">
                       <a href="https://interview-hive-five.vercel.app/">
                         <span className="overflow-hidden font-mono text-xs md:text-md md:text-lg">
-                        https://InterviewHive.com
-                      </span>
+                          https://InterviewHive.com
+                        </span>
                       </a>
                     </div>
                     <span>
@@ -99,16 +103,18 @@ const HeroSection = () => {
 
               {/* Image */}
               <div className="bg-[#222222] p-1">
-                <img src={HeroSectionImage} alt="" className="mt-1 rounded-2xl"/>
+                <img
+                  src={HeroSectionImage}
+                  alt=""
+                  className="mt-1 rounded-2xl"
+                />
               </div>
             </div>
           </div>
         </AnimatedSection>
-
       </div>
     </div>
   );
 };
 
 export default HeroSection;
-
