@@ -1,6 +1,6 @@
 import InputComponent from "@/components/common/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
-import { IoKeyOutline } from "react-icons/io5";
+import { IoChevronBackOutline, IoKeyOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { LuNotebookPen } from "react-icons/lu";
 import { FaRegCalendarCheck } from "react-icons/fa6";
@@ -11,6 +11,12 @@ const RegistrationComponent = () => {
   const navigate = useNavigate();
   return (
     <div className="w-full max-w-md px-4 flex flex-col gap-4 text-white select-none">
+      <span
+        onClick={() => navigate("/")}
+        className="absolute lg:hidden top-6 left-4 text-neutral-400 cursor-pointer"
+      >
+        <IoChevronBackOutline className="h-6 w-6" />
+      </span>
       <p className="text-2xl text-center">Welcome Back ! 👋</p>
       <div className="flex flex-col gap-6">
         <InputComponent
@@ -46,8 +52,16 @@ const RegistrationComponent = () => {
           placeholder="your password"
         />
       </div>
-        <WhiteButton text="Register" className="mt-4 w-full font-mono"/>
-         <div>Have an account ? <span onClick={()=>navigate("/login")}  className="underline cursor-pointer">Sign In</span></div>
+      <WhiteButton text="Register" className="mt-4 w-full font-mono" />
+      <div>
+        Have an account ?{" "}
+        <span
+          onClick={() => navigate("/login")}
+          className="underline cursor-pointer"
+        >
+          Sign In
+        </span>
+      </div>
     </div>
   );
 };

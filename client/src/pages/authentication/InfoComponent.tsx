@@ -1,10 +1,19 @@
-import Logo from "../../assets/logo.png"
+import { useNavigate } from "react-router-dom";
+import Logo from "../../assets/logo.png";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const InfoComponent = () => {
+  const navigate = useNavigate();
   return (
-    <div className="flex flex-col justify-center gap-4 font-mono text-white text-center selection:bg-neutral-300 selection:text-neutral-900">
+    <div className="relative flex flex-col justify-center gap-4 font-mono text-white text-center selection:bg-neutral-300 selection:text-neutral-900">
+      <span
+        onClick={() => navigate("/")}
+        className="fixed top-6 left-6 text-neutral-400 cursor-pointer"
+      >
+        <IoChevronBackOutline className="h-8 w-8" />
+      </span>
       <div className="flex justify-center items-center gap-2">
-        <img src={Logo} alt="" className="h-10 w-10"/>
+        <img src={Logo} alt="" className="h-10 w-10" />
         <p className="text-4xl">Interview Hive</p>
       </div>
       <div className="text-xl tracking-wide space-y-2">
@@ -12,7 +21,7 @@ const InfoComponent = () => {
         <p>Keep preparing and practising until you land your dream offer.</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InfoComponent
+export default InfoComponent;

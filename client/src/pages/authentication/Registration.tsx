@@ -8,7 +8,7 @@ const Registration = () => {
   useEffect(() => {
     const Id = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 1000);
 
     return () => clearInterval(Id);
   }, []);
