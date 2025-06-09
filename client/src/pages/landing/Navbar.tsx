@@ -119,8 +119,8 @@ const Navbar = () => {
             </div>
 
             <div className="w-full px-4 flex flex-col sm:flex-row items-center gap-4">
-                <BlackButton text="Login" className="w-full"/>
-                <WhiteButton text="Register" className="w-full"/>
+                <BlackButton onClick={()=>navigate("/login")} text="Login" className="w-full"/>
+                <WhiteButton onClick={()=>navigate("/register")} text="Register" className="w-full"/>
             </div>
           </div>
         </div>
