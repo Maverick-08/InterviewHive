@@ -13,3 +13,24 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id @default(cuid())
+  email String @unique 
+  password String
+  username String
+  yearOfPassingOut Int
+  avatar String @default("Doodle")
+  course String
+  branch String
+  xHandle String?
+  linkedIn String?
+  course_branch   Course  @relation(fields: [course, branch], references: [course, branch])
+}
+
+model Course{
+  course String
+  branch String
+  user User[]
+  @@id([course,branch])
+}
