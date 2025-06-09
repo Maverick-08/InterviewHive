@@ -76,7 +76,7 @@ const Navbar = () => {
           <div className="flex-2 hidden lg:block">
             <div className="flex gap-4">
               <BlackButton onClick={() => navigate("/login")} text="Login" />
-              <WhiteButton text="Register" />
+              <WhiteButton onClick={() => navigate("/register")} text="Register" />
             </div>
           </div>
 
