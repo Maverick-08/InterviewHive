@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -15,22 +14,22 @@ datasource db {
 }
 
 model User {
-  id String @id @default(cuid())
+  userId String @id @default(cuid())
   email String @unique 
   password String
   username String
   yearOfPassingOut Int
   avatar String @default("Doodle")
-  course String
-  branch String
+  courseId String
   xHandle String?
   linkedIn String?
-  course_branch   Course  @relation(fields: [course, branch], references: [course, branch])
+  createdAt DateTime @default(now())
+  course_branch   Course  @relation(fields: [courseId], references: [courseId])
 }
 
 model Course{
-  course String
-  branch String
+  courseId String @id
+  courseName String
+  branchName String
   user User[]
-  @@id([course,branch])
 }
