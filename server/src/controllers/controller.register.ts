@@ -3,7 +3,7 @@ import { code } from "../config/status-code";
 import { UserRegistrationDetails } from "../interface/interface.user";
 import { validateUserRegistrationData } from "../validations/validate.userDetails";
 import { User } from "../services/User";
-import { handleError } from "../config/prisma-errors";
+import { handleError } from "../config/errorMessages";
 import { services } from "../config/services";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
