@@ -4,6 +4,7 @@ import cors from "cors";
 import { origins, isCredentialsAllowed } from "./config/app-config";
 import { config } from "dotenv";
 import Health from "./routes/health";
+import Register from "./routes/route.register";
 
 const app = express();
 
@@ -19,6 +20,9 @@ app.use(
 
 // Health check point
 app.use("/", Health);
+
+// Register
+app.use("/api/register",Register);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server is running");
