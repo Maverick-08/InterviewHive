@@ -7,6 +7,7 @@ import Health from "./routes/health";
 import Register from "./routes/route.register";
 import Auth from "./routes/route.auth";
 import Refresh from "./routes/route.refresh";
+import VerifyToken from "./middleware/verifyToken";
 
 const app = express();
 
@@ -31,6 +32,10 @@ app.use("/api/auth",Auth);
 
 // Refresh
 app.use("/api/refresh",Refresh);
+
+// Middeleware - verify token
+app.use(VerifyToken);
+
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server is running");
