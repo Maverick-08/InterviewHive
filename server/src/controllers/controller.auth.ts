@@ -4,11 +4,9 @@ import { validateUserAuthData } from "../validations/validate.userDetails";
 import { User } from "../services/User";
 import { handleError } from "../config/errorMessages";
 import { services } from "../config/services";
-import jwt from "jsonwebtoken";
 import { Course } from "../services/Course";
-
-const ACCESS_TOKEN_KEY = process.env.ACCESS_TOKEN_KEY as jwt.Secret;
-const REFRESH_TOKEN_KEY = process.env.REFRESH_TOKEN_KEY as jwt.Secret;
+import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "../utils/utils.tokens";
+import { Redis_Service } from "../services/Redis";
 
 export const userAuthController = async (req: Request, res: Response) => {
   try {
@@ -44,42 +42,29 @@ export const userAuthController = async (req: Request, res: Response) => {
       return;
     }
 
-    // 6. if password matches
+    // if password matches
 
-    // a. get course details
+    // 6. get course details
     const courseDetails = await Course.getCourseDetails({
       courseId: user.courseId,
     });
 
-    // b. create tokens
-    // Access token
-    const accessToken = jwt.sign({ userId: user.userId }, ACCESS_TOKEN_KEY, {
-      expiresIn: "30s",
-    });
+    // 7. create tokens
+      // Access token
+    const accessToken = getAccessToken({userId:user.userId})
 
-    // Refresh Token
-    const refreshToken = jwt.sign({ userId: user.userId }, REFRESH_TOKEN_KEY, {
-      expiresIn: "30d",
-    });
+      // Refresh Token
+    const refreshToken = getRefreshToken({userId:user.userId});
+
+    // 8. update redis store
+    await Redis_Service.setSession({token:refreshToken,userId:user.userId});
 
     // 7. set access token cookie
-    res.cookie("__accessToken__", accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 30 * 1000,
-      path: "/",
-    });
-
-    // 8. set refresh token cookie
-    res.cookie("__refreshToken__", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      path: "/refresh",
-    });
-
+   setAccessToken(res,accessToken);
+   
+   // 8. set refresh token cookie
+   setRefreshToken(res,refreshToken)
+   
     // 9. return data
     res
       .status(code.Success)
@@ -98,7 +83,7 @@ export const userAuthController = async (req: Request, res: Response) => {
 
     return;
   } catch (err) {
-    const errorMessage = handleError(err, services["User-Registration"]);
+    const errorMessage = handleError(err, services["User-Authentication"]);
     res.status(code.ServerError).json({ msg: errorMessage });
     return;
   }

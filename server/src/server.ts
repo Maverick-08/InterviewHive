@@ -6,6 +6,7 @@ import { config } from "dotenv";
 import Health from "./routes/health";
 import Register from "./routes/route.register";
 import Auth from "./routes/route.auth";
+import Refresh from "./routes/route.refresh";
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.use("/api/register",Register);
 // Auth
 app.use("/api/auth",Auth);
 
+// Refresh
+app.use("/api/refresh",Refresh);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server is running");

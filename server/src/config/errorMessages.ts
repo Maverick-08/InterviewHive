@@ -25,7 +25,12 @@ export const handleError = (err: unknown, service: number) => {
         console.log(err);
         return "Prisma error";
     }
-  } else {
+  }
+  else if(err instanceof Error && ('code' in err && typeof err.code === "string")){
+    console.log("Redis Error : \n",err);
+    return "Authentication failed."
+  }
+  else {
     console.log(err);
     return "Internal Server Error";
   }
