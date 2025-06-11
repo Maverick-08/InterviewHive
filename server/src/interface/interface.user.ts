@@ -6,12 +6,8 @@ export interface UserRegistrationDetails {
   courseId: string;
 }
 
-export interface UserDetails {
+export interface UserDetails extends UserRegistrationDetails{
   userId: string;
-  email: string;
-  username: string;
-  yearOfPassingOut: number;
-  courseId: string;
   createdAt: Date;
   avatar: string;
   xHandle?: string | null ;

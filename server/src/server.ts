@@ -5,6 +5,7 @@ import { origins, isCredentialsAllowed } from "./config/app-config";
 import { config } from "dotenv";
 import Health from "./routes/health";
 import Register from "./routes/route.register";
+import Auth from "./routes/route.auth";
 
 const app = express();
 
@@ -23,6 +24,10 @@ app.use("/", Health);
 
 // Register
 app.use("/api/register",Register);
+
+// Auth
+app.use("/api/auth",Auth);
+
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server is running");
