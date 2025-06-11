@@ -18,7 +18,7 @@ const verifyToken = (req:Request,res:Response,next:NextFunction) => {
             const decoded = jwt.verify(__accessToken__,ACCESS_TOKEN_KEY) as jwt.JwtPayload;
 
             const userId = decoded?.["userId"];
-            console.log(userId);
+            //console.log(userId);
 
             req["userId"] = userId;
             next();
