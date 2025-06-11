@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { refreshTokenHandler } from "../controllers/controller.refreshToken";
+import { userAuthController } from "../controllers/controller.auth";
 
 const router = Router();
 
 router.route("/")
-    .post(refreshTokenHandler)
+    .post(userAuthController)
 
 export default router;
