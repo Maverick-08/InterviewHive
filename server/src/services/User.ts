@@ -1,10 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import {
   UserDetails,
   UserRegistrationDetails,
 } from "../interface/interface.user";
 import { createUser, getUserDetails } from "../utils/utils.user";
 import bcrypt from "bcrypt";
+
 
 export class User {
   public userId: string;
@@ -17,7 +17,6 @@ export class User {
   public xHandle: string | null;
   public linkedIn: string | null;
   public createdAt: Date;
-  private static prisma: PrismaClient;
 
   private constructor({
     userId,
@@ -43,14 +42,6 @@ export class User {
     this.createdAt = createdAt;
   }
 
-  static getPrismaClient() {
-    if (!this.prisma) {
-      this.prisma = new PrismaClient();
-    }
-
-    return this.prisma;
-  }
-
   static async createUser({
     email,
     password,
@@ -70,7 +61,6 @@ export class User {
         courseId,
         yearOfPassingOut,
       },
-      prisma: this.getPrismaClient(),
     });
 
     // 3. return user instance
@@ -92,7 +82,6 @@ export class User {
     // 1. check if user exists
     const user: User | null = await getUserDetails({
       email,
-      prisma: this.getPrismaClient(),
     });
 
     // 2. return
