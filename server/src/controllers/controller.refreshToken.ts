@@ -24,8 +24,9 @@ export const refreshTokenHandler = async (req: Request, res: Response) => {
     // A. API request has token and userId
     if (oldRefreshToken && userId) {
       
-      const isTokenValid = checkToken(oldRefreshToken);
+      const isTokenValid = checkToken({token:oldRefreshToken});
       const doesSessionExists = await Redis_Service.getSession({token:oldRefreshToken});
+
 
       // A-1. Check if token is valid and exists in cache - Normal flow
       if (isTokenValid && doesSessionExists) {
@@ -52,13 +53,13 @@ export const refreshTokenHandler = async (req: Request, res: Response) => {
       else if(isTokenValid && !doesSessionExists){
         // terminate all sessions associated with that userId
         await Redis_Service.terminateSession({token:oldRefreshToken,userId});
-        res.status(code.Unauthorized).send();
+        res.status(code.Unauthorized).json({msg:"Account compromised"});
         return;
       }
 
       // A-3 if token is invalid - ask user to login again
       else {
-        res.status(code.Unauthorized).send();
+        res.status(code.Unauthorized).json({msg:"Refresh token is invalid."});
         return;
       }
     }

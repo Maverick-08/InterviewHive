@@ -1,12 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { UserRegistrationDetails } from "../interface/interface.user";
 
+const prisma = new PrismaClient();
+
 export const getUserDetails = async ({
   email,
-  prisma,
 }: {
   email: string;
-  prisma: PrismaClient;
 }) => {
   const user = await prisma.user.findFirst({
     where: {
@@ -18,10 +18,8 @@ export const getUserDetails = async ({
 
 export const createUser = async ({
   payload,
-  prisma,
 }: {
   payload: UserRegistrationDetails;
-  prisma: PrismaClient;
 }) => {
   const user = await prisma.user.create({
     data: { ...payload },
