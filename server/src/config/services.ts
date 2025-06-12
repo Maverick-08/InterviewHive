@@ -1,5 +1,6 @@
 export enum services {
     "User-Registration",
     "User-Updation",
-    "User-Authentication"
+    "User-Authentication",
+    "Interview"
 }
