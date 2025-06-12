@@ -23,7 +23,7 @@ const Registration = () => {
   }
 
   return (
-    <div className="w-full h-screen flex">
+    <div className="w-full flex">
       <div className="flex-1 flex justify-center items-center bg-[#111111]">
         <RegistrationComponent />
       </div>

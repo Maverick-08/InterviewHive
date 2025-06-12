@@ -23,6 +23,8 @@ interface ComboboxProps {
   label: string;
   labelStyle?: string;
   styleOption?: string;
+  showTriggerIcon?: string;
+  closePopoverOnClick: boolean;
   commandInputLabel?: string;
   commandEmptyMessage?: string;
   options: { value: string; label: string }[];
@@ -40,12 +42,14 @@ export function Combobox({
   styleOption,
   commandInputLabel,
   commandEmptyMessage,
+  showTriggerIcon,
   options,
   values,
   setValues,
   value,
   setValue,
   isPopoverOpen,
+  closePopoverOnClick,
   setIsPopoverOpen,
 }: ComboboxProps) {
   return (
@@ -56,18 +60,22 @@ export function Combobox({
           aria-expanded={isPopoverOpen}
           className={cn(`${labelStyle}`)}
         >
-          <p className="hidden sm:block">{label}</p>
-          <span className="block sm:hidden">
-            <MdFilterListAlt className="h-6 w-6" />
+          <p className={cn(`hidden sm:block ${showTriggerIcon}`)}>{label}</p>
+          <span className={cn(`block sm:hidden ${showTriggerIcon}`)}>
+            <MdFilterListAlt className={cn(`h-6 w-6 ${showTriggerIcon}`)} />
           </span>
           {isPopoverOpen ? (
-            <FaChevronUp className="hidden sm:block opacity-50" />
+            <FaChevronUp
+              className={`hidden sm:block opacity-50 ${showTriggerIcon}`}
+            />
           ) : (
-            <FaChevronDown className="hidden sm:block opacity-50" />
+            <FaChevronDown
+              className={`hidden sm:block opacity-50 ${showTriggerIcon}`}
+            />
           )}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-fit border-none p-0.5 bg-[#333333]">
+      <PopoverContent className={cn(`w-fit border-none p-0.5 bg-[#333333]`)}>
         <Command className="bg-[#171717]">
           <CommandInput
             placeholder={`${commandInputLabel ?? "Search..."}`}
@@ -77,13 +85,20 @@ export function Combobox({
             <CommandEmpty>{`${
               commandEmptyMessage ?? "Not found..."
             }`}</CommandEmpty>
-            <CommandGroup>
+            <CommandGroup
+              onClick={() => {
+                if (closePopoverOnClick) {
+                  setIsPopoverOpen(false);
+                }
+              }}
+
+            >
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue) => {
-                    if (value && setValue) {
+                    if (setValue) {
                       setValue(currentValue === value ? "" : currentValue);
                     }
                     if (values && setValues) {
@@ -101,7 +116,7 @@ export function Combobox({
                     }
                   }}
                   className={cn(
-                    `cursor-pointer text-neutral-400 hover:bg-[#333333] ${styleOption}`
+                    `font-mono text-sm cursor-pointer text-neutral-400 hover:bg-[#333333] ${styleOption}`
                   )}
                 >
                   {option.label}
