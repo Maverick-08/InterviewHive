@@ -84,6 +84,7 @@ const ReadInterviewExperience = () => {
               labelStyle="flex items-center gap-2 font-mono border-[1px] border-neutral-800 px-2 py-2 rounded-full sm:rounded-sm text-neutral-400 cursor-pointer bg-[#171717]"
               options={options}
               values={filters}
+              closePopoverOnClick={false}
               setValues={setFilters}
             />
           </div>
