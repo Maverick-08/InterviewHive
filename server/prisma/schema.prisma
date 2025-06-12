@@ -24,6 +24,7 @@ model User {
   xHandle String?
   linkedIn String?
   createdAt DateTime @default(now())
+  interviews Interview[]
   course_branch   Course  @relation(fields: [courseId], references: [courseId])
 }
 
@@ -41,10 +42,11 @@ model Interview{
   yearOfInterview Int
   role String
   CTCOffered Int?
-  interviewStatus String?
+  interviewStatus String
   createdAt DateTime @default(now())
   interviewRounds InterviewRound[]
   tags InterviewTag[]
+  user User @relation(fields: [authorId],references: [userId])
 }
 
 model InterviewRound{
