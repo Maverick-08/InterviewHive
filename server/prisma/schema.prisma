@@ -45,7 +45,7 @@ model Interview{
   interviewStatus String
   createdAt DateTime @default(now())
   interviewRounds InterviewRound[]
-  tags InterviewTag[]
+  tags InterviewTag[] @relation("InterviewToTag")
   user User @relation(fields: [authorId],references: [userId])
 }
 
@@ -55,21 +55,22 @@ model InterviewRound{
   note String?
   questions Question[]
 
-  interviewId String @unique
+  interviewId String 
   interview Interview @relation(fields: [interviewId],references: [id])
 }
 
 model Question{
+  id String @id @default(cuid())
   title String
   description String?
   link String?
 
-  roundId String @unique
+  roundId String
   interviewRound InterviewRound @relation(fields: [roundId], references: [id])
 }
 
 model InterviewTag{
   tagId String @id @default(cuid())
-  tagName String
-  interviews Interview []
+  tagName String @unique
+  interviews Interview [] @relation("InterviewToTag")
 }
