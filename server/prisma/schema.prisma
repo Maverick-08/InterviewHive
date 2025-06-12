@@ -33,3 +33,41 @@ model Course{
   branchName String
   user User[]
 }
+
+model Interview{
+  id String @id @default(cuid()) 
+  authorId String
+  companyName String
+  yearOfInterview Int
+  role String
+  CTCOffered Int?
+  interviewStatus String?
+  createdAt DateTime @default(now())
+  interviewRounds InterviewRound[]
+  tags InterviewTag[]
+}
+
+model InterviewRound{
+  id String @id @default(cuid())
+  roundType String
+  note String?
+  questions Question[]
+
+  interviewId String @unique
+  interview Interview @relation(fields: [interviewId],references: [id])
+}
+
+model Question{
+  title String
+  description String?
+  link String?
+
+  roundId String @unique
+  interviewRound InterviewRound @relation(fields: [roundId], references: [id])
+}
+
+model InterviewTag{
+  tagId String @id @default(cuid())
+  tagName String
+  interviews Interview []
+}
