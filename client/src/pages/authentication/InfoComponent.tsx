@@ -8,9 +8,9 @@ const InfoComponent = () => {
     <div className="relative flex flex-col justify-center gap-4 font-mono text-white text-center selection:bg-neutral-300 selection:text-neutral-900">
       <span
         onClick={() => navigate("/")}
-        className="fixed top-6 left-6 text-neutral-400 cursor-pointer"
+        className="fixed top-6 left-6 text-neutral-400 cursor-pointer flex items-center gap-2"
       >
-        <IoChevronBackOutline className="h-8 w-8" />
+        <IoChevronBackOutline className="h-8 w-8" /><span className="text-lg text-neutral-400 font-mono">Back</span>
       </span>
       <div className="flex justify-center items-center gap-2">
         <img src={Logo} alt="" className="h-10 w-10" />

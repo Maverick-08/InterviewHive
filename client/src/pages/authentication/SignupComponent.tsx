@@ -2,20 +2,50 @@ import InputComponent from "@/components/common/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoChevronBackOutline, IoKeyOutline } from "react-icons/io5";
 import { AiOutlineChrome } from "react-icons/ai";
-import { AiOutlineGithub } from "react-icons/ai";
 import WhiteButton from "@/components/common/WhiteButton";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { ImSpinner8 } from "react-icons/im";
+import { toast } from "sonner";
+import { userAuth } from "./auth.util";
 
 const SignupComponent = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return false;
+    if (email && password) {
+      setIsSubmitting(true);
+      const response = await userAuth({ email, password });
+
+      if (response.success) {
+        toast.success(<p className="text-lg font-mono">Login Successful.</p>, {
+          description: "Navigating to Dashboard.",
+        });
+        setTimeout(() => {
+          navigate("/interview/dashboard");
+        }, 2000);
+      } else {
+        toast.error(<p className="text-lg font-mono">{response.data}</p>);
+      }
+      setIsSubmitting(false);
+    } else {
+      toast.error(<p className="text-lg font-mono">Please fill all details</p>);
+    }
+  };
+
   return (
     <div className="relative w-full max-w-md px-4 flex flex-col justify-center items-center gap-2 text-white select-none">
       {/* Back Button  */}
       <span
         onClick={() => navigate("/")}
-        className="absolute lg:hidden top-6 left-4 text-neutral-400 cursor-pointer"
+        className="absolute lg:hidden top-6 left-4 text-neutral-400 cursor-pointer flex items-center gap-2"
       >
-        <IoChevronBackOutline className="h-6 w-6" />
+        <IoChevronBackOutline className="h-6 w-6" />{" "}
+        <span className="text-lg text-neutral-400 font-mono">Back</span>
       </span>
 
       {/* Top Heading - Welcome Back */}
@@ -25,17 +55,23 @@ const SignupComponent = () => {
           {/* Email Component  */}
           <InputComponent
             title="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             Icon={MdOutlineEmail}
             inputType={"email"}
             placeholder="name@example.com"
+            inputTagStyle="py-2 placeholder:text-sm placeholder:tracking-wider rounded-sm text-neutral-400"
           />
 
           {/* Password Component  */}
           <InputComponent
             title="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             Icon={IoKeyOutline}
             inputType={"password"}
             placeholder="your password"
+            inputTagStyle="py-2 placeholder:text-sm placeholder:tracking-wide rounded-sm text-neutral-400"
           />
         </div>
 
@@ -46,20 +82,19 @@ const SignupComponent = () => {
 
         {/* SignIn Button  */}
         <WhiteButton
+          disabled={isSubmitting}
+          onClick={handleSubmit}
+          Icon={isSubmitting ? ImSpinner8 : undefined}
+          iconSize={`animate-spin`}
           text="Sign In"
-          onClick={() => navigate("/interview/dashboard")}
+          containerStyle="flex justify-center items-center"
           className="w-full font-mono"
         />
 
-        {/* SignUp  */}
-        <div className="my-4 pb-4 border-b border-[#333333]">
-          Don't have an account ?{" "}
-          <span
-            onClick={() => navigate("/register")}
-            className="underline cursor-pointer"
-          >
-            Sign Up
-          </span>
+        <div className="my-4 flex items-center gap-1">
+          <span className="flex-1 border border-[#333333]"></span>
+          <span className="text-lg font-mono">OR</span>
+          <span className="flex-1 border border-[#333333]"></span>
         </div>
 
         {/* Sign in with google or github */}
@@ -69,11 +104,17 @@ const SignupComponent = () => {
             className="w-full font-mono flex items-center justify-center gap-2"
             Icon={AiOutlineChrome}
           />
-          <WhiteButton
-            text="Sign in with Github"
-            className="w-full font-mono flex items-center justify-center gap-2"
-            Icon={AiOutlineGithub}
-          />
+        </div>
+
+        {/* SignUp  */}
+        <div className="my-2 pb-8 text-right">
+          Don't have an account ?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="underline cursor-pointer hover:text-neutral-400"
+          >
+            Sign Up
+          </span>
         </div>
       </div>
     </div>
