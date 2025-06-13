@@ -4,6 +4,7 @@ import { addInterviewsController } from "../controllers/controller.interview.add
 import { getFilteredInterviewsController } from "../controllers/contoller.interview.getFilteredInterviewsContoller";
 import { getUserInterviewsController } from "../controllers/contoller.interviews.getUserInterviews";
 import { getInterviewByIdController } from "../controllers/controller.interview.getInterviewById";
+import { deleteInterviewByIdController } from "../controllers/controller.interview.deleteUserInterview";
 
 
 const router = Router();
@@ -23,6 +24,12 @@ router.route("/user")
 // get particular interview through interview id - for updation / edit
 router.route("/detail")
     .get(getInterviewByIdController)
+
+// delete interview experience
+router.route("/delete")
+    .get(deleteInterviewByIdController)
+
+// 
 
 
 // add interview experience
