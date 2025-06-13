@@ -8,6 +8,7 @@ import Register from "./routes/route.register";
 import Auth from "./routes/route.auth";
 import Refresh from "./routes/route.refresh";
 import VerifyToken from "./middleware/verifyToken";
+import Interview from "./routes/route.Interview";
 
 const app = express();
 
@@ -35,6 +36,9 @@ app.use("/api/refresh",Refresh);
 
 // Middeleware - verify token
 app.use(VerifyToken);
+
+// Interviews
+app.use("/api/interview",Interview)
 
 
 app.listen(process.env.PORT || 3000, () => {
