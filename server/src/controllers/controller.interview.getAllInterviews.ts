@@ -15,20 +15,23 @@ const QuerySchema = z.object({
     const num = parseInt(val, 10);
     if (isNaN(num) || num < 1) throw new Error("Invalid limit number.");
     return num;
-  })
+  }),
+  companyName: z.string().optional()
 });
 
 export const getAllInterviewsController = async (req:Request,res:Response) => {
     try{
-        const payload = req.query;
-        const page = payload.page ? Number(payload.page) : null;
-        const limit = payload.limit ? Number(payload.limit) : null;
+        
+        const parsedQuery = QuerySchema.safeParse(req.query);
 
-        if(!page || !limit){
-            throw new Error("Invalid URL")
+        if(!parsedQuery.success){
+            res.status(code.BadRequest).json({msg:"Invalid query parameters."});
+            return;
         }
 
-        const result = await Interview.getAllInterviews(page,limit);
+        const {page,limit,companyName} = parsedQuery.data;
+
+        const result = await Interview.getAllInterviews(page,limit,companyName);
 
         res.status(code.Success).json({data:result.data,totalCount:result.totalCount});
         return;

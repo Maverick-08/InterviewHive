@@ -1,9 +1,15 @@
 import { PrismaClient } from "@prisma/client";
-import { Interview, InterviewDetails } from "../services/Interview";
+import { InterviewDetails } from "../services/Interview";
 const prisma = new PrismaClient();
 
-export const fetchAllInterviews = async (page: number, limit: number) => {
+export const fetchAllInterviews = async (page: number, limit: number,companyName:string|undefined) => {
   const response = await prisma.interview.findMany({
+    where:{
+      companyName:{
+        startsWith: companyName,
+        mode:'insensitive'
+      }
+    },
     include: {
       interviewRounds: {
         include: {
@@ -28,6 +34,12 @@ export const fetchAllInterviews = async (page: number, limit: number) => {
   });
 
   const totalCount = await prisma.interview.count({
+    where:{
+      companyName:{
+        startsWith:companyName,
+        mode:'insensitive'
+      }
+    },
     skip:(page-1)*limit,
     take:limit
   })

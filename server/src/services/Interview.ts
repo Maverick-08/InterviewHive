@@ -30,8 +30,8 @@ export interface InterviewDetails {
 }
 
 export class Interview {
-  public static async getAllInterviews(page: number, limit: number) {
-    return await fetchAllInterviews(page, limit);
+  public static async getAllInterviews(page: number, limit: number,companyName:string|undefined) {
+    return await fetchAllInterviews(page, limit,companyName);
   }
 
   public static async getFilteredInterviews(
