@@ -112,7 +112,8 @@ export const fetchInterviewsSharedByUser = async (userId: string) => {
         include:{
           questions:true
         }
-      }
+      },
+      tags:true
     }
   });
 
@@ -129,7 +130,8 @@ export const fetchInterviewById = async (interviewId: string) => {
         include:{
           questions:true
         }
-      }
+      },
+      tags:true
     }
   });
 
