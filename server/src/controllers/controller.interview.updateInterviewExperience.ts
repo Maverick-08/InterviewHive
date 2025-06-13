@@ -9,15 +9,23 @@ export const updateInterviewExperienceController = async (
   res: Response
 ) => {
   try {
-    const { interviewData, interviewId } = req.body as {
+    const { interviewData, interviewId, userId } = req.body as {
       interviewId: string;
       interviewData: InterviewDetails;
+      userId:string
     };
 
-    if (!interviewId || !interviewData) {
+    if (!interviewId || !interviewData || !userId) {
       res
         .status(code.BadRequest)
-        .json({ msg: "Interview data or Interview id is missing." });
+        .json({ msg: "Invalid payload" });
+      return;
+    }
+
+    const currentUsersId = req.userId;
+
+    if(currentUsersId !== userId){
+      res.status(code.Forbidden).json({msg:"You do not have access to perform this operation."});
       return;
     }
 
