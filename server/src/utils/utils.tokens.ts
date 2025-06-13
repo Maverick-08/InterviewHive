@@ -14,7 +14,7 @@ export const setAccessToken = (res: Response, token: string) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    maxAge: 30 * 1000,
+    maxAge: 2 * 60 * 1000,
     path: "/",
   });
   return;
