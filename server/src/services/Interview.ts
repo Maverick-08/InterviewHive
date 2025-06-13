@@ -36,7 +36,7 @@ export class Interview {
 
   public static async getFilteredInterviews(
     tags: string[],
-    companyName: string,
+    companyName: string|undefined,
     page: number,
     limit: number
   ) {

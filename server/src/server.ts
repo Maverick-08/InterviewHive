@@ -34,7 +34,7 @@ app.use("/api/auth",Auth);
 // Refresh
 app.use("/api/refresh",Refresh);
 
-// Middeleware - verify token
+// ------- Middeleware - verify token -----------
 app.use(VerifyToken);
 
 // Interviews

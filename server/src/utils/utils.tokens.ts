@@ -5,7 +5,7 @@ const REFRESH_TOKEN_KEY = process.env.REFRESH_TOKEN_KEY as jwt.Secret;
 
 export const getAccessToken = ({ userId }: { userId: string }) => {
   return jwt.sign({ userId }, ACCESS_TOKEN_KEY, {
-    expiresIn: "30Seconds",
+    expiresIn: "10Minutes",
   });
 };
 
@@ -14,7 +14,7 @@ export const setAccessToken = (res: Response, token: string) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    maxAge: 2 * 60 * 1000,
+    maxAge: 10 * 60 * 1000,
     path: "/",
   });
   return;

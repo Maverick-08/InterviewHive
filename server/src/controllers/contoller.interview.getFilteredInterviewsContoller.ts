@@ -15,20 +15,29 @@ const QuerySchema = z.object({
     const num = parseInt(val, 10);
     if (isNaN(num) || num < 1) throw new Error("Invalid limit number.");
     return num;
-  })
+  }),
+  // Tags can be a single string (e.g., ?tags=DSA) or an array of strings (e.g., ?tags=DSA&tags=OS)
+  tags: z.union([z.string(), z.array(z.string())]).optional().transform(val => {
+    if (val === undefined) return [];
+    if (Array.isArray(val)) return val.map(tag => tag.trim());
+    return [val.trim()]; // If it's a single string, put it in an array
+  }),
+  companyName: z.string().optional(),
 });
 
-export const getAllInterviewsController = async (req:Request,res:Response) => {
-    try{
-        const payload = req.query;
-        const page = payload.page ? Number(payload.page) : null;
-        const limit = payload.limit ? Number(payload.limit) : null;
 
-        if(!page || !limit){
-            throw new Error("Invalid URL")
+export const getFilteredInterviewsController = async (req:Request,res:Response) => {
+    try{
+        const parsedSchema = QuerySchema.safeParse(req.query);
+        
+        if(!parsedSchema.success){
+            res.status(code.BadRequest).json({msg:"Invalid query parameters provided."});
+            return;
         }
 
-        const result = await Interview.getAllInterviews(page,limit);
+        const {tags:interviewTags,page,limit,companyName} = parsedSchema.data;
+
+        const result = await Interview.getFilteredInterviews(interviewTags,companyName,Number(page),Number(limit));
 
         res.status(code.Success).json({data:result.data,totalCount:result.totalCount});
         return;
