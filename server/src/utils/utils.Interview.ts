@@ -3,13 +3,17 @@ import { InterviewDetails } from "../services/Interview";
 const prisma = new PrismaClient();
 
 export const fetchAllInterviews = async (page: number, limit: number,companyName:string|undefined) => {
+  const whereConditions: any = {};
+
+  if(companyName && companyName.trim() !== ""){
+    whereConditions.companyName = {
+      contains: companyName.trim(),
+      mode: 'insensitive', // For case-insensitive search (PostgreSQL, MySQL)
+    };
+  }
+
   const response = await prisma.interview.findMany({
-    where:{
-      companyName:{
-        startsWith: companyName,
-        mode:'insensitive'
-      }
-    },
+    where:whereConditions,
     include: {
       interviewRounds: {
         include: {
@@ -34,14 +38,7 @@ export const fetchAllInterviews = async (page: number, limit: number,companyName
   });
 
   const totalCount = await prisma.interview.count({
-    where:{
-      companyName:{
-        startsWith:companyName,
-        mode:'insensitive'
-      }
-    },
-    skip:(page-1)*limit,
-    take:limit
+    where:whereConditions
   })
 
   return {data:response,totalCount};
