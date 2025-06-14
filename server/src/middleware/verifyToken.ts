@@ -42,7 +42,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
         }
         else {
           res
-            .json(code.BadRequest)
+            .json(code.Unauthorized)
             .json({ msg: "Access token does not contain user Id" });
           return;
         }
@@ -52,7 +52,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
       return;
     }
   } else {
-    res.status(code.BadRequest).json({ msg: "Access token is missing" });
+    res.status(code.Unauthorized).json({ msg: "Access token is missing" });
     return;
   }
 };
