@@ -37,7 +37,8 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
         if (userId){
           const newAccessToken = getAccessToken({userId});
           setAccessToken(res,newAccessToken);
-          refreshTokenHandler(req, res, next, userId)
+          refreshTokenHandler(req, res, next, userId);
+          return;
         }
         else {
           res
