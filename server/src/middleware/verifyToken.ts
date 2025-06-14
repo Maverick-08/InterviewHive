@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { code } from "../config/status-code";
 import jwt from "jsonwebtoken";
 import { refreshTokenHandler } from "../controllers/controller.refreshToken";
+import { getAccessToken, setAccessToken } from "../utils/utils.tokens";
 const ACCESS_TOKEN_KEY = process.env.ACCESS_TOKEN_KEY;
 
 // Extend Express Request interface to include userId
@@ -32,8 +33,12 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
         const decode = jwt.decode(__accessToken__) as jwt.JwtPayload;
         const userId = decode["userId"];
 
-        // Get new pair of tokens - call refresh function
-        if (userId) refreshTokenHandler(req, res, next, userId);
+        // Get new pair of tokens
+        if (userId){
+          const newAccessToken = getAccessToken({userId});
+          setAccessToken(res,newAccessToken);
+          refreshTokenHandler(req, res, next, userId)
+        }
         else {
           res
             .json(code.BadRequest)
