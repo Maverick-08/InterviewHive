@@ -80,4 +80,11 @@ export class Redis_Service {
     await Promise.allSettled([redisClient.del(token), redisClient.del(userId)]);
     return;
   }
+
+  public static async clearOldToken(userId:string,oldRefreshToken:string){
+    const tokensArray = JSON.parse(await redisClient.get(userId) as string) as string[];
+    const filteredTokensArray = tokensArray.filter(token => token != oldRefreshToken);
+    await redisClient.set(userId,JSON.stringify(filteredTokensArray));
+    return;
+  }
 }

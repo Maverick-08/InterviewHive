@@ -6,7 +6,6 @@ import { config } from "dotenv";
 import Health from "./routes/health";
 import Register from "./routes/route.register";
 import Auth from "./routes/route.auth";
-import Refresh from "./routes/route.refresh";
 import VerifyToken from "./middleware/verifyToken";
 import Interview from "./routes/route.Interview";
 
@@ -30,9 +29,6 @@ app.use("/api/register",Register);
 
 // Auth
 app.use("/api/auth",Auth);
-
-// Refresh
-app.use("/api/refresh",Refresh);
 
 // ------- Middeleware - verify token -----------
 app.use(VerifyToken);
