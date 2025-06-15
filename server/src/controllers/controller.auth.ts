@@ -8,6 +8,13 @@ import { Course } from "../services/Course";
 import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "../utils/utils.tokens";
 import { Redis_Service } from "../services/Redis";
 
+const courses:{courseId:string;degree:string;branch:string|null}[] = [{courseId:'MCA',degree:"Master of Computer Application",branch:null},{courseId:"BTECH-CSE",degree:"Bachelor of Technology",branch:"Computer Science & Engineering"}]
+
+const getCourseDetails = (courseId:string) => {
+  const result = courses.find(data => data.courseId == courseId);
+  return result;
+}
+
 export const userAuthController = async (req: Request, res: Response) => {
   try {
     const payload: { email: string; password: string } = req.body;
@@ -44,37 +51,31 @@ export const userAuthController = async (req: Request, res: Response) => {
 
     // if password matches
 
-    // 6. get course details
-    const courseDetails = await Course.getCourseDetails({
-      courseId: user.courseId,
-    });
-
-    // 7. create tokens
+    // 6. create tokens
       // Access token
     const accessToken = getAccessToken({userId:user.userId})
 
       // Refresh Token
     const refreshToken = getRefreshToken({userId:user.userId});
 
-    // 8. update redis store
+    // 7. update redis store
     await Redis_Service.setSession({token:refreshToken,userId:user.userId});
 
-    // 7. set access token cookie
+    // 8. set access token cookie
    setAccessToken(res,accessToken);
    
-   // 8. set refresh token cookie
+   // 9. set refresh token cookie
    setRefreshToken(res,refreshToken)
    
-    // 9. return data
+    // 10. return data
+    const courseInfo = getCourseDetails(user.courseId);
     res
       .status(code.Success)
       .json({
         userId: user.userId,
         username: user.username,
-        email:user.email,
-        courseId: user.courseId,
-        courseName: courseDetails?.courseName,
-        branchName: courseDetails?.branchName,
+        degree: courseInfo ? courseInfo.degree : null,
+        branch: courseInfo ? courseInfo.branch : null,
         yearOfPassingOut: user.yearOfPassingOut,
         avatar: user.avatar,
         xHandle: user.xHandle,
