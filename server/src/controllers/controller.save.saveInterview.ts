@@ -31,11 +31,11 @@ export const saveInterviewController = async (req:Request,res:Response) => {
             return;
         }
 
-        // 5. if interview exists - save it (if not exists) delete it(if exists)
+        // 5. if interview exists - save it (if not saved) delete it(if saved)
         const isInterviewSaved = await prisma.savedInterview.findFirst({
             where:{
                 userId,
-                interviewId
+                interviewId,
             }
         })
 

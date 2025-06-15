@@ -130,33 +130,46 @@ export const fetchInterviewsSharedByUser = async (userId: string) => {
 };
 
 export const fetchSavedInterviewExperience = async (userId: string) => {
-  const response = await prisma.savedInterview.findMany({
+  const savedInterviewIdsArray = await prisma.savedInterview.findMany({
     where: {
       userId,
     },
-    include: {
-      interview:{
-        include:{
-          interviewRounds:{
-            include:{questions:true}
-          }
-        }
-      },
-      tags: true,
-      user: {
-        select: {
-          username: true,
-          userId: true,
-          courseId: true,
-          yearOfPassingOut: true,
-        },
-      },
+    select: {
+      interviewId: true,
     },
   });
+
+  let savedExperiences = [];
+
+  for (let interview of savedInterviewIdsArray) {
+    const response = await prisma.interview.findFirst({
+      where: {
+        id: interview.interviewId,
+      },
+      include: {
+        interviewRounds: {
+          include: {
+            questions: true,
+          },
+        },
+        tags: true,
+        user: {
+          select: {
+            username: true,
+            userId: true,
+            courseId: true,
+            yearOfPassingOut: true,
+          },
+        },
+      },
+    });
+    savedExperiences.push(response);
+  }
+
   const totalCount = await prisma.savedInterview.count({
-    where:{userId}
-  })
-  return {data:response,totalCount};
+    where: { userId },
+  });
+  return { data: savedExperiences, totalCount };
 };
 
 export const fetchInterviewById = async (interviewId: string) => {
