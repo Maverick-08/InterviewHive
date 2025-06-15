@@ -110,7 +110,15 @@ export const fetchInterviewsSharedByUser = async (userId: string) => {
           questions:true
         }
       },
-      tags:true
+      tags:true,
+      user:{
+        select:{
+          username:true,
+          userId:true,
+          courseId:true,
+          yearOfPassingOut:true,
+        }
+      }
     }
   });
 
