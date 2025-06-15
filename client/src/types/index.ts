@@ -1,30 +1,40 @@
 export interface Question{
+    id:string;
     title:string;
     description?:string;
     link?:string;
 }
 
-export interface InterviewTags{
-    topic:string;
-}
-
 export interface Round{
-    roundName:string;
+    id:string;
     roundType:string;
     note?:string;
     questions:Question[];
 }
 
+export interface User{
+    username:string;
+    userId:string;
+    courseId:string;
+    yearOfPassingOut:number;
+}
+
 export interface Interview {
-  candidate: string;
-  companyName: string;
-  batch: string;
-  yearOfPassingOut: number;
-  numberOfRounds: number;
-  ctcOffered: number;
-  role: string;
-  tags: string[];
-  allRounds: Round[];
+    id:string;
+    authorId:string;
+    companyName:string;
+    yearOfInterview:number;
+    role:string;
+    CTCOffered?:number;
+    user: User;
+    interviewStatus:string;
+    tags:Tag[];
+    interviewRounds:Round[]
+}
+
+export interface Tag{
+    tagId:string;
+    tagName:string;
 }
 
 export interface DeleteRound{
@@ -47,4 +57,17 @@ export interface DeleteRoundQuestion{
     questionId: string,
     questionIds: string[],
     setQuestionIds: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+export interface API{
+    success:boolean;
+    isAuthenticated:boolean;
+    isServerDown:boolean;
+    errMsg?:string;
+    msg?:string;
+}
+
+export interface FetchInterviews extends API{
+    data?:Interview[];
+    totalCount?:number
 }

@@ -1,9 +1,11 @@
 import Loading from "@/components/common/Loading";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ListExperiences from "./ListExperiences";
-import { tempData } from "./temp";
 import { Combobox } from "@/components/ui/combobox";
-import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
+import type { Interview } from "@/types";
+import { fetchInterviews } from "./utils";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const ReadInterviewExperience = () => {
   const options = [
@@ -39,14 +41,90 @@ const ReadInterviewExperience = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
+  const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
+  const [filteredInterviews, setFilteredInterviews] = useState<Interview[]>([]);
+  const [searchedCompany,setSearchedCompany] = useState("");
+  const [debounceSearchCompany,setDebounceSearchCompany] = useState("");
+  const [page,setPage] = useState(1);
+  const [totalCount,setTotalCount] = useState(0);
+  const navigate = useNavigate();
 
+  // on load api call
   useEffect(() => {
-    const Id = setTimeout(() => {
+    const fetch = async () => {
+      const response = await fetchInterviews(page, 10);
+      if (response.success) {
+        setAllInterviews(response.data as Interview[]);
+        setTotalCount(response.totalCount as number);
+      } else {
+        if(!response.isAuthenticated){
+          toast.warning(response.errMsg);
+          setTimeout(() => {
+            navigate("/login")
+          }, 2000);
+          return;
+        }
+        toast.warning(response.errMsg);
+      }
       setIsLoading(false);
-    }, 2000);
+    };
+    fetch();
+  }, [navigate,page]);
 
+  useEffect(()=>{
+    setIsLoading(true);
+    if(filters.includes('All')){
+      setPage(1);
+    }
+  },[page,filters])
+
+  // handle search
+  const handleSearchText = (e:React.ChangeEvent<HTMLInputElement>) => {
+     const regex = /^[a-zA-Z\s]+$/;
+     if(regex.test(e.target.value)){
+      setSearchedCompany(e.target.value.trim().toUpperCase())
+     }
+     if(e.target.value == "") setSearchedCompany("");
+  }
+
+  // debounce 
+  useEffect(()=>{
+    const Id = setTimeout(() => {
+      setDebounceSearchCompany(searchedCompany)
+    }, 1000);
     return () => clearInterval(Id);
-  }, []);
+  },[searchedCompany])
+
+  // api call for debounced value
+  useEffect(()=>{
+    if(debounceSearchCompany !== "" || filters.length > 0){
+      const fetch = async () => {
+      setIsLoading(true);
+      console.log(filters)
+      const response = await fetchInterviews(page,10,debounceSearchCompany,filters);
+      if (response.success) {
+        setFilteredInterviews(response.data as Interview[]);
+        setTotalCount(response.totalCount as number);
+      }
+      else {
+        if(!response.isAuthenticated){
+          toast.warning(response.errMsg);
+          setTimeout(() => {
+            navigate("/login")
+          }, 2000);
+          return;
+        }
+        toast.warning(response.errMsg);
+      }
+      setIsLoading(false);
+    }
+    fetch();
+    }
+    else{
+      setFilteredInterviews(allInterviews);
+    }
+
+  },[debounceSearchCompany,navigate,allInterviews,page,filters])
 
   if (isLoading) {
     return (
@@ -58,7 +136,6 @@ const ReadInterviewExperience = () => {
 
   return (
     <div className="mb-12 w-full max-w-7xl pt-24 md:pt-32">
-      <SmoothScrollProvider />
       <div className="flex flex-col gap-4 px-4 text-white font-mono">
         {/* Top title and search component  */}
         <div className="px-2 flex flex-col md:flex-row items-center gap-4 md:gap-0">
@@ -72,6 +149,8 @@ const ReadInterviewExperience = () => {
             {/* search bar  */}
             <input
               type="text"
+              value={searchedCompany}
+              onChange={handleSearchText}
               placeholder="Search Company Name"
               className="flex-1 focus:outline-none border rounded-sm border-neutral-500 px-2 py-2 placeholder:text-neutral-400 placeholder:text-center"
             />
@@ -91,7 +170,7 @@ const ReadInterviewExperience = () => {
         </div>
 
         {/* Display experiences  */}
-        <ListExperiences interviewData={tempData} />
+        <ListExperiences interviewData={filteredInterviews} page={page} setPage={setPage} totalCount={totalCount} isLoading={isLoading}/>
       </div>
     </div>
   );

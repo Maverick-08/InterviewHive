@@ -64,6 +64,7 @@ const InterviewDialog = ({
         onClick={(e) => e.stopPropagation()}
         className="relative px-5 py-4 w-full max-w-3xl h-[520px] overflow-auto flex flex-col gap-4 bg-[#171717] border border-[#333333] rounded-md font-mono"
       >
+      
         {/* company name  */}
         <div className="h-full flex justify-between items-center">
           <div className="text-2xl sm:text-4xl">{companyName}</div>
@@ -125,7 +126,7 @@ const InterviewDialog = ({
               return (
                 <AccordionItem key={index} value={`item-${index}`} className="border-b border-b-neutral-700">
                   <AccordionTrigger className=" text-xl sm:text-2xl underline-offset-8 decoration-[1px] ">
-                    {round.roundName} ({round.roundType})
+                    Round {index+1} ({round.roundType})
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="flex flex-col gap-6">

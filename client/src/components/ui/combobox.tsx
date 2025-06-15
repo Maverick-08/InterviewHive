@@ -103,13 +103,22 @@ export function Combobox({
                     }
                     if (values && setValues) {
                       let updatedValues: string[] = [];
-
-                      if (values.includes(currentValue)) {
+                      
+                      if(currentValue == "All" && !values.includes('All')){
+                        updatedValues = ["All"]
+                      }
+                      else if (values.includes(currentValue)) {
                         updatedValues = values.filter(
                           (value) => value != currentValue
                         );
                       } else {
-                        updatedValues = [...values, currentValue];
+                        if(!values.includes("All")){
+                          updatedValues = [...values, currentValue]
+                        }
+                        else{
+                          const filtered =  values.filter(val => val != 'All');
+                          updatedValues = [...filtered,currentValue];
+                        }
                       }
 
                       setValues(updatedValues);
