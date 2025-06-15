@@ -71,3 +71,7 @@ export interface FetchInterviews extends API{
     data?:Interview[];
     totalCount?:number
 }
+export interface FetchUserInterviews extends API {
+    data?:Interview[];
+    showEditOptions?:boolean;
+}

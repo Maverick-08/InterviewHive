@@ -3,10 +3,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { tempData } from "../dashboard/temp";
 import ListExperiences from "../dashboard/ListExperiences";
+import type { Interview } from "@/types";
 
-const UserInterviews = () => {
+const UserInterviews = ({interviews}:{interviews:Interview[]}) => {
+
+
   return (
     <AccordionItem value="item-1">
       <AccordionTrigger className="px-4 flex items-center rounded-md border border-[#333333] cursor-pointer">
@@ -14,8 +16,8 @@ const UserInterviews = () => {
           Shared Interviews
         </p>
       </AccordionTrigger>
-      <AccordionContent className="pt-8 text-white">
-        <ListExperiences interviewData={tempData} />
+      <AccordionContent className="pt-8 px-4 text-white">
+        <ListExperiences interviewData={interviews} />
       </AccordionContent>
     </AccordionItem>
   );

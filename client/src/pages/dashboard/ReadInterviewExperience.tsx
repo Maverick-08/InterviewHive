@@ -43,10 +43,10 @@ const ReadInterviewExperience = () => {
   const [open, setOpen] = useState(false);
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
   const [filteredInterviews, setFilteredInterviews] = useState<Interview[]>([]);
-  const [searchedCompany,setSearchedCompany] = useState("");
-  const [debounceSearchCompany,setDebounceSearchCompany] = useState("");
-  const [page,setPage] = useState(1);
-  const [totalCount,setTotalCount] = useState(0);
+  const [searchedCompany, setSearchedCompany] = useState("");
+  const [debounceSearchCompany, setDebounceSearchCompany] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const navigate = useNavigate();
 
   // on load api call
@@ -57,10 +57,10 @@ const ReadInterviewExperience = () => {
         setAllInterviews(response.data as Interview[]);
         setTotalCount(response.totalCount as number);
       } else {
-        if(!response.isAuthenticated){
+        if (!response.isAuthenticated) {
           toast.warning(response.errMsg);
           setTimeout(() => {
-            navigate("/login")
+            navigate("/login");
           }, 2000);
           return;
         }
@@ -69,62 +69,68 @@ const ReadInterviewExperience = () => {
       setIsLoading(false);
     };
     fetch();
-  }, [navigate,page]);
+  }, [navigate, page]);
 
-  useEffect(()=>{
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
+
+  useEffect(() => {
     setIsLoading(true);
-    if(filters.includes('All')){
-      setPage(1);
-    }
-  },[page,filters])
+    // if(filters.includes('All')){
+    //   setPage(1);
+    // }
+  }, [page]);
 
   // handle search
-  const handleSearchText = (e:React.ChangeEvent<HTMLInputElement>) => {
-     const regex = /^[a-zA-Z\s]+$/;
-     if(regex.test(e.target.value)){
-      setSearchedCompany(e.target.value.trim().toUpperCase())
-     }
-     if(e.target.value == "") setSearchedCompany("");
-  }
+  const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const regex = /^[a-zA-Z\s]+$/;
+    if (regex.test(e.target.value)) {
+      setSearchedCompany(e.target.value.trim().toUpperCase());
+    }
+    if (e.target.value == "") setSearchedCompany("");
+  };
 
-  // debounce 
-  useEffect(()=>{
+  // debounce
+  useEffect(() => {
     const Id = setTimeout(() => {
-      setDebounceSearchCompany(searchedCompany)
+      setDebounceSearchCompany(searchedCompany);
     }, 1000);
     return () => clearInterval(Id);
-  },[searchedCompany])
+  }, [searchedCompany]);
 
   // api call for debounced value
-  useEffect(()=>{
-    if(debounceSearchCompany !== "" || filters.length > 0){
+  useEffect(() => {
+    if (debounceSearchCompany !== "" || filters.length > 0) {
       const fetch = async () => {
-      setIsLoading(true);
-      console.log(filters)
-      const response = await fetchInterviews(page,10,debounceSearchCompany,filters);
-      if (response.success) {
-        setFilteredInterviews(response.data as Interview[]);
-        setTotalCount(response.totalCount as number);
-      }
-      else {
-        if(!response.isAuthenticated){
+        setIsLoading(true);
+        console.log(filters);
+        const response = await fetchInterviews(
+          page,
+          10,
+          debounceSearchCompany,
+          filters
+        );
+        if (response.success) {
+          setFilteredInterviews(response.data as Interview[]);
+          setTotalCount(response.totalCount as number);
+        } else {
+          if (!response.isAuthenticated) {
+            toast.warning(response.errMsg);
+            setTimeout(() => {
+              navigate("/login");
+            }, 2000);
+            return;
+          }
           toast.warning(response.errMsg);
-          setTimeout(() => {
-            navigate("/login")
-          }, 2000);
-          return;
         }
-        toast.warning(response.errMsg);
-      }
-      setIsLoading(false);
-    }
-    fetch();
-    }
-    else{
+        setIsLoading(false);
+      };
+      fetch();
+    } else {
       setFilteredInterviews(allInterviews);
     }
-
-  },[debounceSearchCompany,navigate,allInterviews,page,filters])
+  }, [debounceSearchCompany, navigate, allInterviews, page, filters]);
 
   if (isLoading) {
     return (
@@ -170,7 +176,13 @@ const ReadInterviewExperience = () => {
         </div>
 
         {/* Display experiences  */}
-        <ListExperiences interviewData={filteredInterviews} page={page} setPage={setPage} totalCount={totalCount} isLoading={isLoading}/>
+        <ListExperiences
+          interviewData={filteredInterviews}
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   );
