@@ -5,6 +5,7 @@ import {
   fetchFilteredInterviews,
   fetchInterviewById,
   fetchInterviewsSharedByUser,
+  fetchSavedInterviewExperience,
   updateUserInterviewExperience,
 } from "../utils/utils.Interview";
 
@@ -45,6 +46,10 @@ export class Interview {
 
   public static async getUserInterviews(userId: string) {
     return await fetchInterviewsSharedByUser(userId);
+  }
+
+  public static async geSavedInterviewExperience(userId: string) {
+    return await fetchSavedInterviewExperience(userId);
   }
 
   public static async getInterviewById(interviewId: string) {

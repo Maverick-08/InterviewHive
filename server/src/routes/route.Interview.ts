@@ -6,6 +6,7 @@ import { getUserInterviewsController } from "../controllers/controller.interview
 import { getInterviewByIdController } from "../controllers/controller.interview.getInterviewById";
 import { deleteInterviewByIdController } from "../controllers/controller.interview.deleteUserInterview";
 import { updateInterviewExperienceController } from "../controllers/controller.interview.updateInterviewExperience";
+import { getSavedInterviewsController } from "../controllers/controller.interview.getSavedInterviews";
 
 const router = Router();
 
@@ -17,6 +18,9 @@ router.route("/filter").get(getFilteredInterviewsController);
 
 // get user interviews
 router.route("/user").get(getUserInterviewsController);
+
+// get saved interviews
+router.route("/save").get(getSavedInterviewsController)
 
 // get particular interview through interview id - for updation / edit
 router.route("/detail").get(getInterviewByIdController);

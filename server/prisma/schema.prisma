@@ -47,6 +47,7 @@ model Interview{
   interviewRounds InterviewRound[]
   tags InterviewTag[] @relation("InterviewToTag")
   user User @relation(fields: [authorId],references: [userId])
+  saved SavedInterview[]
 }
 
 model InterviewRound{
@@ -77,4 +78,12 @@ model InterviewTag{
    // No onDelete: Cascade here for deleting the InterviewTag itself when Interview is deleted.
   // Prisma handles the join table cleanup automatically.
   interviews Interview [] @relation("InterviewToTag")
+}
+
+model SavedInterview{
+  id String @id @default(cuid())
+  userId String
+  interviewId String 
+  interview Interview[]
+  @@unique([userId,interviewId])
 }
