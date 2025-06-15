@@ -6,6 +6,7 @@ import type { Interview } from "@/types";
 import { fetchInterviews } from "./utils";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useInterviewModalStore } from "@/store/interviewModal";
 
 const ReadInterviewExperience = () => {
   const options = [
@@ -47,6 +48,8 @@ const ReadInterviewExperience = () => {
   const [debounceSearchCompany, setDebounceSearchCompany] = useState("");
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const isInterviewModalOpen = useInterviewModalStore(state => state.isInterviewModalOpen);
+  const setIsInterviewModalOpen = useInterviewModalStore(state => state.setIsInterviewModalOpen);
   const navigate = useNavigate();
 
   // on load api call
@@ -182,6 +185,8 @@ const ReadInterviewExperience = () => {
           setPage={setPage}
           totalCount={totalCount}
           isLoading={isLoading}
+          isModalOpen={isInterviewModalOpen}
+          setIsModalOpen={setIsInterviewModalOpen}
         />
       </div>
     </div>

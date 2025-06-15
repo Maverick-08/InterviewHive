@@ -6,10 +6,13 @@ import type { Interview } from "@/types";
 import { fetchSavedInterviews } from "./utils";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useInterviewModalStore } from "@/store/interviewModal";
 
 const SavedInterviewExperiences = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+    const isInterviewModalOpen = useInterviewModalStore(state => state.isInterviewModalOpen);
+    const setIsInterviewModalOpen = useInterviewModalStore(state => state.setIsInterviewModalOpen);
   const [savedInterviews, setSavedInterviews] = useState<Interview[]>([]);
 
   useEffect(() => {
@@ -53,7 +56,7 @@ const SavedInterviewExperiences = () => {
         </div>
 
         {/* Display experiences  */}
-        <ListExperiences interviewData={savedInterviews}/>
+        <ListExperiences interviewData={savedInterviews} isModalOpen={isInterviewModalOpen} setIsModalOpen={setIsInterviewModalOpen}/>
       </div>
     </div>
   );

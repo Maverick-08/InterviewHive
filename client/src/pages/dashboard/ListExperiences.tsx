@@ -17,14 +17,18 @@ const ListExperiences = ({
   setPage,
   totalCount,
   isLoading,
+  isModalOpen,
+  setIsModalOpen
 }: {
   interviewData: Interview[];
   page?: number;
   setPage?: (x: number) => void;
   totalCount?: number;
   isLoading?: boolean;
+  isModalOpen:boolean;
+  setIsModalOpen: (x:boolean) => void;
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving,setIsSaving] = useState(false);
   const location = useLocation().pathname;
 
@@ -137,7 +141,7 @@ const ListExperiences = ({
                 </div>
 
                 {/* Offer Details  */}
-                <div onClick={() => setIsModalOpen((prev) => !prev)} className="flex flex-col border-b-[1px] border-[#333333] pb-1">
+                <div onClick={() => setIsModalOpen(!isModalOpen)} className="flex flex-col border-b-[1px] border-[#333333] pb-1">
                   <div className="flex gap-2">
                     <span className="font-mono font-semibold text-lg text-neutral-400">
                       Role :{" "}
@@ -161,7 +165,7 @@ const ListExperiences = ({
                 </div>
 
                 {/* Tags  */}
-                <div onClick={() => setIsModalOpen((prev) => !prev)} className="pt-2 h-full flex flex-wrap items-center gap-4">
+                <div onClick={() => setIsModalOpen(!isModalOpen)} className="pt-2 h-full flex flex-wrap items-center gap-4">
                   {data.tags.map((tag) => {
                     return (
                       <span

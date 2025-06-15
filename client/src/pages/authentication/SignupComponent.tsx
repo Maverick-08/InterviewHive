@@ -8,12 +8,14 @@ import { useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
 import { toast } from "sonner";
 import { userAuth } from "./auth.util";
+import { useUserStore } from "@/store/userStore";
 
 const SignupComponent = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const setUserState = useUserStore((state) => state.setUserState);
 
   const handleSubmit = async () => {
     if (isSubmitting) return false;
@@ -21,7 +23,19 @@ const SignupComponent = () => {
       setIsSubmitting(true);
       const response = await userAuth({ email, password });
 
+      const data: {
+        userId: string;
+        username: string;
+        degree: string;
+        branch: string | null;
+        yearOfPassingOut: number;
+        avatar: string;
+        xHandle: string | null;
+        linkedIn: string | null;
+      } = response.data;
+
       if (response.success) {
+        setUserState({ ...data });
         toast.success(<p className="text-lg font-mono">Login Successful.</p>, {
           description: "Navigating to Dashboard.",
         });

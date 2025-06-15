@@ -5,9 +5,11 @@ import {
 } from "@/components/ui/accordion";
 import ListExperiences from "../dashboard/ListExperiences";
 import type { Interview } from "@/types";
+import { useInterviewModalStore } from "@/store/interviewModal";
 
 const UserInterviews = ({interviews}:{interviews:Interview[]}) => {
-
+    const isInterviewModalOpen = useInterviewModalStore(state => state.isInterviewModalOpen);
+  const setIsInterviewModalOpen = useInterviewModalStore(state => state.setIsInterviewModalOpen)
 
   return (
     <AccordionItem value="item-1">
@@ -17,7 +19,7 @@ const UserInterviews = ({interviews}:{interviews:Interview[]}) => {
         </p>
       </AccordionTrigger>
       <AccordionContent className="pt-8 px-4 text-white">
-        <ListExperiences interviewData={interviews} />
+        <ListExperiences interviewData={interviews} isModalOpen={isInterviewModalOpen} setIsModalOpen={setIsInterviewModalOpen}/>
       </AccordionContent>
     </AccordionItem>
   );
