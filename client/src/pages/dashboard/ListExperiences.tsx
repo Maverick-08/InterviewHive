@@ -6,6 +6,10 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 import { cn } from "@/lib/utils";
+import axios from "axios";
+import { BASE_URL } from "@/config";
+import { toast } from "sonner";
+import { useLocation } from "react-router-dom";
 
 const ListExperiences = ({
   interviewData,
@@ -21,6 +25,8 @@ const ListExperiences = ({
   isLoading?: boolean;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSaving,setIsSaving] = useState(false);
+  const location = useLocation().pathname;
 
   const handlePageIncrement = () => {
     if (
@@ -40,6 +46,27 @@ const ListExperiences = ({
     }
   };
 
+  const handleSaveInterview = async (interviewId:string) => {
+    if(isSaving) return;
+    try{
+      setIsSaving(true);
+        if(interviewId){
+          await axios.get(`${BASE_URL}/api/interview/save?interviewId=${interviewId}`,{withCredentials:true});
+
+          toast.success("Interview Saved",{
+            description:"Check saved section"
+          });
+        }
+    }
+    catch(err){
+      console.log(err);
+      toast.error("Failed to save interview",{
+        description:"Server is busy"
+      })
+    }
+    setIsSaving(false);
+  }
+
   return (
     <div className="flex flex-col gap-12">
       {/* no iterviews present */}
@@ -56,11 +83,10 @@ const ListExperiences = ({
       {interviewData && interviewData.length > 0 && (
         <div className={`grid grid-cols-1 md:grid-cols-2  gap-8  select-none`}>
           {!isModalOpen && <SmoothScrollProvider />}
-          {interviewData.map((data, index) => {
+          {interviewData.map((data) => {
             return (
               <div
                 key={data.id}
-                onClick={() => setIsModalOpen((prev) => !prev)}
                 className={cn(
                   `px-4 py-2 flex flex-col bg-[#171717] border-1 border-[#333333] rounded-md  cursor-pointer ${
                     isModalOpen ? "" : "hover:scale-105 ease-in duration-200"
@@ -73,9 +99,22 @@ const ListExperiences = ({
                     {data.companyName}
                   </span>
                   <span
-                    className={`${
-                      index % 4 == 0 ? "text-yellow-500" : "text-neutral-500"
-                    }`}
+                    onClick={(e) => {
+                      const list = e.currentTarget.classList;
+                      if (list.contains('text-gray-600')) {
+                        list.toggle('text-yellow-600');
+                        list.toggle('hover:text-yellow-500');
+                        list.toggle('text-gray-600');
+                        list.toggle('hover:text-gray-500');
+                      } else {
+                        list.toggle('text-gray-600');
+                        list.toggle('hover:text-gray-500');
+                        list.toggle('text-yellow-600');
+                        list.toggle('hover:text-yellow-500');
+                      }
+                      handleSaveInterview(data.id);
+                    }}
+                    className={`text-gray-600 hover:text-gray-500 ${location.includes('save') ? 'hidden':''}`}
                   >
                     <FaBookmark className="h-6 w-6" />
                   </span>
@@ -98,7 +137,7 @@ const ListExperiences = ({
                 </div>
 
                 {/* Offer Details  */}
-                <div className="flex flex-col border-b-[1px] border-[#333333] pb-1">
+                <div onClick={() => setIsModalOpen((prev) => !prev)} className="flex flex-col border-b-[1px] border-[#333333] pb-1">
                   <div className="flex gap-2">
                     <span className="font-mono font-semibold text-lg text-neutral-400">
                       Role :{" "}
@@ -122,7 +161,7 @@ const ListExperiences = ({
                 </div>
 
                 {/* Tags  */}
-                <div className="pt-2 h-full flex items-center gap-4">
+                <div onClick={() => setIsModalOpen((prev) => !prev)} className="pt-2 h-full flex flex-wrap items-center gap-4">
                   {data.tags.map((tag) => {
                     return (
                       <span
@@ -134,6 +173,8 @@ const ListExperiences = ({
                     );
                   })}
                 </div>
+
+                {/* Modal  */}
                 {isModalOpen && (
                   <InterviewDialog
                     isModalOpen={isModalOpen}
@@ -155,7 +196,7 @@ const ListExperiences = ({
 
       {/* pagination  */}
       {interviewData.length > 0 && (
-        <div className="flex justify-center">
+        <div className={`flex justify-center`}>
           {page && setPage && totalCount && (
             <div className="flex gap-12 items-center">
               {/* previous page  */}
