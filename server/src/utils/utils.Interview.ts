@@ -135,22 +135,20 @@ export const fetchSavedInterviewExperience = async (userId: string) => {
       userId,
     },
     include: {
-      interview: {
-        include: {
-          interviewRounds: {
-            include: {
-              questions: true,
-            },
-          },
-          tags: true,
-          user: {
-            select: {
-              username: true,
-              userId: true,
-              courseId: true,
-              yearOfPassingOut: true,
-            },
-          },
+      interview:{
+        include:{
+          interviewRounds:{
+            include:{questions:true}
+          }
+        }
+      },
+      tags: true,
+      user: {
+        select: {
+          username: true,
+          userId: true,
+          courseId: true,
+          yearOfPassingOut: true,
         },
       },
     },

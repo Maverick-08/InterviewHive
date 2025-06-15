@@ -144,3 +144,20 @@ export const fetchInterviews = async (
     return handleError(err);
   }
 };
+
+export const fetchSavedInterviews = async (userId:string):Promise<FetchInterviews> =>{
+  try{
+    const response = await axios.get(`${BASE_URL}/api/interview/user/save?userId=${userId}`,{withCredentials:true});
+
+    return {
+      success:true,
+      isAuthenticated:true,
+      isServerDown:false,
+      data:response.data.data,
+      totalCount:response.data.totalCount
+    }
+  }
+  catch(err){
+    return handleError(err);
+  }
+}
