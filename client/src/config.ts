@@ -1,1 +1,1 @@
-export const BASE_URL = "http://interview-hive.dev-projects.site:300"
+export const BASE_URL = "https://interview-hive.dev-projects.site"

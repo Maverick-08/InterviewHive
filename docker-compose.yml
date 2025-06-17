@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   redis:
     image: redis:latest
@@ -7,11 +5,6 @@ services:
       - 6379:6379
     volumes:
       - redis_data:/data
-    command: redis-server --requirepass $${REDIS_PASSWORD}
-    env_file:
-      - "./server/.env"
-    environment:
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
   
   server:
     build:
@@ -19,15 +12,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000
-    env_file:
-      - "./server/.env"
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - PORT=${PORT}
-      - ACCESS_TOKEN_KEY=${ACCESS_TOKEN_KEY}
-      - REFRESH_TOKEN_KEY=${REFRESH_TOKEN_KEY}
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
-      - REDIS_HOST=${REDIS_HOST}
+    env_file: "./server/.env"
+    develop:
+      watch:
+        - action: sync+restart
+          path: "./server"
+          target: /app
     depends_on:
       - redis
   
@@ -37,6 +27,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - 80:80
+    develop:
+      watch:
+        - action: sync+restart
+          path: "./client"
+          target: /app
     depends_on:
       - server
 
