@@ -1,1 +1,1 @@
-export const BASE_URL = "http://interview-hive.dev-projects.site"
+export const BASE_URL = "http://backend:3000"
