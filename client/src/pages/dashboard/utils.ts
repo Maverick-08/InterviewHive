@@ -1,4 +1,3 @@
-import { BASE_URL } from "@/config";
 import type {
   AddRound,
   DeleteRound,
@@ -8,6 +7,7 @@ import type {
 } from "@/types";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT
 
 export const addRound = ({ roundIds, setRoundIds }: AddRound) => {
   const newRoundId = "" + uuid();

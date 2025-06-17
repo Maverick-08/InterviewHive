@@ -1,5 +1,5 @@
-import { BASE_URL } from "@/config";
 import axios from "axios"; // Import AxiosError type
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT
 
 export const courseOptions = [{value:"BTECH-CSE",label:"BTECH-CSE"},{value:"BTECH-EE",label:"BTECH-EE"},{value:"DUAL-MDS",label:"DUAL-MDS"},{value:"MCA",label:"MCA"},{value:"MTECH-CSE",label:"MTECH-CSE"}]
 

@@ -1,7 +1,7 @@
-import { BASE_URL } from "@/config"
 import type { FetchUserInterviews } from "@/types";
 import axios from "axios"
 import { handleError } from "../dashboard/utils";
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT
 
 
 export const fetchUserInterviews = async (userId:string):Promise<FetchUserInterviews> => {

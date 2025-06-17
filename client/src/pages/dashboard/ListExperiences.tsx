@@ -7,9 +7,9 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 import { cn } from "@/lib/utils";
 import axios from "axios";
-import { BASE_URL } from "@/config";
 import { toast } from "sonner";
 import { useLocation } from "react-router-dom";
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT
 
 const ListExperiences = ({
   interviewData,
