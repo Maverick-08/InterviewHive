@@ -4,21 +4,25 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FaTrash } from "react-icons/fa6";
-import { deleteQuestion } from "./utils";
 import { RxCross2 } from "react-icons/rx";
 import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
+import { useInterviewStore } from "@/store/interview";
 
 const Question = ({
-  questionId,
   questionNumber,
-  questionIds,
-  setQuestionIds,
+  interviewRoundId,
+  questionId,
 }: {
-  questionId: string;
   questionNumber: number;
-  questionIds: string[];
-  setQuestionIds: React.Dispatch<React.SetStateAction<string[]>>;
+  interviewRoundId: string;
+  questionId: string;
 }) => {
+  const getQuestionInfo = useInterviewStore(state => state.getInterviewQuestionInfo);
+  const updateInterviewQuestion = useInterviewStore(state => state.updateInterviewQuestion);
+  const deleteQuestion = useInterviewStore(state => state.deleteInterviewQuestion);
+  
+  const {title,description,link} = getQuestionInfo(interviewRoundId,questionId);
+
   return (
     <div className="pt-4 w-full flex gap-4">
       <SmoothScrollProvider />
@@ -35,6 +39,8 @@ const Question = ({
 
               <input
                 type="text"
+                value={title ?? ""}
+                onChange={e => updateInterviewQuestion(interviewRoundId,questionId,{title:e.target.value})}
                 name="question title"
                 placeholder="Question's Title"
                 className="bg-[#333333] w-full text-neutral-400  px-2 py-1 rounded-md focus:outline-none"
@@ -46,6 +52,8 @@ const Question = ({
               <p>Description (optional)</p>
               <textarea
                 name="question description"
+                value={description ?? ""}
+               onChange={e => updateInterviewQuestion(interviewRoundId,questionId,{description:e.target.value})}
                 placeholder={`Any suggestion on how to tackle this question ?`}
                 className="bg-[#333333] h-32 sm:h-52 w-full resize-none text-neutral-400  px-2 py-1 rounded-md focus:outline-none"
               />
@@ -58,6 +66,8 @@ const Question = ({
               <input
                 type="text"
                 name="question link"
+                value={link ?? ""}
+                 onChange={e => updateInterviewQuestion(interviewRoundId,questionId,{link:e.target.value})}
                 placeholder="Question's Link (If available)"
                 className="bg-[#333333] w-full text-neutral-400  px-2 py-1 rounded-md focus:outline-none"
               />
@@ -67,7 +77,7 @@ const Question = ({
       </AccordionItem>
       <span
         onClick={() =>
-          deleteQuestion({ questionId, questionIds, setQuestionIds })
+          deleteQuestion(interviewRoundId,questionId)
         }
         className="pt-4 sm:px-2 flex justify-center text-red-400 cursor-pointer"
       >

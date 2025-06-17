@@ -195,14 +195,20 @@ export const createInterviewExperience = async (
 ) => {
   const result = await prisma.$transaction(async (tx) => {
     // 1. Create the Interview instance with nested operations for tags, rounds, and questions.
+    console.log(interviewData);
     const newInterview = await tx.interview.create({
       data: {
-        authorId: interviewData.authorId,
         companyName: interviewData.companyName.toUpperCase(),
         yearOfInterview: interviewData.yearOfInterview,
         role: interviewData.role.toUpperCase(),
         CTCOffered: interviewData.CTCOffered,
         interviewStatus: interviewData.interviewStatus.toUpperCase(),
+
+        user: {
+          connect: {
+            userId: interviewData.authorId, // Connect to an existing user by their ID
+          },
+        },
 
         // Use `connectOrCreate` to handle InterviewTags for the many-to-many relationship.
         // This will:

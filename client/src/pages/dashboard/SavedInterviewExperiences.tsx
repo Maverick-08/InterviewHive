@@ -1,12 +1,13 @@
 import Loading from "@/components/common/Loading";
 import { useEffect, useState } from "react";
 import ListExperiences from "./ListExperiences";
-// import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
+import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 import type { Interview } from "@/types";
 import { fetchSavedInterviews } from "./utils";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useInterviewModalStore } from "@/store/interviewModal";
+import { useUserStore } from "@/store/userStore";
 
 const SavedInterviewExperiences = () => {
   const navigate = useNavigate();
@@ -14,10 +15,11 @@ const SavedInterviewExperiences = () => {
     const isInterviewModalOpen = useInterviewModalStore(state => state.isInterviewModalOpen);
     const setIsInterviewModalOpen = useInterviewModalStore(state => state.setIsInterviewModalOpen);
   const [savedInterviews, setSavedInterviews] = useState<Interview[]>([]);
+  const userId = useUserStore(state => state.userId);
 
   useEffect(() => {
     const fetch = async () => {
-      const response = await fetchSavedInterviews("cmbuiclbk0007w06k0x2q7kzm");
+      const response = await fetchSavedInterviews(`${userId}`);
       if (response.success) {
         setSavedInterviews(response.data as Interview[]);
       } else {
@@ -34,7 +36,7 @@ const SavedInterviewExperiences = () => {
     };
 
     fetch();
-  }, [navigate]);
+  }, [navigate,userId]);
 
   if (isLoading) {
     return (
@@ -46,6 +48,7 @@ const SavedInterviewExperiences = () => {
 
   return (
     <div className="mb-12 w-full max-w-7xl pt-24 lg:pt-32">
+      {!isInterviewModalOpen && <SmoothScrollProvider />}
       <div className="flex flex-col gap-4 px-4 text-white font-mono">
         {/* Top title and search component  */}
         <div className="px-2 flex flex-col md:flex-row items-center gap-4 md:gap-0">

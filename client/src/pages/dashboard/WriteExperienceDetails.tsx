@@ -1,13 +1,19 @@
 import Card from "@/components/common/Card";
 import { Accordion } from "@/components/ui/accordion";
-import { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import WhiteButton from "@/components/common/WhiteButton";
-import { addRound } from "./utils";
 import InterviewRound from "./InterviewRound";
+import { useInterviewStore } from "@/store/interview";
 
-const WriteExperienceDetails = () => {
-  const [roundIds, setRoundIds] = useState<string[]>([]);
+const WriteExperienceDetails = ({
+  setComponentActive,
+}: {
+  setComponentActive: (x: number) => void;
+}) => {
+  const interviewRounds = useInterviewStore((state) => state.interviewRounds);
+  const addInterviewRound = useInterviewStore(
+    (state) => state.addInterviewRound
+  );
 
   return (
     <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md select-none">
@@ -19,16 +25,14 @@ const WriteExperienceDetails = () => {
 
         {/* round accordion  */}
         <div className="pt-4">
-          {roundIds.length > 0 ? (
+          {interviewRounds.length > 0 ? (
             <Accordion type="single" collapsible>
-              {roundIds.map((round, index) => {
+              {interviewRounds.map((round, index) => {
                 return (
                   <InterviewRound
-                    key={round}
-                    roundId={round}
-                    roundIds={roundIds}
+                    key={index}
+                    interviewRoundId={round.id}
                     roundNumber={index + 1}
-                    setRoundIds={setRoundIds}
                   />
                 );
               })}
@@ -40,7 +44,7 @@ const WriteExperienceDetails = () => {
           )}
           <div className="pt-8">
             <WhiteButton
-              onClick={() => addRound({ roundIds, setRoundIds })}
+              onClick={() => addInterviewRound()}
               text="Add Round"
               Icon={IoIosAddCircleOutline}
               className="bg-transparent text-neutral-400 hover:text-black"
@@ -50,7 +54,24 @@ const WriteExperienceDetails = () => {
 
         {/* publish button  */}
         <div className="pt-12 w-full flex justify-center">
-          <WhiteButton disabled={roundIds.length == 0} text="Share" className={`w-full max-w-lg text-xl ${roundIds.length > 0 ? 'bg-white' : 'bg-white/50 hover:bg-white/50'}`}/>
+          <div className="flex flex-row gap-8">
+            <WhiteButton
+              text="Previous Section"
+              onClick={()=>setComponentActive(1)}
+              className={`px-2 sm:px-4 py-1.5 text-xs sm:text-xl rounded-sm sm:rounded-lg`}
+            />
+
+            <WhiteButton
+              disabled={interviewRounds.length == 0}
+              onClick={()=>setComponentActive(3)}
+              text="Next Section"
+              className={`px-2 sm:px-4 py-1.5 text-xs sm:text-xl rounded-sm sm:rounded-lg ${
+                interviewRounds.length > 0
+                  ? "bg-white"
+                  : "bg-white/50 hover:bg-white/50"
+              }`}
+            />
+          </div>
         </div>
       </div>
     </Card>
