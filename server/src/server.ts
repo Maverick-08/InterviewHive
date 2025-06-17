@@ -12,14 +12,14 @@ import Interview from "./routes/route.Interview";
 const app = express();
 
 config();
-app.use(express.json());
-app.use(cookieParser());
 app.use(
   cors({
     origin: origins,
     credentials: isCredentialsAllowed,
   })
 );
+app.use(express.json());
+app.use(cookieParser());
 
 // Health check point
 app.use("/", Health);

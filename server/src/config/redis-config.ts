@@ -4,10 +4,9 @@ import dotenv from 'dotenv';
 dotenv.config(); 
 
 const redisClient = new Redis({
-  host: process.env.REDIS_HOST || '127.0.0.1', // Default to localhost if not set
-  port: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 6379, // Default port
-  password: process.env.REDIS_PASSWORD || undefined, // Only include if Redis requires a password
-  // Add any other Redis options if needed (e.g., enableTLS for SSL)
+  host: process.env.REDIS_HOST || '127.0.0.1',
+  port: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 6379,
+  password: process.env.REDIS_PASSWORD || undefined,
 });
 
 redisClient.on('connect', () => {
