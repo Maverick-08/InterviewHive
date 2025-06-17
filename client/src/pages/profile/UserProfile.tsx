@@ -9,15 +9,24 @@ import Loading from "@/components/common/Loading";
 import { fetchUserInterviews } from "./utils";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "@/store/userStore";
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
   const [isLoading,setIsLoading] = useState(true);
+  const userId = useUserStore(state => state.userId);
+  const username = useUserStore(state => state.username);
+  const degree = useUserStore(state => state.degree);
+  const branch = useUserStore(state => state.branch);
+  const yearOfPassingOut = useUserStore(state => state.yearOfPassingOut);
+  const xHandle = useUserStore(state => state.xHandle);
+  const linkedIn = useUserStore(state => state.linkedIn);
+  const avatar = useUserStore(state => state.avatar);
 
   useEffect(() => {
     const fetch = async () =>{
-      const response = await fetchUserInterviews('cmbup2vc10001w0vg1w5we495');
+      const response = await fetchUserInterviews(`${userId}`);
       if(response.success){
         setAllInterviews(response.data as Interview[]);
       }
@@ -34,7 +43,7 @@ const UserProfile = () => {
       setIsLoading(false);
     }
     fetch();
-  },[navigate])
+  },[navigate,userId])
 
   if (isLoading) {
     return (
@@ -56,7 +65,7 @@ const UserProfile = () => {
       </div> */}
         {/* image and user information  */}
         <div className="w-full flex justify-center">
-          <UserInfo />
+          <UserInfo username={username as string} degree={degree as string} branch={branch} yearOfPassingOut={yearOfPassingOut as number} xHandle={xHandle} linkedIn={linkedIn} avatar={avatar}/>
         </div>
 
         {/* shared interview experiences  */}
