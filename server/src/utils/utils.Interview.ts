@@ -195,7 +195,6 @@ export const createInterviewExperience = async (
 ) => {
   const result = await prisma.$transaction(async (tx) => {
     // 1. Create the Interview instance with nested operations for tags, rounds, and questions.
-    console.log(interviewData);
     const newInterview = await tx.interview.create({
       data: {
         companyName: interviewData.companyName.toUpperCase(),
