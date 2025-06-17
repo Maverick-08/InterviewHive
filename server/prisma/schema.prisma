@@ -9,83 +9,85 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  userId String @id @default(cuid())
-  email String @unique 
-  password String
-  username String
+  userId           String           @id @default(cuid())
+  email            String           @unique
+  password         String
+  username         String
   yearOfPassingOut Int
-  avatar String @default("Doodle")
-  courseId String
-  xHandle String?
-  linkedIn String?
-  createdAt DateTime @default(now())
-  interviews Interview[]
-  course_branch   Course  @relation(fields: [courseId], references: [courseId])
-  savedBy SavedInterview[]
+  avatar           String           @default("Doodle")
+  courseId         String
+  xHandle          String?
+  linkedIn         String?
+  createdAt        DateTime         @default(now())
+  interviews       Interview[]
+  course_branch    Course           @relation(fields: [courseId], references: [courseId])
+  savedBy          SavedInterview[]
 }
 
-model Course{
-  courseId String @id
+model Course {
+  courseId   String @id
   courseName String
   branchName String
-  user User[]
+  user       User[]
 }
 
-model Interview{
-  id String @id @default(cuid()) 
-  authorId String
-  companyName String
+model Interview {
+  id              String           @id @default(cuid())
+  authorId        String
+  companyName     String
   yearOfInterview Int
-  role String
-  CTCOffered Int?
+  role            String
+  CTCOffered      Int?
   interviewStatus String
-  createdAt DateTime @default(now())
+  createdAt       DateTime         @default(now())
   interviewRounds InterviewRound[]
-  tags InterviewTag[] @relation("InterviewToTag")
-  user User @relation(fields: [authorId],references: [userId])
-  saved SavedInterview[]
+  tags            InterviewTag[]   @relation("InterviewToTag")
+  user            User             @relation(fields: [authorId], references: [userId])
+  saved           SavedInterview[]
 }
 
-model InterviewRound{
-  id String @id @default(cuid())
+model InterviewRound {
+  id        String     @id @default(cuid())
   roundType String
-  note String?
+  note      String?
   questions Question[]
 
-  interviewId String 
+  interviewId String
   // When an Interview is deleted, cascade the deletion to its InterviewRounds
-  interview Interview @relation(fields: [interviewId],references: [id],onDelete: Cascade)
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
 }
 
-model Question{
-  id String @id @default(cuid())
-  title String
+model Question {
+  id          String  @id @default(cuid())
+  title       String
   description String?
-  link String?
+  link        String?
 
-  roundId String
-   // When an InterviewRound is deleted, cascade the deletion to its Questions
-  interviewRound InterviewRound @relation(fields: [roundId], references: [id],onDelete: Cascade)
+  roundId        String
+  // When an InterviewRound is deleted, cascade the deletion to its Questions
+  interviewRound InterviewRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
 }
 
-model InterviewTag{
-  tagId String @id @default(cuid())
-  tagName String @unique
-   // No onDelete: Cascade here for deleting the InterviewTag itself when Interview is deleted.
+model InterviewTag {
+  tagId      String      @id @default(cuid())
+  tagName    String      @unique
+  // No onDelete: Cascade here for deleting the InterviewTag itself when Interview is deleted.
   // Prisma handles the join table cleanup automatically.
-  interviews Interview [] @relation("InterviewToTag")
+  interviews Interview[] @relation("InterviewToTag")
 }
 
-model SavedInterview{
-  id String @id @default(cuid())
-  userId String
-  interviewId String 
-  interview Interview @relation(fields: [interviewId],references: [id])
-  user User @relation(fields: [userId], references: [userId])
-  @@unique([userId,interviewId])
+model SavedInterview {
+  id          String    @id @default(cuid())
+  userId      String
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id])
+  user        User      @relation(fields: [userId], references: [userId])
+
+  @@unique([userId, interviewId])
 }
