@@ -1,6 +1,5 @@
 import Card from "@/components/common/Card";
 import WhiteButton from "@/components/common/WhiteButton";
-import { BASE_URL } from "@/config";
 import { useInterviewStore } from "@/store/interview";
 import axios from "axios";
 import { useState } from "react";
@@ -8,6 +7,7 @@ import { toast } from "sonner";
 import { handleError } from "./utils";
 import { useNavigate } from "react-router-dom";
 import { ImSpinner8 } from "react-icons/im";
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT
 
 const list = [
   { tagName: "DSA" },

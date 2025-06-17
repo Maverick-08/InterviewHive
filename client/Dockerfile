@@ -1,5 +1,5 @@
 # Stage 1: Build the React app
-FROM node:slim AS build
+FROM node:22-alpine AS build
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the React app with 'serve'
-FROM node:slim
+FROM node:22-alpine
 
 WORKDIR /app
 
