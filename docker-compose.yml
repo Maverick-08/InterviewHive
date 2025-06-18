@@ -27,6 +27,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 80:80
+    env_file:
+      - "./client/.env"
     develop:
       watch:
         - action: sync+restart

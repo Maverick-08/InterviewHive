@@ -14,8 +14,14 @@ const app = express();
 config();
 app.use(
   cors({
-    origin: origins,
-    credentials: isCredentialsAllowed,
+    origin: (origin, callback) => {
+      // If no origin is provided (e.g., from Postman or curl), allow the request
+      if (!origin || origins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: isCredentialsAllowed, // For cookies and auth headers
   })
 );
 app.use(express.json());
