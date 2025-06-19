@@ -3,6 +3,7 @@ import { GoBookmarkFill } from "react-icons/go";
 import { RxLightningBolt } from "react-icons/rx";
 import { LuEye } from "react-icons/lu";
 import WhiteButton from "./WhiteButton";
+import { useSidebarStore } from "@/store/SidebarStore";
 
 const InterviewExperienceCard = ({
   companyName,
@@ -27,8 +28,9 @@ const InterviewExperienceCard = ({
   viewCount?: number;
   difficultyLevel?: string;
 }) => {
+  const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
   return (
-    <Card className="bg-[#171717] rounded-sm text-white px-4 py-4 max-w-lg border border-[#333333] font-sans">
+    <Card className={`bg-[#171717] rounded-sm text-white px-4 py-4 ${isSidebarActive ? 'w-full':'w-full lg:max-w-lg'}  border border-[#333333] font-sans`}>
         {/* companyName & Bookmark  */}
       <div className="flex justify-between items-center">
         <span className="text-3xl font-bold tracking-wide">{companyName}</span>

@@ -1,11 +1,20 @@
 import InterviewExperienceCard from "@/components/common/InterviewExperienceCard";
+import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/store/SidebarStore";
 import type { Interview } from "@/types";
 
 const ListInterviews = ({ interviewData }: { interviewData: Interview[] }) => {
-    const isSidebarActive = useSidebarStore(state => state.isSidebarActive);
+  const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
   return (
-    <div className={`grid grid-cols-1 ${isSidebarActive ? 'md:grid-cols-2' : 'md:grid-cols-3'}  gap-8 select-none`}>
+    <div
+      className={cn(
+        `grid  ${
+          isSidebarActive
+            ? "grid-cols-1"
+            : "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+        }  gap-8 select-none`
+      )}
+    >
       {interviewData.map((data) => {
         return (
           <InterviewExperienceCard
