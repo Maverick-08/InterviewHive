@@ -59,43 +59,43 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                     alt="Interview Hive Logo"
                     className="h-8 w-8"
                   />
-                  <span className="text-2xl font-semibold">Interview Hive</span>
+                  <span className="text-2xl">Interview Hive.</span>
                 </div>
 
                 {/* central container */}
                 <div className="h-full border-t border-white/20 pt-4">
                   <div className="h-full flex flex-col justify-between">
-                    <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-4 ">
                       {/* dashboard  */}
-                      <div className="flex items-center gap-4">
-                        <RiDashboardFill className="size-6" />
-                        <span className="text-2xl">Dashboard</span>
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                        <RiDashboardFill className="size-4" />
+                        <span className="text-xl">Dashboard</span>
                       </div>
                       {/* bookmark  */}
-                      <div className="flex items-center gap-4">
-                        <FaBookmark className="size-6" />
-                        <span className="text-2xl">Bookmark</span>
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                        <FaBookmark className="size-4" />
+                        <span className="text-xl">Bookmark</span>
                       </div>
                       {/* chat  */}
-                      <div className="flex items-center gap-4">
-                        <IoIosChatboxes className="size-6" />
-                        <span className="text-2xl">Connect</span>
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                        <IoIosChatboxes className="size-4" />
+                        <span className="text-xl">Connect</span>
                       </div>
                       {/* add  */}
-                      <div className="flex items-center gap-4">
-                        <MdLibraryAdd className="size-6" />
-                        <span className="text-2xl">Share</span>
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                        <MdLibraryAdd className="size-4" />
+                        <span className="text-xl">Share</span>
                       </div>
                       {/* practice  */}
-                      <div className="flex items-center gap-4">
-                        <FaMicrophone className="size-6" />
-                        <span className="text-2xl">Prepare</span>
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                        <FaMicrophone className="size-4" />
+                        <span className="text-xl">Prepare</span>
                       </div>
                     </div>
                     <div>
-                      <div className="flex items-center gap-4">
-                        <IoPersonSharp className="size-6" />
-                        <span className="text-2xl">Profile</span>
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                        <IoPersonSharp className="size-4" />
+                        <span className="text-xl">Profile</span>
                       </div>
                     </div>
                   </div>
@@ -107,7 +107,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
         {/* Main content */}
         <div
-          className={`pt-4 transition-all duration-500 ease-in-out flex-1`}
+          className={`sm:pt-4 transition-all duration-500 ease-in-out flex-1`}
         >
           <div className="h-full rounded-xl bg-[#0A0A0A]">
             <div className="h-full overflow-scroll">

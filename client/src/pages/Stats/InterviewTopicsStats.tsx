@@ -6,14 +6,18 @@ import { LuNetwork } from "react-icons/lu";
 import { FiDatabase } from "react-icons/fi";
 import { GoGitPullRequestClosed } from "react-icons/go";
 import { GrCopy } from "react-icons/gr";
+import { IoIosTrendingUp } from "react-icons/io";
+
 
 const InterviewTopicsStats = () => {
   return (
       <Card className="bg-[#171717] border border-[#333333] text-white p-4">
         <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-4">
-            <p className="text-4xl">🔥&nbsp;Trending Topics</p>
-            <p className="text-neutral-400">Most companies ask from these core topics.</p>
+          <div className="flex flex-col gap-2">
+            <p className="text-xl sm:text-4xl flex items-center gap-3">
+              <IoIosTrendingUp className="size-6 sm:size-7 " />
+              Trending Topics</p>
+            <p className="text-sm sm:text-md text-neutral-400">Most discussed subjects this week.</p>
           </div>
           <div className="flex flex-wrap gap-4 px-4">
             <StatsCard
