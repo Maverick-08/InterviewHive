@@ -1,5 +1,3 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Topbar from "./Topbar";
 import Logo from "../../assets/logo.png";
@@ -9,6 +7,7 @@ import { MdLibraryAdd } from "react-icons/md";
 import { IoIosChatboxes } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
+import { useSidebarStore } from "@/store/SidebarStore";
 
 const sidebarVariants = {
   open: {
@@ -31,7 +30,8 @@ const contentVariants = {
 };
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const [isSideBarOpen, setIsSidebarOpen] = useState(false);
+  const isSidebarActive = useSidebarStore(state => state.isSidebarActive);
+  const toggleSidebar = useSidebarStore(state => state.toggleSidebar);
 
   return (
     <div className="w-full h-full bg-[#171717] text-white font-mono">
@@ -41,10 +41,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           className="h-full overflow-hidden"
           variants={sidebarVariants}
           initial={false}
-          animate={isSideBarOpen ? "open" : "closed"}
+          animate={isSidebarActive ? "open" : "closed"}
         >
           <AnimatePresence>
-            {isSideBarOpen && (
+            {isSidebarActive && (
               <motion.div
                 className="h-full flex flex-col p-4 pt-10"
                 initial="hidden"
@@ -59,47 +59,44 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                     alt="Interview Hive Logo"
                     className="h-8 w-8"
                   />
-                  <span className="text-2xl font-semibold">
-                    Interview Hive.
-                  </span>
+                  <span className="text-2xl font-semibold">Interview Hive</span>
                 </div>
 
                 {/* central container */}
                 <div className="h-full border-t border-white/20 pt-4">
                   <div className="h-full flex flex-col justify-between">
                     <div className="flex flex-col gap-8">
-                        {/* dashboard  */}
-                        <div className="flex items-center gap-4">
-                            <RiDashboardFill className="size-6" />
-                            <span className="text-2xl">Dashboard</span>
-                        </div>
-                        {/* bookmark  */}
-                        <div className="flex items-center gap-4">
-                            <FaBookmark className="size-6" />
-                            <span className="text-2xl">Bookmark</span>
-                        </div>
-                        {/* chat  */}
-                        <div className="flex items-center gap-4">
-                            <IoIosChatboxes className="size-6" />
-                            <span className="text-2xl">Connect</span>
-                        </div>
-                        {/* add  */}
-                        <div className="flex items-center gap-4">
-                            <MdLibraryAdd className="size-6" />
-                            <span className="text-2xl">Share</span>
-                        </div>
-                        {/* practice  */}
-                        <div className="flex items-center gap-4">
-                            <FaMicrophone className="size-6" />
-                            <span className="text-2xl">Prepare</span>
-                        </div>
-                        
+                      {/* dashboard  */}
+                      <div className="flex items-center gap-4">
+                        <RiDashboardFill className="size-6" />
+                        <span className="text-2xl">Dashboard</span>
+                      </div>
+                      {/* bookmark  */}
+                      <div className="flex items-center gap-4">
+                        <FaBookmark className="size-6" />
+                        <span className="text-2xl">Bookmark</span>
+                      </div>
+                      {/* chat  */}
+                      <div className="flex items-center gap-4">
+                        <IoIosChatboxes className="size-6" />
+                        <span className="text-2xl">Connect</span>
+                      </div>
+                      {/* add  */}
+                      <div className="flex items-center gap-4">
+                        <MdLibraryAdd className="size-6" />
+                        <span className="text-2xl">Share</span>
+                      </div>
+                      {/* practice  */}
+                      <div className="flex items-center gap-4">
+                        <FaMicrophone className="size-6" />
+                        <span className="text-2xl">Prepare</span>
+                      </div>
                     </div>
                     <div>
-                        <div className="flex items-center gap-4">
-                            <IoPersonSharp className="size-6" />
-                            <span className="text-2xl">Profile</span>
-                        </div>
+                      <div className="flex items-center gap-4">
+                        <IoPersonSharp className="size-6" />
+                        <span className="text-2xl">Profile</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -109,22 +106,19 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         </motion.div>
 
         {/* Main content */}
-        <motion.div
-          className={`pt-4 transition-all duration-500 ease-in-out`}
-          style={{
-            flex: isSideBarOpen ? "1 " : "1",
-          }}
+        <div
+          className={`pt-4 transition-all duration-500 ease-in-out flex-1`}
         >
           <div className="h-full rounded-xl bg-[#0A0A0A]">
-            <ScrollArea className="h-full">
+            <div className="h-full overflow-scroll">
               <Topbar
-                isSideBarOpen={isSideBarOpen}
-                setIsSidebarOpen={setIsSidebarOpen}
+                isSideBarOpen={isSidebarActive}
+                setIsSidebarOpen={toggleSidebar}
               />
-              <div className="px-4">{children}</div>
-            </ScrollArea>
+              <div className="px-4 pb-8">{children}</div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
