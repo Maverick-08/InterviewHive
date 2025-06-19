@@ -3,6 +3,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Topbar from "./Topbar";
 import Logo from "../../assets/logo.png";
+import { RiDashboardFill } from "react-icons/ri";
+import { FaBookmark } from "react-icons/fa6";
+import { MdLibraryAdd } from "react-icons/md";
+import { IoIosChatboxes } from "react-icons/io";
+import { FaMicrophone } from "react-icons/fa";
+import { IoPersonSharp } from "react-icons/io5";
 
 const sidebarVariants = {
   open: {
@@ -58,11 +64,44 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   </span>
                 </div>
 
-                {/* Bottom or additional content */}
-                <div className="border-t border-white/20 pt-4">
-                  <p className="text-sm text-gray-400">
-                    Sidebar content here...
-                  </p>
+                {/* central container */}
+                <div className="h-full border-t border-white/20 pt-4">
+                  <div className="h-full flex flex-col justify-between">
+                    <div className="flex flex-col gap-8">
+                        {/* dashboard  */}
+                        <div className="flex items-center gap-4">
+                            <RiDashboardFill className="size-6" />
+                            <span className="text-2xl">Dashboard</span>
+                        </div>
+                        {/* bookmark  */}
+                        <div className="flex items-center gap-4">
+                            <FaBookmark className="size-6" />
+                            <span className="text-2xl">Bookmark</span>
+                        </div>
+                        {/* chat  */}
+                        <div className="flex items-center gap-4">
+                            <IoIosChatboxes className="size-6" />
+                            <span className="text-2xl">Connect</span>
+                        </div>
+                        {/* add  */}
+                        <div className="flex items-center gap-4">
+                            <MdLibraryAdd className="size-6" />
+                            <span className="text-2xl">Share</span>
+                        </div>
+                        {/* practice  */}
+                        <div className="flex items-center gap-4">
+                            <FaMicrophone className="size-6" />
+                            <span className="text-2xl">Prepare</span>
+                        </div>
+                        
+                    </div>
+                    <div>
+                        <div className="flex items-center gap-4">
+                            <IoPersonSharp className="size-6" />
+                            <span className="text-2xl">Profile</span>
+                        </div>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
