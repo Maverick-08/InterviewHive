@@ -4,10 +4,11 @@ import type {
   AddRoundQuestion,
   DeleteRoundQuestion,
   FetchInterviews,
+  FetchInterviewTags,
 } from "@/types";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
-const BASE_URL = import.meta.env.VITE_API_ENDPOINT
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT;
 
 export const addRound = ({ roundIds, setRoundIds }: AddRound) => {
   const newRoundId = "" + uuid();
@@ -145,19 +146,40 @@ export const fetchInterviews = async (
   }
 };
 
-export const fetchSavedInterviews = async (userId:string):Promise<FetchInterviews> =>{
-  try{
-    const response = await axios.get(`${BASE_URL}/api/interview/user/save?userId=${userId}`,{withCredentials:true});
+export const fetchSavedInterviews = async (
+  userId: string
+): Promise<FetchInterviews> => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/interview/user/save?userId=${userId}`,
+      { withCredentials: true }
+    );
 
     return {
-      success:true,
-      isAuthenticated:true,
-      isServerDown:false,
-      data:response.data.data,
-      totalCount:response.data.totalCount
-    }
-  }
-  catch(err){
+      success: true,
+      isAuthenticated: true,
+      isServerDown: false,
+      data: response.data.data,
+      totalCount: response.data.totalCount,
+    };
+  } catch (err) {
     return handleError(err);
   }
-}
+};
+
+export const fetchInterviewTags = async ():Promise<FetchInterviewTags> => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/interview/tags`, {
+      withCredentials: true,
+    });
+
+    return {
+      success: true,
+      isAuthenticated: true,
+      isServerDown: false,
+      data: response.data.data,
+    };
+  } catch (err) {
+    return handleError(err);
+  }
+};

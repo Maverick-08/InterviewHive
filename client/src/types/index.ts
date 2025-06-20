@@ -75,3 +75,7 @@ export interface FetchUserInterviews extends API {
     data?:Interview[];
     showEditOptions?:boolean;
 }
+
+export interface FetchInterviewTags extends API {
+    data?:{tagId:string;tagName:string}[]
+}
