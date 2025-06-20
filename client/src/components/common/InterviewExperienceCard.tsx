@@ -30,13 +30,14 @@ const InterviewExperienceCard = ({
 }) => {
   const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
   return (
-    <Card className={`bg-[#171717] rounded-sm text-white px-4 py-4 ${isSidebarActive ? 'w-full':'w-full lg:max-w-lg'}  border border-[#333333] font-sans`}>
+    <Card className={`bg-[#171717] rounded-sm text-white p-6 ${isSidebarActive ? 'w-full':'w-full lg:max-w-lg'}  border border-[#333333] font-sans`}>
         {/* companyName & Bookmark  */}
       <div className="flex justify-between items-center">
-        <span className="text-3xl font-bold tracking-wide">{companyName}</span>
-        <GoBookmarkFill className="size-4" />
+        <span className="text-3xl font-mono tracking-wide">{companyName}</span>
+        <GoBookmarkFill className="size-5" />
       </div>
 
+      
       {/* offere details  */}
       <div className="flex flex-col gap-4 font-mono">
         {/* candidate name  */}

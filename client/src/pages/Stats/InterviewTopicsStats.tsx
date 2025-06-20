@@ -11,7 +11,7 @@ import { IoIosTrendingUp } from "react-icons/io";
 
 const InterviewTopicsStats = () => {
   return (
-      <Card className="bg-[#171717] border border-[#333333] text-white p-4">
+      <Card className="bg-[#171717] border border-[#333333] text-white p-4 select-none">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <p className="text-xl sm:text-4xl flex items-center gap-3">
@@ -26,7 +26,6 @@ const InterviewTopicsStats = () => {
               totalCount="Opearting System"
               tagline="214 Interviews"
               topicPercentage="56"
-              tooltipDescription="OS has been most frequently asked."
             />
             <StatsCard
               Icon={FaCode}
@@ -34,7 +33,6 @@ const InterviewTopicsStats = () => {
               totalCount="DSA"
               tagline="980 Interviews"
               topicPercentage="92"
-              tooltipDescription="OS has been most frequently asked."
             />
             <StatsCard
               Icon={LuNetwork}
@@ -42,7 +40,6 @@ const InterviewTopicsStats = () => {
               totalCount="Computer Networks"
               tagline="214 Interviews"
               topicPercentage="48"
-              tooltipDescription="OS has been most frequently asked."
             />
             <StatsCard
               Icon={FiDatabase}
@@ -50,7 +47,6 @@ const InterviewTopicsStats = () => {
               totalCount="DBMS"
               tagline="214 Interviews"
               topicPercentage="88"
-              tooltipDescription="OS has been most frequently asked."
             />
             <StatsCard
               Icon={GoGitPullRequestClosed}
@@ -58,7 +54,6 @@ const InterviewTopicsStats = () => {
               totalCount="Machine Learning"
               tagline="214 Interviews"
               topicPercentage="15"
-              tooltipDescription="OS has been most frequently asked."
             />
             <StatsCard
               Icon={GrCopy}
@@ -66,7 +61,6 @@ const InterviewTopicsStats = () => {
               totalCount="System Design"
               tagline="214 Interviews"
               topicPercentage="12"
-              tooltipDescription="OS has been most frequently asked."
             />
           </div>
         </div>

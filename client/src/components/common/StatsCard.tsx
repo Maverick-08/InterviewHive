@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
 import type { IconType } from "react-icons";
-import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
-import { TooltipTrigger } from "@radix-ui/react-tooltip";
+import { motion } from "framer-motion";
 
 const StatsCard = ({
   cardStyle,
@@ -10,7 +9,6 @@ const StatsCard = ({
   growthPercentage,
   totalCount,
   tagline,
-  tooltipDescription,
   iconContainerStyle,
   topicPercentage,
 }: {
@@ -19,47 +17,46 @@ const StatsCard = ({
   growthPercentage: number;
   totalCount: string;
   tagline: string;
-  tooltipDescription: string;
   iconContainerStyle?: string;
   topicPercentage?: string;
 }) => {
-
   return (
-    <Card
-      className={cn(
-        `bg-[#171717] rounded-sm text-white px-4 py-4 w-xs border border-[#333333] ${cardStyle}`
-      )}
+    <motion.div
+      className="hover:bg-gray-900/70 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-neutral-500/15 group"
     >
-      <Tooltip>
-        <TooltipTrigger className="flex flex-col gap-4">
-          <div className="flex justify-between items-center">
-            <div className={cn(`text-zinc-400 ${iconContainerStyle}`)}>
-              <Icon className="h-6 w-6 " />
+      <Card
+        className={cn(
+          `bg-[#171717] rounded-sm text-white group-hover:text-blue-400 transition-all px-4 py-4 w-xs border border-[#333333] ${cardStyle}`
+        )}
+      >
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between items-center">
+              <div className={cn(`text-zinc-400 group-hover:text-white transition-all ${iconContainerStyle}`)}>
+                <Icon className="h-6 w-6 " />
+              </div>
+              <div className="text-green-500">+{growthPercentage}%</div>
             </div>
-            <div className="text-green-500">+{growthPercentage}%</div>
+            <div className="text-left text-2xl">{totalCount}</div>
+            <div className="flex justify-between items-center text-neutral-400">
+              <span className="group-hover:text-neutral-300 transition-all">{tagline}</span>
+              {topicPercentage && <span>{topicPercentage}</span>}
+            </div>
+
+            {topicPercentage && (
+              <div className="w-full rounded-lg bg-neutral-500">
+                <div
+                  className="h-1 rounded-lg bg-yellow-500"
+                  style={{
+                    width: topicPercentage
+                      ? `${parseFloat(topicPercentage)}%`
+                      : "0%",
+                  }}
+                ></div>
+              </div>
+            )}
           </div>
-          <div className="text-left text-2xl">{totalCount}</div>
-          <div className="flex justify-between items-center text-neutral-400">
-            <span>{tagline}</span>
-            {topicPercentage && <span>{topicPercentage}</span>}
-          </div>
-    
-         { topicPercentage && <div className="w-full rounded-lg bg-neutral-500">
-            <div
-              className="h-1 rounded-lg bg-yellow-500"
-              style={{
-              width: topicPercentage
-                ? `${parseFloat(topicPercentage)}%`
-                : "0%",
-              }}
-            ></div>
-          </div>}
-        </TooltipTrigger>
-        <TooltipContent>
-          <div>{tooltipDescription}</div>
-        </TooltipContent>
-      </Tooltip>
-    </Card>
+      </Card>
+    </motion.div>
   );
 };
 
