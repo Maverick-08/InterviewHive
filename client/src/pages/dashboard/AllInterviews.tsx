@@ -2,7 +2,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Loading from "@/components/common/Loading";
-import { fetchInterviews, fetchInterviewTags } from "../dashboard/utils";
+import { fetchInterviews, fetchInterviewTags } from "./utils";
 import { useEffect, useState } from "react";
 import type { Interview } from "@/types";
 import NoInterviewsAvailableCard from "@/components/common/NoInterviewsAvailableCard";

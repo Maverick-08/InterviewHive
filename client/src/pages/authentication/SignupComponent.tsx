@@ -40,7 +40,7 @@ const SignupComponent = () => {
           description: "Navigating to Dashboard.",
         });
         setTimeout(() => {
-          navigate("/interview/dashboard");
+          navigate("/dashboard");
         }, 2000);
       } else {
         toast.error(<p className="text-lg font-mono">{response.data}</p>);

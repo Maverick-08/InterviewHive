@@ -97,7 +97,7 @@ const InterviewTag = ({
               return (
                 <span
                   onClick={() => addInterviewTag(tag)}
-                  className="px-2 py-1 rounded-md border-amber-600 bg-yellow-500/70 text-black font-bold"
+                  className="px-2 py-1 rounded-md border-amber-600 bg-yellow-500/70 hover:bg-yellow-500/80 cursor-pointer text-black font-bold"
                 >
                   {tag.tagName}
                 </span>
@@ -105,7 +105,7 @@ const InterviewTag = ({
             })}
           </div>
 
-          <div>
+          <div className="flex flex-col gap-2">
             <p>Selected tags</p>
             <div className="flex flex-wrap gap-4">
               {selectedTags.map((tag) => {

@@ -1,35 +1,24 @@
-import DashboardLayout from "@/layout/DashboardLayout";
 import Login from "@/pages/authentication/Login";
 import Registration from "@/pages/authentication/Registration";
-import Chat from "@/pages/connect/Chat";
-import ReadInterviewExperience from "@/pages/dashboard/ReadInterviewExperience";
-import SavedInterviewExperiences from "@/pages/dashboard/SavedInterviewExperiences";
 import ShareInterviewExperience from "@/pages/dashboard/ShareInterviewExperience";
-import BookmarkedInterviews from "@/pages/dashboardv2/BookmarkedInterviews";
-import Dashboard from "@/pages/dashboardv2/Dashboard";
+import BookmarkedInterviews from "@/pages/dashboard/BookmarkedInterviews";
+import Dashboard from "@/pages/dashboard/Dashboard";
 import Landing from "@/pages/landing/Landing";
-import MockInterview from "@/pages/mockInterview/MockInterview";
 import Profile from "@/pages/profile/Profile";
-import {Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Landing />}/>
-      <Route path="/login" element={<Login />}/>
-      <Route path="/register" element={<Registration />}/>
-      <Route element={<DashboardLayout />}>
-        <Route path="/interview/dashboard" element={<ReadInterviewExperience />}/>
-        <Route path="/interview/add" element={<ShareInterviewExperience />}/>
-        <Route path="/interview/save" element={<SavedInterviewExperiences />}/>
-        <Route path="/interview/practice" element={<MockInterview />}/>
-        <Route path="/connect" element={<Chat />}/>
-        <Route path="/profile/*" element={<Profile />}/>
-      </Route>
-        <Route path="/dashboard" element={<Dashboard />}/>
-        <Route path="/bookmark" element={<BookmarkedInterviews />}/>
+      <Route path="/" element={<Landing />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Registration />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/bookmark" element={<BookmarkedInterviews />} />
+      <Route path="/share" element={<ShareInterviewExperience />} />
+      <Route path="/profile/*" element={<Profile />} />
     </Routes>
-  )
-}
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DashboardLayout from "./DashboardLayout";
 import type { Interview } from "@/types";
 import { toast } from "sonner";
-import { fetchInterviewTags, fetchSavedInterviews } from "../dashboard/utils";
+import { fetchInterviewTags, fetchSavedInterviews } from "./utils";
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,

@@ -57,9 +57,9 @@ const DashboardLayout = ({ children, componentTitle }: { children: React.ReactNo
                   <img
                     src={Logo}
                     alt="Interview Hive Logo"
-                    className="h-8 w-8"
+                    className="h-6 xl:h-8 w-6 xl:w-8"
                   />
-                  <span className="text-2xl">Interview Hive.</span>
+                  <span className="text-xl xl:text-2xl pb-1 xl:pb-0">Interview Hive.</span>
                 </div>
 
                 {/* central container */}

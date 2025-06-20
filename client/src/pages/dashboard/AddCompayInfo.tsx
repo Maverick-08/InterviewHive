@@ -6,7 +6,6 @@ import { LiaToolsSolid } from "react-icons/lia";
 import { MdCurrencyRupee } from "react-icons/md";
 import { LuNotepadText } from "react-icons/lu";
 import WhiteButton from "@/components/common/WhiteButton";
-import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useInterviewStore } from "@/store/interview";
@@ -101,13 +100,12 @@ const AddCompanyInfo = ({
 
   return (
     <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md">
-      <SmoothScrollProvider />
       <div>
         <h3 className="text-xl sm:text-2xl md:text-4xl">
           Add Interview Experience
         </h3>
         <div className="pt-8 flex flex-col gap-8">
-          <div className="w-full flex flex-col md:flex-row gap-8 md:gap-4">
+          <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-4">
             <InputComponent
               title="Enter Company Name"
               value={companyName}

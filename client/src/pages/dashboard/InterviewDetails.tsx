@@ -5,7 +5,7 @@ import WhiteButton from "@/components/common/WhiteButton";
 import InterviewRound from "./InterviewRound";
 import { useInterviewStore } from "@/store/interview";
 
-const WriteExperienceDetails = ({
+const InterviewDetails = ({
   setComponentActive,
 }: {
   setComponentActive: (x: number) => void;
@@ -78,4 +78,4 @@ const WriteExperienceDetails = ({
   );
 };
 
-export default WriteExperienceDetails;
+export default InterviewDetails;
