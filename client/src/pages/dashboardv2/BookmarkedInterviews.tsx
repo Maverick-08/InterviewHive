@@ -173,7 +173,7 @@ const BookmarkedInterviews = () => {
         </div>
 
         {/* Stats  */}
-        <div className="w-full flex flex-wrap justify-around items-center">
+        <div className="w-full flex flex-wrap justify-between gap-8 px-4">
           <BookmarkCards
             title="Total Bookmarks"
             value={`${totalCount}`}
