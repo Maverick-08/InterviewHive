@@ -1,5 +1,5 @@
-import SidebarIcon from "../../assets/sidebarIcon.png";
-import { MdKeyboardArrowRight } from "react-icons/md";
+// import { MdKeyboardArrowRight } from "react-icons/md";
+import { BsLayoutSidebar } from "react-icons/bs";
 
 const Topbar = ({
   isSideBarOpen,
@@ -9,19 +9,12 @@ const Topbar = ({
   setIsSidebarOpen: (x: boolean) => void;
 }) => {
   return (
-    <div className="flex items-center gap-4 px-4 py-6 text-white border-b">
-      <div className="px-4 border-r">
-        <img
-          onClick={() => setIsSidebarOpen(!isSideBarOpen)}
-          src={SidebarIcon}
-          alt=""
-          className="h-6 w-6 cursor-pointer"
-        />
+    <div className="flex items-center gap-4 px-4 py-6 text-white border-b border-white/30">
+      <div className="px-2 ">
+        <BsLayoutSidebar onClick={() => setIsSidebarOpen(!isSideBarOpen)} className="text-blue-500 size-5" />
       </div>
-      <div className="flex items-center gap-4">
-        <div>Interview Hive</div>
-        <MdKeyboardArrowRight className="h-6 w-6" />
-        <div>Dashboard</div>
+      <div className="px-4 border-l md:flex items-center gap-4">
+        <div className="font-semibold text-lg">Dashboard</div>
       </div>
     </div>
   );
