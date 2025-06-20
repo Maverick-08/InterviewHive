@@ -6,7 +6,7 @@ import DashboardLayout from "./DashboardLayout";
 const Dashboard = () => {
 
   return (
-    <DashboardLayout>
+    <DashboardLayout componentTitle={"Dashboard"}>
       <div className="flex flex-col gap-8">
         <OverallStats />
         <InterviewTopicsStats />

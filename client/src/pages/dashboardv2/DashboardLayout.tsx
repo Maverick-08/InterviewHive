@@ -29,7 +29,7 @@ const contentVariants = {
   },
 };
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = ({ children, componentTitle }: { children: React.ReactNode; componentTitle:string }) => {
   const isSidebarActive = useSidebarStore(state => state.isSidebarActive);
   const toggleSidebar = useSidebarStore(state => state.toggleSidebar);
 
@@ -114,6 +114,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Topbar
                 isSideBarOpen={isSidebarActive}
                 setIsSidebarOpen={toggleSidebar}
+                componentTitle={componentTitle}
               />
               <div className="px-4 pb-8">{children}</div>
             </div>
