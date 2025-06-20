@@ -147,11 +147,13 @@ export const fetchInterviews = async (
 };
 
 export const fetchSavedInterviews = async (
-  userId: string
+  userId: string,
+  page: number,
+  limit: number
 ): Promise<FetchInterviews> => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/api/interview/user/save?userId=${userId}`,
+      `${BASE_URL}/api/interview/user/save?userId=${userId}&page=${page}&limit=${limit}`,
       { withCredentials: true }
     );
 

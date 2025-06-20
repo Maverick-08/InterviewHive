@@ -5,6 +5,7 @@ import Chat from "@/pages/connect/Chat";
 import ReadInterviewExperience from "@/pages/dashboard/ReadInterviewExperience";
 import SavedInterviewExperiences from "@/pages/dashboard/SavedInterviewExperiences";
 import ShareInterviewExperience from "@/pages/dashboard/ShareInterviewExperience";
+import BookmarkedInterviews from "@/pages/dashboardv2/BookmarkedInterviews";
 import Dashboard from "@/pages/dashboardv2/Dashboard";
 import Landing from "@/pages/landing/Landing";
 import MockInterview from "@/pages/mockInterview/MockInterview";
@@ -26,6 +27,7 @@ const AppRoutes = () => {
         <Route path="/profile/*" element={<Profile />}/>
       </Route>
         <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/bookmark" element={<BookmarkedInterviews />}/>
     </Routes>
   )
 }

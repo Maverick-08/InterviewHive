@@ -48,8 +48,8 @@ export class Interview {
     return await fetchInterviewsSharedByUser(userId);
   }
 
-  public static async geSavedInterviewExperience(userId: string) {
-    return await fetchSavedInterviewExperience(userId);
+  public static async geSavedInterviewExperience(userId: string,page:number,limit:number) {
+    return await fetchSavedInterviewExperience(userId,page,limit);
   }
 
   public static async getInterviewById(interviewId: string) {

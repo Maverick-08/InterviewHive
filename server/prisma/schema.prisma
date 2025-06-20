@@ -86,8 +86,9 @@ model SavedInterview {
   id          String    @id @default(cuid())
   userId      String
   interviewId String
-  interview   Interview @relation(fields: [interviewId], references: [id])
+  interview   Interview @relation(fields: [interviewId], references: [id],onDelete: Cascade)
   user        User      @relation(fields: [userId], references: [userId])
+  savedAt DateTime @default(now())
 
   @@unique([userId, interviewId])
 }

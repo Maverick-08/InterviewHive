@@ -129,7 +129,7 @@ export const fetchInterviewsSharedByUser = async (userId: string) => {
   return response;
 };
 
-export const fetchSavedInterviewExperience = async (userId: string) => {
+export const fetchSavedInterviewExperience = async (userId: string,page:number=1,limit:number=10) => {
   const savedInterviewIdsArray = await prisma.savedInterview.findMany({
     where: {
       userId,
@@ -137,6 +137,11 @@ export const fetchSavedInterviewExperience = async (userId: string) => {
     select: {
       interviewId: true,
     },
+    skip: (page - 1)*limit,
+    take:limit,
+    orderBy:{
+      savedAt: 'desc'
+    }
   });
 
   let savedExperiences = [];
@@ -166,9 +171,7 @@ export const fetchSavedInterviewExperience = async (userId: string) => {
     savedExperiences.push(response);
   }
 
-  const totalCount = await prisma.savedInterview.count({
-    where: { userId },
-  });
+  const totalCount = savedExperiences.length;
   return { data: savedExperiences, totalCount };
 };
 

@@ -9,14 +9,19 @@ export const getSavedInterviewsController = async (
   res: Response
 ) => {
   try {
-    const { userId } = req.query as unknown as { userId: string };
+    const { userId,page, limit } = req.query as unknown as { userId: string;page:string;limit:string };
 
-    if (!userId) {
+    if (!userId || !page || !limit) {
       res.status(code.BadRequest).json({ msg: "Invalid query parameters." });
       return;
     }
 
-    const result = await Interview.geSavedInterviewExperience(userId);
+    if(Number.isNaN(page) || Number.isNaN(limit)){
+      res.status(code.BadRequest).json({ msg: "Invalid query parameters." });
+      return;
+    }
+
+    const result = await Interview.geSavedInterviewExperience(userId,parseInt(page),parseInt(limit));
 
     res
       .status(code.Success)
