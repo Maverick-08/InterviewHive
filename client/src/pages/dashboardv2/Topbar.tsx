@@ -11,7 +11,7 @@ const Topbar = ({
   componentTitle:string
 }) => {
   return (
-    <div className="flex items-center gap-4 px-4 py-6 text-white border-b border-white/30">
+    <div className="flex items-center gap-4 px-4 py-4 text-white border-b border-white/30">
       <div className="px-2 ">
         <BsLayoutSidebar onClick={() => setIsSidebarOpen(!isSideBarOpen)} className="text-blue-500 size-5" />
       </div>

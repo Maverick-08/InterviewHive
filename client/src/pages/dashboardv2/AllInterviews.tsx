@@ -111,9 +111,9 @@ const AllInterviews = () => {
   }, [page, debouncedValue, selectedTags, navigate]);
 
   return (
-    <div className="flex flex-col  gap-8">
+    <div className="mt-8 flex flex-col gap-4">
       {/* title + search bar + filter  */}
-      <div className="px-4 flex justify-between items-center">
+      <div className="p-4 flex justify-between items-center rounded-md border-t border-white/10">
         {/* title  */}
         <div className="text-4xl">All Interviews</div>
 
