@@ -8,8 +8,12 @@ import { deleteInterviewByIdController } from "../controllers/controller.intervi
 import { updateInterviewExperienceController } from "../controllers/controller.interview.updateInterviewExperience";
 import { getSavedInterviewsController } from "../controllers/controller.interview.getSavedInterviews";
 import { saveInterviewController } from "../controllers/controller.save.saveInterview";
+import { getInterviewTags } from "../controllers/controller.interview.interviewTags";
 
 const router = Router();
+
+// get all interview tags
+router.route("/tags").get(getInterviewTags)
 
 // get all interviews or interviews filtered by company name
 router.route("/").get(getAllInterviewsController);
