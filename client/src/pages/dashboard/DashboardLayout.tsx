@@ -34,7 +34,7 @@ const DashboardLayout = ({ children, componentTitle }: { children: React.ReactNo
   const toggleSidebar = useSidebarStore(state => state.toggleSidebar);
 
   return (
-    <div className="w-full h-full bg-[#171717] text-white font-mono">
+    <div className="w-full h-full bg-[#171717] text-white font-mono select-none">
       <div className="h-screen flex overflow-hidden">
         {/* Sidebar */}
         <motion.div
@@ -67,35 +67,35 @@ const DashboardLayout = ({ children, componentTitle }: { children: React.ReactNo
                   <div className="h-full flex flex-col justify-between">
                     <div className="flex flex-col gap-4 ">
                       {/* dashboard  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <RiDashboardFill className="size-4" />
                         <span className="text-xl">Dashboard</span>
                       </div>
                       {/* bookmark  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <FaBookmark className="size-4" />
                         <span className="text-xl">Bookmark</span>
                       </div>
                       {/* chat  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <IoIosChatboxes className="size-4" />
                         <span className="text-xl">Connect</span>
                       </div>
                       {/* add  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <MdLibraryAdd className="size-4" />
                         <span className="text-xl">Share</span>
                       </div>
                       {/* practice  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <FaMicrophone className="size-4" />
                         <span className="text-xl">Prepare</span>
                       </div>
                     </div>
                     <div>
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-100 flex items-center gap-4 rounded-md hover:bg-white/10">
+                      <div className="p-2 border border-neutral-600 hover:border-neutral-700 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10 ">
                         <IoPersonSharp className="size-4" />
-                        <span className="text-xl">Profile</span>
+                        <div className="text-end text-xl">Vivek Ojha</div>
                       </div>
                     </div>
                   </div>

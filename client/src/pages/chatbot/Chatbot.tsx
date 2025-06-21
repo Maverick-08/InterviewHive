@@ -14,9 +14,9 @@ const Chatbot = () => {
     <div>
       <div
         onClick={toggle}
-        className="absolute bottom-8 right-8 p-4 rounded-full cursor-pointer bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/40 hover:scale-110 transition-all duration-300"
+        className="flex items-center absolute bottom-8 right-8 p-2 rounded-full cursor-pointer bg-yellow-500 text-black hover:scale-110 transition-all duration-300"
       >
-        <BsChatRightText className="h-8 w-8" />
+        <BsChatRightText className="size-8" />
       </div>
       {isChatboxOpen && <ChatWindow closeChatWindow={setIsChatboxOpen}/>}
     </div>

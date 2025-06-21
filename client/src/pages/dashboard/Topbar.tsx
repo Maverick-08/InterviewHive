@@ -14,7 +14,7 @@ const Topbar = ({
     <div className="sm:flex items-center justify-between gap-4 px-4 py-5.5 text-white border-b border-white/30">
       <div className="flex items-center gap-2">
         <div className="px-2 ">
-        <BsLayoutSidebar onClick={() => setIsSidebarOpen(!isSideBarOpen)} className="text-blue-500 size-5" />
+        <BsLayoutSidebar onClick={() => setIsSidebarOpen(!isSideBarOpen)} className="cursor-pointer text-blue-500 size-5" />
       </div>
       <div className="px-4 border-l md:flex items-center gap-4">
         <div className="font-semibold text-lg ">{componentTitle}</div>

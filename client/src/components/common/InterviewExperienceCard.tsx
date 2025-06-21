@@ -34,12 +34,12 @@ const InterviewExperienceCard = ({
   return (
     <Card
       className={`bg-[#171717] rounded-sm text-white p-4 group ${
-        isSidebarActive ? "w-full" : "w-full lg:max-w-lg"
+        isSidebarActive ? "w-full" : "w-full "
       }  border border-[#333333] transition-all duration-300 ease-in-out delay-300 hover:border-neutral-600  font-mono gap-4`}
     >
       {/* companyName & Bookmark  */}
       <div className="flex justify-between items-center">
-        <span className="text-3xl font-mono tracking-wide transition-color duration-300 ease-in-out delay-300 group-hover:text-blue-400">{companyName}</span>
+        <span className="text-xl sm:text-2xl md:text-3xl  font-mono tracking-wide transition-color duration-300 ease-in-out delay-300 group-hover:text-blue-400">{companyName}</span>
         <GoBookmarkFill className={`size-5 cursor-pointer transition-colors duration-300
           ${bookmarked?"text-yellow-400" :"text-white/50"}
           `} onClick={()=> setBookmarked(!bookmarked)}/>
@@ -93,11 +93,11 @@ const InterviewExperienceCard = ({
       {/* analytics and view details button  */}
       <div className=" mt-2 flex justify-between items-end font-mono">
         <div className="flex gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <LuEye className="size-4 text-green-400/60" />
             <span>{viewCount ?? 234}</span>
           </div>
-          <div className="flex items-center gap-">
+          <div className="flex items-center gap-1">
             <RxLightningBolt className="size-4 text-amber-400" />
             <span>{difficultyLevel ?? "Medium"}</span>
           </div>
