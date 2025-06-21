@@ -1,3 +1,4 @@
+import Chatbot from "../chatbot/Chatbot";
 import InterviewTopicsStats from "../Stats/InterviewTopicsStats";
 import OverallStats from "../Stats/OverallStats";
 import AllInterviews from "./AllInterviews";
@@ -11,7 +12,7 @@ const Dashboard = () => {
         <OverallStats />
         <InterviewTopicsStats />
         <AllInterviews />
-        {/* <ReadInterviewExperience /> */}
+        <Chatbot />
       </div>
     </DashboardLayout>
   );
