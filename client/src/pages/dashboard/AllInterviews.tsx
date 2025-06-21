@@ -118,21 +118,21 @@ const AllInterviews = () => {
         <div className="text-4xl">All Interviews</div>
 
         {/* input tag + filter  */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4">
           {/* input  */}
-          <div className="flex items-center px-4 gap-2 rounded-sm border border-[#333333]">
+          <div className="flex items-center justify-end px-2 rounded-sm border border-[#333333]">
             <MdOutlineSearch className="size-6" />
             <input
               type="text"
               value={companyName}
               onChange={(e) => handleChange(e.target.value)}
-              className="focus:outline-none border-none px-2 py-2 placeholder:text-neutral-400 placeholder:text-center"
+              className="focus:outline-none border-none py-2 placeholder:text-neutral-400 placeholder:text-center"
               placeholder="Search company name"
             />
           </div>
 
           {/* filter  */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-mono">
             {/* <span>Filter</span>
             <IoIosArrowDown className="size-2" /> */}
             <InterviewFilters tags={tags} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
