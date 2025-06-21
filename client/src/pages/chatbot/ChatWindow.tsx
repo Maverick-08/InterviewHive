@@ -22,21 +22,26 @@ const ChatWindow = ({
   };
 
   return (
-    <div className="absolute right-12 bottom-28 h-[60vh] w-[30vw]   bg-[#171717] border border-[#333333] rounded-sm text-white">
+    <div className="absolute sm:right-12 bottom-28 h-110 w-100 bg-[#171717] border border-[#333333] rounded-md text-white">
       <div className="h-full flex flex-col">
         {/* topbar  */}
-        <div className="px-4 py-2 flex justify-between items-center border-b border-[#333333]">
+        <div className="px-4 py-2 flex justify-between items-center border-b border-[#333333] ">
           {/* Icon + text  */}
           <div className="flex gap-4">
             {/* icon  */}
-            <div className="text-yellow-500 bg-yellow-500/20 rounded-full p-4">
-              <RiRobot3Line className="h-6 w-6" />
+            <div className="flex items-center text-yellow-500 bg-yellow-500/20 rounded-full p-4">
+              <RiRobot3Line className="size-6" />
             </div>
 
             {/* text  */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col">
               <p className="text-lg font-semibold">AI Assistant</p>
-              <p className="text-sm text-neutral-400">Online</p>
+              <div className="flex items-center gap-2 ">
+                <div className="relative">
+                  <div className="h-2 w-2 bg-green-400 rounded-full"></div>
+                </div>
+                <p className="text-sm text-green-400">Online</p>
+              </div>
             </div>
           </div>
 
@@ -53,9 +58,9 @@ const ChatWindow = ({
         </div>
 
         {/* chat section  */}
-        <div className="flex-1 px-2 flex flex-col gap-4 overflow-scroll">
+        <div className="flex-1 p-2 flex flex-col overflow-y-scroll gap-4">
           {conversation.length == 0 ? (
-            <SuggestPrompt />
+            <SuggestPrompt/>
           ) : (
             conversation.map((data) => {
               return <Message message={data.message} sentBy={data.sentBy} />;
@@ -70,7 +75,7 @@ const ChatWindow = ({
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 h-full focus:outline-none rounded-sm px-4 py-2 border border-[#333333] placeholder:text-neutral-400 text-neutral-500"
+            className="flex-1 h-full focus:outline-none rounded-sm px-4 py-2 border border-[#333333] placeholder:text-neutral-400 text-neutral-400"
           />
           <div
             onClick={handlePromptSubmit}
