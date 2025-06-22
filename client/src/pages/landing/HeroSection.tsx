@@ -4,7 +4,7 @@ import BlackButton from "@/components/common/BlackButton";
 import WhiteButton from "@/components/common/WhiteButton";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import HeroSectionImage from "../../assets/heroSection.png";
+import HeroSectionImage from "../../assets/heroSection2.png";
 import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
 import { CiSearch } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";

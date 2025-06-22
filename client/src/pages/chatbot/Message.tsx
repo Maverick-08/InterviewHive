@@ -10,8 +10,8 @@ const Message = ({
       className={`flex ${sentBy == "user" ? "justify-end" : "justify-start"}`}
     >
       <span
-        className={`max-w-[70%] py-1 px-2 rounded-md ${
-          sentBy == "user" ? "bg-[#333333]" : "bg-neutral-200"
+        className={`w-fit max-w-xs text-wrap py-1 px-2 rounded-md ${
+          sentBy == "user" ? "bg-gray-300 text-black" : "bg-neutral-200"
         }`}
       >
         {message}

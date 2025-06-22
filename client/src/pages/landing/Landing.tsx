@@ -3,6 +3,8 @@ import FeatureSection from "./FeatureSection";
 import HeroSection from "./HeroSection";
 import Navbar from "./Navbar";
 import OrbitalSection from "./OrbitalSection";
+import Footer from "./Footer";
+import { Faq1 } from "./FaqSection";
 
 const Landing = () => {
   return (
@@ -12,7 +14,9 @@ const Landing = () => {
         <Navbar />
         <HeroSection />
         <FeatureSection />
+        <Faq1 />
         <OrbitalSection />
+        <Footer />
       </div>
     </div>
   );
