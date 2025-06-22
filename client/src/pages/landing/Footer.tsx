@@ -12,8 +12,8 @@ const Footer = () => {
   // const [isFeedbackFormOpen, setisFeedbackFormOpen] = useState(false);
   return (
     <AnimatedSection>
-      <div className="w-full flex justify-between border-t-[1px] border-neutral-700 py-8 font-mono">
-        <footer className="w-full max-w-6xl mx-auto flex flex-col text-white gap-32">
+      <div className="sm:flex w-full justify-between border-t-[1px] border-neutral-700 py-8 font-mono">
+        <footer className="p-2 sm:p-0 w-full max-w-6xl mx-auto flex flex-col text-white gap-24">
           {/* Footer 1 */}
           <div className="flex justify-between">
             {/* Left */}
@@ -83,8 +83,8 @@ const Footer = () => {
             </div>
 
             {/* Right Section */}
-            <div className="flex p-4 gap-8">
-              <div className="flex flex-col gap-2">
+            <div className="hidden md:flex p-4 gap-8">
+              <div className="hidden lg:flex flex-col gap-2">
                 <h1 className="text-2xl">Legal.</h1>
                 <a
                   href="https://code-crunch-tau.vercel.app/"
@@ -143,9 +143,9 @@ const Footer = () => {
           </div>
 
           {/* Footer 2 */}
-          <div className="text-center">
+          <div className="hidden sm:block text-center">
             <p className="font-bold text-9xl bg-gradient-to-b from-transparent  to-teal-500/50 bg-clip-text text-transparent opacity-95 tracking-tight ">
-              Interview hive
+              Interview Hive
             </p>
           </div>
 

@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 const StatsCard = ({
   cardStyle,
   Icon,
-  growthPercentage,
   totalCount,
   tagline,
   iconContainerStyle,
@@ -30,12 +29,11 @@ const StatsCard = ({
         )}
       >
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between items-center">
+            {/* <div className="flex justify-between items-center"> */}
               <div className={cn(`text-zinc-400 group-hover:text-white transition-all ${iconContainerStyle}`)}>
                 <Icon className="h-6 w-6 " />
               </div>
-              <div className="text-green-500">+{growthPercentage}%</div>
-            </div>
+            {/* </div> */}
             <div className="text-left text-2xl">{totalCount}</div>
             <div className="flex justify-between items-center text-neutral-400">
               <span className="group-hover:text-neutral-300 transition-all">{tagline}</span>
