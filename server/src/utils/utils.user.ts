@@ -12,6 +12,9 @@ export const getUserDetails = async ({
     where: {
       email,
     },
+    include:{
+      course_branch:true
+    }
   });
   return user;
 };

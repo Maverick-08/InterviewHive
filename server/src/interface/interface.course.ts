@@ -1,5 +1,5 @@
 export interface CourseSpecs{
-    courseId:string;
-    courseName:string;
-    branchName:string
+    courseInitials:string;
+    degree:string;
+    branch:string|null;
 }

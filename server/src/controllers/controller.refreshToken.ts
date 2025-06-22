@@ -1,82 +1,100 @@
 import { NextFunction, Request, Response } from "express";
 import { code } from "../config/status-code";
+import { Redis_Service } from "../services/Redis";
 import {
-  checkToken,
   getAccessToken,
   getRefreshToken,
+  isRefreshTokenValid,
   setAccessToken,
   setRefreshToken,
 } from "../utils/utils.tokens";
-import { Redis_Service } from "../services/Redis";
+
+const BUFFERED_TIME = 5 * 60 * 1000;
 
 export const refreshTokenHandler = async (
   req: Request,
   res: Response,
   next: NextFunction,
-  userId: string
+  userId: string,
+  platform: "Mobile" | "Tablet" | "Laptop"
 ) => {
-  try {
-    // 1. Get token
-    const token = req.cookies;
+  // Access token has been expired and a new pair of token has to be generated using valid refresh token.
+  // 1. The old token exists in cache - clear - generate new tokens - hydrate cache
+  // 2. The old token does not exists in cache - session expired
+  // 3. The issue time of new token is less than the buffered time. - multiple token generations - possible account breach - terminate all sessions.
 
-    // 2. Extract refresh token
-    const oldRefreshToken = token["__refreshToken__"];
+  // 1. Get token
+  const token = req.cookies;
 
-    // A. API request has token and userId
-    if (oldRefreshToken && userId) {
-      const isTokenValid = checkToken({ token: oldRefreshToken });
-      const doesSessionExists = await Redis_Service.getSession({
-        token: oldRefreshToken,
-      });
+  // 2. Extract tokens
+  const __refreshToken__ = token["__refreshToken__"];
+  const __accessToken__ = token["__accessToken__"];
 
-      // A-1. Check if token is valid and exists in cache - Normal flow
-      if (isTokenValid && doesSessionExists) {
-        // 1. create new pair of tokens
-        const newAccessToken = getAccessToken({ userId });
-        const newRefreshToken = getRefreshToken({ userId });
+  // 3. Check refresh token validity
+  const isTokenValid = isRefreshTokenValid(__refreshToken__);
 
-        // 2. Invalidate cache and cookie
-        // del old token
-        await Redis_Service.clearSession({ token: oldRefreshToken, userId });
-        res.clearCookie("__accessToken__"); // clear access cookie
-        res.clearCookie("__refreshToken__"); // clear refresh cookie
+  // 4. If token is tampered
+  if(!isTokenValid.valid){
+    res.status(code.Unauthorized).json({msg:"Tampered token"});
+    return;
+  }
 
-        // 3. Hydrate cache and cookie
-        await Redis_Service.setSession({ token: newRefreshToken, userId });
-        setAccessToken(res, newAccessToken);
-        setRefreshToken(res, newRefreshToken);
+  // 5. If token is expired
+  if(isTokenValid.valid && isTokenValid.expired){
+    res.status(code.Unauthorized).json({msg:"Session Expired"});
+    return;
+  }
 
-        next();
-      }
+  // If refresh token has not expired
+  // 6. Check cache
+  const userSession = await Redis_Service.doesSessionExists(userId, platform);
 
-      // A-2 If token is valid but does not exist in cache - compromise
-      else if (isTokenValid && !doesSessionExists) {
-        // terminate all sessions associated with that userId
-        await Redis_Service.terminateSession({
-          token: oldRefreshToken,
-          userId,
-        });
-        res.status(code.Unauthorized).json({ msg: "Account is compromised" });
-        return;
-      }
+  // 7. If user session exists - check for compromise
+  if (userSession) {
+    // A. Check issue time
+    const { issuedAt }: { token: string; issuedAt: Date } =
+      JSON.parse(userSession);
+    const currentTime = new Date();
 
-      // A-3 If token is invalid  - clear token & ask user to login again
-      else {
-        await Redis_Service.clearOldToken(userId,oldRefreshToken);
-        res
-          .status(code.Unauthorized)
-          .json({ msg: "Session Expired" });
-        return;
-      }
-    } else if (!oldRefreshToken) {
-      res.status(code.Unauthorized).json({ msg: "Something went wrong" });
+    // B. Check time difference
+    const timeDiff = currentTime.getTime() - new Date(issuedAt).getTime();
+
+    // C. If last issued time is less than the buffered time - compromise
+    const isAccountCompromised = timeDiff < BUFFERED_TIME;
+
+    if (isAccountCompromised) {
+      // D. Terminate all sessions
+      await Redis_Service.terminateAllSessions({ userId });
+      res.status(code.Unauthorized).json({ msg: "Account Compromised !" });
       return;
     } else {
-      res.status(code.BadRequest).json({ msg: "Invalid payload" });
-      return;
+      // E. clear old session
+      await Redis_Service.clearSession({ userId, platform });
+
+      // F. get new access token
+      const newAccessToken = getAccessToken({ userId, platform });
+
+      // G. get new refresh token
+      const newRefreshToken = getRefreshToken({ userId, platform });
+
+      // H. Hydrate cache
+      await Redis_Service.createSession({
+        token: newRefreshToken,
+        userId,
+        platform,
+      });
+
+      // I. Set tokens on response header
+      setAccessToken(res, newAccessToken);
+      setRefreshToken(res, newRefreshToken);
+
+      next();
     }
-  } catch (err) {
-    res.status(code.ServerError).json({ msg:"Internal Server Error"});
+  }
+
+  // 5. If user session does not exists - session expired
+  else {
+    res.status(code.Unauthorized).json({ msg: "Session Expired" });
     return;
   }
 };

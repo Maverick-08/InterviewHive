@@ -5,7 +5,6 @@ import { validateUserRegistrationData } from "../validations/validate.userDetail
 import { User } from "../services/User";
 import { handleError } from "../config/errorMessages";
 import { services } from "../config/services";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export const userRegistrationController = async (req:Request,res:Response) => {
     try{

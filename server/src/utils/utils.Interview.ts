@@ -27,7 +27,7 @@ export const fetchAllInterviews = async (
       user: {
         select: {
           username: true,
-          userId: true,
+          id: true,
           courseId: true,
           yearOfPassingOut: true,
         },
@@ -83,7 +83,7 @@ export const fetchFilteredInterviews = async (
       user: {
         select: {
           username: true,
-          userId: true,
+          id: true,
           courseId: true,
           yearOfPassingOut: true,
         },
@@ -118,7 +118,7 @@ export const fetchInterviewsSharedByUser = async (userId: string) => {
       user: {
         select: {
           username: true,
-          userId: true,
+          id: true,
           courseId: true,
           yearOfPassingOut: true,
         },
@@ -161,7 +161,7 @@ export const fetchSavedInterviewExperience = async (userId: string,page:number=1
         user: {
           select: {
             username: true,
-            userId: true,
+            id: true,
             courseId: true,
             yearOfPassingOut: true,
           },
@@ -208,7 +208,7 @@ export const createInterviewExperience = async (
 
         user: {
           connect: {
-            userId: interviewData.authorId, // Connect to an existing user by their ID
+            id: interviewData.authorId, // Connect to an existing user by their ID
           },
         },
 
@@ -220,7 +220,10 @@ export const createInterviewExperience = async (
         tags: {
           connectOrCreate: interviewData.tags.map((tag) => ({
             where: { tagName: tag.tagName }, // Try to find an existing tag by its unique name
-            create: { tagName: tag.tagName }, // If not found, create a new tag
+            create: { 
+              tagName: tag.tagName, 
+              tagInitials: tag.tagInitias // Ensure tagInitials is provided
+            }, // If not found, create a new tag
           })),
         },
 

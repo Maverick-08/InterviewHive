@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 
 
 export class User {
-  public userId: string;
+  public id: string;
   public email: string;
   public username: string;
   public password: string;
@@ -19,7 +19,7 @@ export class User {
   public createdAt: Date;
 
   private constructor({
-    userId,
+    id,
     email,
     username,
     password,
@@ -30,7 +30,7 @@ export class User {
     linkedIn = null,
     createdAt,
   }: UserDetails) {
-    this.userId = userId;
+    this.id = id;
     this.email = email;
     this.username = username;
     this.password = password,
@@ -65,7 +65,7 @@ export class User {
 
     // 3. return user instance
     return new User({
-      userId: user.userId,
+      id: user.id,
       username: user.username,
       email: user.email,
       password: user.password,
@@ -80,7 +80,7 @@ export class User {
 
   static async exists({ email }: { email: string }) {
     // 1. check if user exists
-    const user: User | null = await getUserDetails({
+    const user = await getUserDetails({
       email,
     });
 

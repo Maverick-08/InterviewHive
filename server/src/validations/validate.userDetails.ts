@@ -63,18 +63,20 @@ export const validateUserRegistrationData = ({
 export const validateUserAuthData = ({
   email,
   password,
+  platform
 }: {
   email: string;
   password: string;
+  platform: "Mobile" | "Tablet" | "Laptop"
 }) => {
   let result = {
     status:
       emailSchema.safeParse(email).success &&
-      passwordSchema.safeParse(password).success,
+      passwordSchema.safeParse(password).success && (platform == "Mobile" || platform == "Tablet" || platform == "Laptop") ? true : false ,
 
     message:
       emailSchema.safeParse(email).error?.issues[0].message ||
-      passwordSchema.safeParse(password).error?.issues[0].message,
+      passwordSchema.safeParse(password).error?.issues[0].message || "Invalid Platform",
   };
 
   if (!result.status) {

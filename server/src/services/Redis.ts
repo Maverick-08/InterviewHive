@@ -4,87 +4,81 @@ export class Redis_Service {
   // Token maps to userId : give token get user I
   // userId maps to Array of tokens (each issued for different device)
 
-  public static async getSession({ token }: { token: string }) {
-    return redisClient.get(token);
+  public static async doesSessionExists(
+    userId: string,
+    platform: "Mobile" | "Tablet" | "Laptop"
+  ) {
+    return await redisClient.get(`${platform}:${userId}`);
   }
 
-  public static async setSession({
+  public static async createSession({
     token,
     userId,
+    platform,
   }: {
     token: string;
     userId: string;
+    platform: "Mobile" | "Tablet" | "Laptop";
   }) {
-    // cache the token
-    await redisClient.set(token, userId, "EX", 30 * 24 * 60 * 60);
-
-    // check if tokens array exist
-    const doestokensArrayExist = await redisClient.get(userId);
-
-    // if not - first time login
-    if (!doestokensArrayExist) {
-      const tokensArray = [token];
-      await redisClient.set(
-        userId,
-        JSON.stringify(tokensArray),
-        "EX",
-        30 * 24 * 60 * 60
-      );
-    } else {
-      const tokensArray = JSON.parse(doestokensArrayExist);
-      await redisClient.set(
-        userId,
-        JSON.stringify([...tokensArray, token]),
-        "EX",
-        30 * 24 * 60 * 60
-      );
-    }
+    // cache the access token
+    await redisClient.set(
+      `${platform}:${userId}`,
+      JSON.stringify({ token, issuedAt: new Date() }),
+      "EX",
+      30 * 24 * 60 * 60
+    );
 
     return;
   }
 
   public static async clearSession({
-    token, // old token
     userId,
+    platform,
   }: {
-    token: string;
     userId: string;
+    platform: "Mobile" | "Tablet" | "Laptop";
   }) {
-    const tokensArray = JSON.parse(
-      (await redisClient.get(userId)) as string
-    ) as string[];
-    const filteredTokens = tokensArray.filter(
-      (currToken) => currToken != token
-    );
+    redisClient.del(`${platform}:${userId}`);
 
+    return;
+  }
+
+  public static async terminateAllSessions({ userId }: { userId: string }) {
     await Promise.allSettled([
-      redisClient.del(token),
-      redisClient.set(
-        userId,
-        JSON.stringify(filteredTokens),
-        "EX",
-        30 * 24 * 60 * 60
-      ),
+      redisClient.del(`Mobile:${userId}`),
+      redisClient.del(`Laptop:${userId}`),
+      redisClient.del(`Tablet:${userId}`),
     ]);
-
     return;
   }
 
-  public static async terminateSession({
-    token,
-    userId,
-  }: {
-    token: string;
-    userId: string;
-  }) {
-    await Promise.allSettled([redisClient.del(token), redisClient.del(userId)]);
-    return;
-  }
+  public static async getActiveUsersCount() {
+    const doesActiveUsersCountExists = await redisClient.get("activeUsers");
+    if (!doesActiveUsersCountExists) {
+      let cursor = "0";
+      let count = 0;
 
-  public static async clearOldToken(userId:string,oldRefreshToken:string){
-    const tokensArray = JSON.parse(await redisClient.get(userId) as string) as string[];
-    const filteredTokensArray = tokensArray.filter(token => token != oldRefreshToken);
-    await redisClient.set(userId,JSON.stringify(filteredTokensArray));
-    return;
+      do {
+        const [nextCursor, keys] = await redisClient.scan(cursor);
+        cursor = nextCursor;
+
+        for (let key of keys) {
+          const token = await redisClient.get(key);
+          if (token) {
+            const parsedToken = JSON.parse(token);
+            const lastIssuedTime = new Date(parsedToken.issuedAt).getTime();
+            const currentTime = new Date().getTime();
+            const timeDiff = ((currentTime - lastIssuedTime) / 1000) * 60 * 60;
+
+            if (timeDiff < 60) ++count;
+          }
+        }
+      } while (cursor !== "0");
+
+      redisClient.set("activeUsers", count, "EX", 60 * 60);
+      return count;
+    } else {
+      return parseInt(doesActiveUsersCountExists);
+    }
   }
 }

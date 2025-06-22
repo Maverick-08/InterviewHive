@@ -26,6 +26,7 @@ export interface InterviewDetails {
     }[];
   }[];
   tags: {
+    tagInitias:string;
     tagName: string;
   }[];
 }

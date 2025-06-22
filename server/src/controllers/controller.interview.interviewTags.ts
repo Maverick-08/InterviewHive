@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export const getInterviewTags = async (req:Request,res:Response) => {
     try{
-        const response = await prisma.interviewTag.findMany();
+        const response = await prisma.interviewTopicTag.findMany();
         res.status(code.Success).json({data:response});
         return;
     }

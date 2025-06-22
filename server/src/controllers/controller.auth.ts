@@ -4,20 +4,13 @@ import { validateUserAuthData } from "../validations/validate.userDetails";
 import { User } from "../services/User";
 import { handleError } from "../config/errorMessages";
 import { services } from "../config/services";
-import { Course } from "../services/Course";
 import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "../utils/utils.tokens";
 import { Redis_Service } from "../services/Redis";
 
-const courses:{courseId:string;degree:string;branch:string|null}[] = [{courseId:'MCA',degree:"Master of Computer Application",branch:null},{courseId:"BTECH-CSE",degree:"Bachelor of Technology",branch:"Computer Science & Engineering"}]
-
-const getCourseDetails = (courseId:string) => {
-  const result = courses.find(data => data.courseId == courseId);
-  return result;
-}
 
 export const userAuthController = async (req: Request, res: Response) => {
   try {
-    const payload: { email: string; password: string } = req.body;
+    const payload: { email: string; password: string; platform:"Mobile" | "Tablet" | "Laptop" } = req.body;
 
     // 1. check if payload is valid
     const validatePayloadResult = validateUserAuthData(payload);
@@ -29,7 +22,7 @@ export const userAuthController = async (req: Request, res: Response) => {
     }
 
     // 3. if payload is valid then check if user is registered
-    const user: User | null = await User.exists({ email: payload.email });
+    const user = await User.exists({ email: payload.email });
 
     // 4. if user is not registered
     if (!user) {
@@ -52,14 +45,14 @@ export const userAuthController = async (req: Request, res: Response) => {
     // if password matches
 
     // 6. create tokens
-      // Access token
-    const accessToken = getAccessToken({userId:user.userId})
+    // Access token
+    const accessToken = getAccessToken({userId:user.id,platform:payload.platform})
 
-      // Refresh Token
-    const refreshToken = getRefreshToken({userId:user.userId});
+    // Refresh Token
+    const refreshToken = getRefreshToken({userId:user.id,platform:payload.platform});
 
-    // 7. update redis store
-    await Redis_Service.setSession({token:refreshToken,userId:user.userId});
+    // 7. Hydrate redis store
+    await Redis_Service.createSession({userId:user.id,platform:payload.platform,token:refreshToken});
 
     // 8. set access token cookie
    setAccessToken(res,accessToken);
@@ -68,14 +61,13 @@ export const userAuthController = async (req: Request, res: Response) => {
    setRefreshToken(res,refreshToken)
    
     // 10. return data
-    const courseInfo = getCourseDetails(user.courseId);
     res
       .status(code.Success)
       .json({
-        userId: user.userId,
+        id: user.id,
         username: user.username,
-        degree: courseInfo ? courseInfo.degree : null,
-        branch: courseInfo ? courseInfo.branch : null,
+        degree: user.course_branch.degree,
+        branch: user.course_branch.branch,
         yearOfPassingOut: user.yearOfPassingOut,
         avatar: user.avatar,
         xHandle: user.xHandle,

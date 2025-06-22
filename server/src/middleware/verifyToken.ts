@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { code } from "../config/status-code";
-import jwt from "jsonwebtoken";
 import { refreshTokenHandler } from "../controllers/controller.refreshToken";
-import { getAccessToken, setAccessToken } from "../utils/utils.tokens";
-const ACCESS_TOKEN_KEY = process.env.ACCESS_TOKEN_KEY;
+import { isAccessTokenValid } from "../utils/utils.tokens";
+import jwt from "jsonwebtoken";
 
 // Extend Express Request interface to include userId
 declare module "express-serve-static-core" {
@@ -13,47 +12,35 @@ declare module "express-serve-static-core" {
 }
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  const { __accessToken__ } = req.cookies;
-  if (__accessToken__ && ACCESS_TOKEN_KEY) {
-    try {
-      // 1. Extract payload
-      const decoded = jwt.verify(
-        __accessToken__,
-        ACCESS_TOKEN_KEY
-      ) as jwt.JwtPayload;
+  const { __accessToken__, __refreshToken__ } = req.cookies;
+  const { userId, platform } = jwt.decode(__accessToken__) as jwt.JwtPayload;
 
-      // 2. Get userId
-      const userId = decoded?.["userId"];
+  // If access token and refresh token exists
+  if (__accessToken__ && __refreshToken__ && userId && platform) {
+    // CASE A : If access token is valid and has not expired : call next
+    let response = isAccessTokenValid(__accessToken__);
+    if (response.valid && !response.expired) {
+      // 1. set user id on request object
+      req.userId = userId;
 
-      // 3. set userId on request object
-      req["userId"] = userId;
+      // 2. call next
       next();
-    } catch (err) {
-      if (err instanceof jwt.TokenExpiredError) {
-        const decode = jwt.decode(__accessToken__) as jwt.JwtPayload;
-        const userId = decode["userId"];
-
-        // Get new pair of tokens
-        if (userId){
-          const newAccessToken = getAccessToken({userId});
-          setAccessToken(res,newAccessToken);
-          refreshTokenHandler(req, res, next, userId);
-          return;
-        }
-        else {
-          res
-            .json(code.Unauthorized)
-            .json({ msg: "Access token does not contain user Id" });
-          return;
-        }
-      }
-
-      res.status(code.Unauthorized).json({ msg: "Session expired" });
-      return;
     }
-  } else {
-    res.status(code.Unauthorized).json({ msg: "Access token is missing" });
+
+    // CASE B : If access token is valid and has expired
+    // 1. The refersh token exists in cache - rotate tokens
+    // 2. The refresh token does not exists in cache - account compromise / session expired
+    if (response.valid && response.expired) {
+      refreshTokenHandler(req, res, next, userId, platform);
+    }
+
+    // CASE C : If access token is tampered
+    res.status(code.Unauthorized).json({ msg: "Tampered token" });
     return;
+  } else {
+    res
+      .status(code.Unauthorized)
+      .json({ msg: "Access token or Refresh token is missing" });
   }
 };
 

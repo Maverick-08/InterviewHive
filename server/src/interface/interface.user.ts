@@ -7,7 +7,7 @@ export interface UserRegistrationDetails {
 }
 
 export interface UserDetails extends UserRegistrationDetails{
-  userId: string;
+  id: string;
   createdAt: Date;
   avatar: string;
   xHandle?: string | null ;
