@@ -24,23 +24,37 @@ const InterviewRound = ({
   roundNumber: number;
   interviewRoundId: string;
 }) => {
-  const [isSelectRoundTypePopoverOpen,setIsSelectRoundTypePopoverOpen] = useState(false);
-  const interviewQuestions = useInterviewStore((state) => state.interviewRounds.find(round => round.id == interviewRoundId)?.questions);
-  const getInterviewRoundInfo = useInterviewStore(state => state.getInterviewRoundInfo);
-  const updateInterviewRound = useInterviewStore(state => state.updateInterviewRound);
-  const addQuestion = useInterviewStore(state => state.addInterviewQuestion);
-  const deleteInterviewRound = useInterviewStore(state => state.deleteInterviewRound);
+  const [isSelectRoundTypePopoverOpen, setIsSelectRoundTypePopoverOpen] =
+    useState(false);
+  const interviewQuestions = useInterviewStore(
+    (state) =>
+      state.interviewRounds.find((round) => round.id == interviewRoundId)
+        ?.questions
+  );
+  const getInterviewRoundInfo = useInterviewStore(
+    (state) => state.getInterviewRoundInfo
+  );
+  const updateInterviewRound = useInterviewStore(
+    (state) => state.updateInterviewRound
+  );
+  const addQuestion = useInterviewStore((state) => state.addInterviewQuestion);
+  const deleteInterviewRound = useInterviewStore(
+    (state) => state.deleteInterviewRound
+  );
 
-  const {roundType,roundNote} = getInterviewRoundInfo(interviewRoundId);
+  const { roundType, roundNote } = getInterviewRoundInfo(interviewRoundId);
 
   return (
     <div className="pt-4 w-full flex gap-4">
       <AccordionItem value={`item-${roundNumber}`} className="flex-1">
         <AccordionTrigger className="text-xl sm:text-2xl">{`Round ${roundNumber}`}</AccordionTrigger>
         <AccordionContent>
-          <div className="flex flex-col gap-6 sm:gap-4">
+          <div className="flex flex-col gap-6 sm:gap-4 ">
             {/* select round type  */}
-            <Popover onOpenChange={setIsSelectRoundTypePopoverOpen} open={isSelectRoundTypePopoverOpen}>
+            <Popover
+              onOpenChange={setIsSelectRoundTypePopoverOpen}
+              open={isSelectRoundTypePopoverOpen}
+            >
               <PopoverTrigger className="w-full text-left text-sm sm:text-xl cursor-pointer">
                 <div className="w-full flex flex-col gap-2">
                   <span className="">Select Round Type : </span>
@@ -59,43 +73,71 @@ const InterviewRound = ({
                   className="flex flex-col gap-3 sm:gap-2 cursor-pointer"
                 >
                   <div
-                    onClick={() => updateInterviewRound(interviewRoundId,{roundType:"Online Assessment (OA)"})}
+                    onClick={() =>
+                      updateInterviewRound(interviewRoundId, {
+                        roundType: "Online Assessment (OA)",
+                      })
+                    }
                     className="hover:bg-[#333333] px-2 rounded-sm"
                   >
                     Online Assessment (OA)
                   </div>
                   <div
-                    onClick={() => updateInterviewRound(interviewRoundId,{roundType:"Technical Round"})}
+                    onClick={() =>
+                      updateInterviewRound(interviewRoundId, {
+                        roundType: "Technical Round",
+                      })
+                    }
                     className="hover:bg-[#333333] px-2 rounded-sm"
                   >
                     Technical Round{" "}
                   </div>
                   <div
-                    onClick={() => updateInterviewRound(interviewRoundId,{roundType:"Machine Coding Round"})}
+                    onClick={() =>
+                      updateInterviewRound(interviewRoundId, {
+                        roundType: "Machine Coding Round",
+                      })
+                    }
                     className="hover:bg-[#333333] px-2 rounded-sm"
                   >
                     Machine Coding Round{" "}
                   </div>
                   <div
-                    onClick={() => updateInterviewRound(interviewRoundId,{roundType:"Group Discussion Round (GD)"})}
+                    onClick={() =>
+                      updateInterviewRound(interviewRoundId, {
+                        roundType: "Group Discussion Round (GD)",
+                      })
+                    }
                     className="hover:bg-[#333333] px-2 rounded-sm"
                   >
                     Group Discussion Round (GD)
                   </div>
                   <div
-                    onClick={() => updateInterviewRound(interviewRoundId,{roundType:"HR Round"})}
+                    onClick={() =>
+                      updateInterviewRound(interviewRoundId, {
+                        roundType: "HR Round",
+                      })
+                    }
                     className="hover:bg-[#333333] px-2 rounded-sm"
                   >
                     HR Round
                   </div>
                   <div
-                    onClick={() => updateInterviewRound(interviewRoundId,{roundType:"CTO Round"})}
+                    onClick={() =>
+                      updateInterviewRound(interviewRoundId, {
+                        roundType: "CTO Round",
+                      })
+                    }
                     className="hover:bg-[#333333] px-2 rounded-sm"
                   >
                     CTO Round
                   </div>
                   <div
-                    onClick={() => updateInterviewRound(interviewRoundId,{roundType:"Cultural Fitness Round"})}
+                    onClick={() =>
+                      updateInterviewRound(interviewRoundId, {
+                        roundType: "Cultural Fitness Round",
+                      })
+                    }
                     className="hover:bg-[#333333] px-2 rounded-sm"
                   >
                     Cultural Fitness Round
@@ -109,8 +151,12 @@ const InterviewRound = ({
               <p className="text-sm sm:text-xl">Add Note (optional) : </p>
               <textarea
                 name="thoughts"
-                value={roundNote ? roundNote : ''}
-                onChange={(e) => updateInterviewRound(interviewRoundId,{note:e.target.value})}
+                value={roundNote ? roundNote : ""}
+                onChange={(e) =>
+                  updateInterviewRound(interviewRoundId, {
+                    note: e.target.value,
+                  })
+                }
                 placeholder={`Share guidance for this round.`}
                 className="bg-[#333333] h-52 w-full text-neutral-400 resize-none px-4 py-4 rounded-md text-sm sm:text-lg focus:outline-none placeholder:text-neutral-400 placeholder:text-lg"
               ></textarea>

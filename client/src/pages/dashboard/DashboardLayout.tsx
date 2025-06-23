@@ -141,7 +141,7 @@ const DashboardLayout = () => {
           className={`sm:pt-4 transition-all duration-500 ease-in-out flex-1`}
         >
           <div className="h-full rounded-xl bg-[#0A0A0A]">
-            <div className="h-full overflow-scroll">
+            <div className="h-full overflow-y-scroll">
               <Topbar
                 isSideBarOpen={isSidebarActive}
                 setIsSidebarOpen={toggleSidebar}
