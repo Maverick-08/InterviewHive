@@ -2,7 +2,7 @@ import redisClient from "../config/redis-config";
 import jwt from "jsonwebtoken";
 
 export class Redis_Service {
-  // Key : "<platform>:<user id>"
+  // Key : "Token:<platform>:<user id>"
   // value : JSON String({token,issuedAt})
 
   public static async doesSessionExists(
@@ -39,16 +39,16 @@ export class Redis_Service {
     userId: string;
     platform: "Mobile" | "Tablet" | "Laptop";
   }) {
-    redisClient.del(`${platform}:${userId}`);
+    redisClient.del(`Token:${platform}-${userId}`);
 
     return;
   }
 
   public static async terminateAllSessions({ userId }: { userId: string }) {
     await Promise.allSettled([
-      redisClient.del(`Mobile:${userId}`),
-      redisClient.del(`Laptop:${userId}`),
-      redisClient.del(`Tablet:${userId}`),
+      redisClient.del(`Token:Mobile-${userId}`),
+      redisClient.del(`Token:Laptop-${userId}`),
+      redisClient.del(`Token:Tablet-${userId}`),
     ]);
     return;
   }
