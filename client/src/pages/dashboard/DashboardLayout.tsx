@@ -9,6 +9,7 @@ import { IoIosChatboxes } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { useSidebarStore } from "@/store/SidebarStore";
+import { useNavigate } from "react-router-dom";
 
 const sidebarVariants: Variants = {
   open: {
@@ -33,6 +34,7 @@ const contentVariants = {
 const DashboardLayout = ({ children, componentTitle }: { children: React.ReactNode; componentTitle:string }) => {
   const isSidebarActive = useSidebarStore(state => state.isSidebarActive);
   const toggleSidebar = useSidebarStore(state => state.toggleSidebar);
+  const navigate = useNavigate();
 
   return (
     <div className="w-full h-full bg-[#171717] text-white font-mono select-none">
@@ -54,7 +56,7 @@ const DashboardLayout = ({ children, componentTitle }: { children: React.ReactNo
                 variants={contentVariants}
               >
                 {/* Top container */}
-                <div className="flex items-center gap-4 pb-4">
+                <div onClick={()=>navigate("/")} className="flex items-center gap-4 pb-4">
                   <img
                     src={Logo}
                     alt="Interview Hive Logo"
@@ -67,38 +69,46 @@ const DashboardLayout = ({ children, componentTitle }: { children: React.ReactNo
                 <div className="h-full border-t border-white/20 pt-4">
                   <div className="h-full flex flex-col justify-between">
                     <div className="flex flex-col gap-4 ">
+
                       {/* dashboard  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
+                      <div onClick={()=>navigate("/dashboard")} className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <RiDashboardFill className="size-4" />
                         <span className="text-xl">Dashboard</span>
                       </div>
+
                       {/* bookmark  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
+                      <div onClick={()=>navigate("/bookmark")}  className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <FaBookmark className="size-4" />
                         <span className="text-xl">Bookmark</span>
                       </div>
-                      {/* chat  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
-                        <IoIosChatboxes className="size-4" />
-                        <span className="text-xl">Connect</span>
-                      </div>
-                      {/* add  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
+
+                      {/* share  */}
+                      <div onClick={()=>navigate("/share")}  className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <MdLibraryAdd className="size-4" />
                         <span className="text-xl">Share</span>
                       </div>
-                      {/* practice  */}
-                      <div className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
+
+                       {/* connect  */}
+                      <div onClick={()=>navigate("/connect")}  className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
+                        <IoIosChatboxes className="size-4" />
+                        <span className="text-xl">Connect</span>
+                      </div>
+
+                      {/* prepare  */}
+                      <div onClick={()=>navigate("/prepare")} className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10">
                         <FaMicrophone className="size-4" />
                         <span className="text-xl">Prepare</span>
                       </div>
+
                     </div>
+
                     <div>
-                      <div className="p-2 border border-neutral-600 hover:border-neutral-700 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10 ">
+                      <div onClick={()=>navigate("/profile")} className="p-2 border border-neutral-600 hover:border-neutral-700 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10 ">
                         <IoPersonSharp className="size-4" />
                         <div className="text-end text-xl">Vivek Ojha</div>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </motion.div>
