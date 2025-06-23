@@ -24,7 +24,7 @@ const SignupComponent = () => {
       const response = await userAuth({ email, password });
 
       const data: {
-        userId: string;
+        id: string;
         username: string;
         degree: string;
         branch: string | null;

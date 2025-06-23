@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+// import { useUserStore } from "./userStore";
+// const userId = useUserStore.getState().id;
 
 interface Question {
   id: string;
@@ -16,6 +18,7 @@ interface InterviewRound {
 }
 
 export interface InterviewTag {
+  tagInitials: string;
   tagName: string;
 }
 
@@ -103,7 +106,7 @@ interface Interview {
 
   // --------- Interview Tags
   // 1. Add interview tags
-  addInterviewTag: (x: { tagName: string }) => void;
+  addInterviewTag: (x: { tagInitials:string; tagName: string }) => void;
 }
 
 const InitialInterviewSate = {
@@ -349,7 +352,7 @@ export const useInterviewStore = create<Interview>()(
         },
 
         // ------------- Interview Tag Actions
-        addInterviewTag: (value: { tagName: string }) => {
+        addInterviewTag: (value: { tagInitials:string; tagName: string }) => {
           const interviewTags = get().tags;
           if (!interviewTags.includes(value)) {
             if (interviewTags.length == 3) {

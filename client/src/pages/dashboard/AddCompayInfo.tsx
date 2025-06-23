@@ -32,7 +32,7 @@ const AddCompanyInfo = ({
   const [role, setRole] = useState(store_role ?? "");
   const [CTCOffered, setCTCOffered] = useState<number | null>(store_CTCOffered ?? null);
   const [interviewStatus, setInterviewStatus] = useState(store_interviewStatus ?? "");
-  const authorId = useUserStore((state) => state.userId);
+  const authorId = useUserStore((state) => state.id);
   const regex = /[a-zA-Z]+$/;;
 
   const saveInterviewInfo = () => {

@@ -4,7 +4,7 @@ import { devtools, persist } from "zustand/middleware";
 // 1. Define the User interface, making nullable fields explicit
 interface UserState {
   // Core user info - non-nullable fields initially
-  userId: string | null; // Allow null for initial state until user logs in
+  id: string | null; // Allow null for initial state until user logs in
   username: string | null;
   degree: string | null;
   branch: string | null;
@@ -27,7 +27,7 @@ interface UserState {
 type UserStateData = Omit<UserState, 'setUserState' | 'clearUserState' | 'setIsAuthenticated'>;
 
 const initialUserState: UserStateData = {
-  userId: null,
+  id: null,
   username: null,
   degree: null,
   branch: null,

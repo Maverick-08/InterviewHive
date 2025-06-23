@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DashboardLayout from "./DashboardLayout";
 import type { Interview } from "@/types";
 import { toast } from "sonner";
 import { fetchInterviewTags, fetchSavedInterviews } from "./utils";
@@ -138,120 +137,118 @@ const BookmarkedInterviews = () => {
   // On
 
   return (
-    <DashboardLayout componentTitle={"Bookmark"}>
-      <div className="pt-8 flex flex-col gap-16">
-        {/* title + search bar + filter  */}
-        <div className="px-4 flex justify-between items-center">
-          {/* title  */}
-          <div className="text-4xl">Bookmarked Interviews</div>
+    <div className="pt-8 flex flex-col gap-16">
+      {/* title + search bar + filter  */}
+      <div className="px-4 flex justify-between items-center">
+        {/* title  */}
+        <div className="text-4xl">Bookmarked Interviews</div>
 
-          {/* input tag + filter  */}
-          <div className="flex items-center gap-8">
-            {/* input  */}
-            <div className="flex items-center px-4 gap-2 rounded-sm border border-[#333333]">
-              <MdOutlineSearch className="size-6" />
-              <input
-                type="text"
-                value={companyName}
-                onChange={(e) => handleChange(e.target.value)}
-                className="focus:outline-none border-none px-2 py-2 placeholder:text-neutral-400 placeholder:text-center"
-                placeholder="Search company name"
-              />
-            </div>
+        {/* input tag + filter  */}
+        <div className="flex items-center gap-8">
+          {/* input  */}
+          <div className="flex items-center px-4 gap-2 rounded-sm border border-[#333333]">
+            <MdOutlineSearch className="size-6" />
+            <input
+              type="text"
+              value={companyName}
+              onChange={(e) => handleChange(e.target.value)}
+              className="focus:outline-none border-none px-2 py-2 placeholder:text-neutral-400 placeholder:text-center"
+              placeholder="Search company name"
+            />
+          </div>
 
-            {/* filter  */}
-            <div className="flex items-center gap-2">
-              {/* <span>Filter</span>
+          {/* filter  */}
+          <div className="flex items-center gap-2">
+            {/* <span>Filter</span>
                         <IoIosArrowDown className="size-2" /> */}
-              <InterviewFilters
-                tags={tags}
-                selectedTags={selectedTags}
-                setSelectedTags={setSelectedTags}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Stats  */}
-        <div className="w-full flex flex-wrap justify-between gap-8 px-4">
-          <BookmarkCards
-            title="Total Bookmarks"
-            value={`${totalCount}`}
-            Icon={CiBookmark}
-            iconStyle="text-yellow-500 bg-yellow-500/20"
-          />
-          <BookmarkCards
-            title="Companies"
-            value={`2`}
-            Icon={FaRegHeart}
-            iconStyle="text-blue-500 bg-blue-500/20"
-          />
-          <BookmarkCards
-            title="Average CTC"
-            value={`15 LPA`}
-            Icon={FaIndianRupeeSign}
-            iconStyle="text-green-500 bg-green-500/20"
-          />
-          <BookmarkCards
-            title="Recent Bookmarks"
-            value={`1`}
-            Icon={FiClock}
-            iconStyle="text-purple-500 bg-purple-500/20"
-          />
-        </div>
-
-        {/* list interviews  */}
-        {isLoading ? (
-          <div className="w-full h-screen flex justify-center items-center">
-            <Loading />
-          </div>
-        ) : (
-          <div className="flex flex-col gap-4 px-4">
-            <div className="flex gap-4 items-center">
-              <span className="text-3xl">Your Bookmarks</span>
-              <div className="text-yellow-400 bg-yellow-500/20 rounded-2xl px-3 py-1 border border-yellow-600">
-                <span className="text-xs">{allInterviews.length} Interviews</span>
-              </div>
-            </div>
-            <div className="flex flex-col gap-8">
-              {allInterviews.length == 0 && <NoInterviewsAvailableCard />}
-              {allInterviews.length > 0 && (
-                <ListInterviews interviewData={filteredInterviews} />
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* pagination  */}
-        <div className="flex justify-center">
-          <div className="flex items-center gap-8 select-none">
-            {/* previous page  */}
-            <div
-              onClick={decrement}
-              className={`flex items-center gap-2 cursor-pointer ${
-                page == 1 || isLoading ? "text-neutral-500" : "text-white"
-              }`}
-            >
-              <MdKeyboardDoubleArrowLeft className="size-6" />
-              <span className="text-lg">Previous</span>
-            </div>
-
-            {/* next page  */}
-            <div
-              onClick={increment}
-              className={`flex items-center gap-2 cursor-pointer ${
-                totalCount < limit || isLoading
-                  ? "text-neutral-500"
-                  : "text-white"
-              }`}
-            >
-              <span className="text-lg">Next</span>
-              <MdKeyboardDoubleArrowRight className="size-6" />
-            </div>
+            <InterviewFilters
+              tags={tags}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+            />
           </div>
         </div>
       </div>
-    </DashboardLayout>
+
+      {/* Stats  */}
+      <div className="w-full flex flex-wrap justify-between gap-8 px-4">
+        <BookmarkCards
+          title="Total Bookmarks"
+          value={`${totalCount}`}
+          Icon={CiBookmark}
+          iconStyle="text-yellow-500 bg-yellow-500/20"
+        />
+        <BookmarkCards
+          title="Companies"
+          value={`2`}
+          Icon={FaRegHeart}
+          iconStyle="text-blue-500 bg-blue-500/20"
+        />
+        <BookmarkCards
+          title="Average CTC"
+          value={`15 LPA`}
+          Icon={FaIndianRupeeSign}
+          iconStyle="text-green-500 bg-green-500/20"
+        />
+        <BookmarkCards
+          title="Recent Bookmarks"
+          value={`1`}
+          Icon={FiClock}
+          iconStyle="text-purple-500 bg-purple-500/20"
+        />
+      </div>
+
+      {/* list interviews  */}
+      {isLoading ? (
+        <div className="w-full h-screen flex justify-center items-center">
+          <Loading />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4 px-4">
+          <div className="flex gap-4 items-center">
+            <span className="text-3xl">Your Bookmarks</span>
+            <div className="text-yellow-400 bg-yellow-500/20 rounded-2xl px-3 py-1 border border-yellow-600">
+              <span className="text-xs">{allInterviews.length} Interviews</span>
+            </div>
+          </div>
+          <div className="flex flex-col gap-8">
+            {allInterviews.length == 0 && <NoInterviewsAvailableCard />}
+            {allInterviews.length > 0 && (
+              <ListInterviews interviewData={filteredInterviews} />
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* pagination  */}
+      <div className="flex justify-center">
+        <div className="flex items-center gap-8 select-none">
+          {/* previous page  */}
+          <div
+            onClick={decrement}
+            className={`flex items-center gap-2 cursor-pointer ${
+              page == 1 || isLoading ? "text-neutral-500" : "text-white"
+            }`}
+          >
+            <MdKeyboardDoubleArrowLeft className="size-6" />
+            <span className="text-lg">Previous</span>
+          </div>
+
+          {/* next page  */}
+          <div
+            onClick={increment}
+            className={`flex items-center gap-2 cursor-pointer ${
+              totalCount < limit || isLoading
+                ? "text-neutral-500"
+                : "text-white"
+            }`}
+          >
+            <span className="text-lg">Next</span>
+            <MdKeyboardDoubleArrowRight className="size-6" />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

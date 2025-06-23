@@ -219,10 +219,10 @@ export const createInterviewExperience = async (
         //   c) Establish the link in the `_InterviewToTag` join table for this interview.
         tags: {
           connectOrCreate: interviewData.tags.map((tag) => ({
-            where: { tagName: tag.tagName }, // Try to find an existing tag by its unique name
+            where: { tagInitials: tag.tagInitials }, // Try to find an existing tag by its unique name
             create: { 
               tagName: tag.tagName, 
-              tagInitials: tag.tagInitias // Ensure tagInitials is provided
+              tagInitials: tag.tagInitials // Ensure tagInitials is provided
             }, // If not found, create a new tag
           })),
         },

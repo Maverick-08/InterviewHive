@@ -7,36 +7,33 @@ import { toast } from "sonner";
 import { handleError } from "./utils";
 import { useNavigate } from "react-router-dom";
 import { ImSpinner8 } from "react-icons/im";
-const BASE_URL = import.meta.env.VITE_API_ENDPOINT
+const BASE_URL = import.meta.env.VITE_API_ENDPOINT;
 
 const list = [
-  { tagName: "DSA" },
-  { tagName: "Operating System (OS)" },
-  { tagName: "OOPS" },
-  { tagName: "DBMS" },
-  { tagName: "Computer Networks" },
-  { tagName: "Projects" },
-  { tagName: "Java" },
-  { tagName: "C++" },
-  { tagName: "Python" },
-  { tagName: "System Design" },
-  { tagName: "HLD" },
-  { tagName: "LLD" },
-  { tagName: "Design Patterns" },
-  { tagName: "API" },
-  { tagName: "JWTs" },
-  { tagName: "Backend" },
-  { tagName: "Frontend" },
-  { tagName: "JavaScript" },
-  { tagName: "React" },
-  { tagName: "NextJs" },
-  { tagName: "NodeJs" },
-  { tagName: "Cloud" },
-  { tagName: "AWS" },
-  { tagName: "DevOps" },
-  { tagName: "SDLC" },
-  { tagName: "Software Engineering" },
-  { tagName: "UML" },
+  { tagInitials: "DSA", tagName: "DSA" },
+  { tagInitials: "OS", tagName: "Operating System" },
+  { tagInitials: "OOP", tagName: "Object Oriented Programming" },
+  { tagInitials: "DBMS", tagName: "DBMS" },
+  { tagInitials: "CN", tagName: "Computer Networks" },
+  { tagInitials: "PROJECT", tagName: "Project" },
+  { tagInitials: "JAVA", tagName: "Java" },
+  { tagInitials: "C++", tagName: "C++" },
+  { tagInitials: "PYTHON", tagName: "Python" },
+  { tagInitials: "SD", tagName: "System Design" },
+  { tagInitials: "HLD", tagName: "HLD" },
+  { tagInitials: "LLD", tagName: "LLD" },
+  { tagInitials: "SDP", tagName: "System Design Patterns" },
+  { tagInitials: "API", tagName: "API" },
+  { tagInitials: "JWT", tagName: "JWTs" },
+  { tagInitials: "JS", tagName: "JavaScript" },
+  { tagInitials: "REACT", tagName: "React" },
+  { tagInitials: "NEXT JS", tagName: "Next Js" },
+  { tagInitials: "NODE", tagName: "Node Js" },
+  { tagInitials: "CLOUD", tagName: "Cloud" },
+  { tagInitials: "AWS", tagName: "AWS" },
+  { tagInitials: "DSA", tagName: "DevOps" },
+  { tagInitials: "SE", tagName: "Software Engineering" },
+  { tagInitials: "UML", tagName: "UML" },
 ];
 
 const InterviewTag = ({
@@ -52,6 +49,7 @@ const InterviewTag = ({
 
   const handleSubmit = async () => {
     const payload = getPayload();
+    console.log(payload)
     try {
       setIsSubmitting(true);
       const response = await axios.post(
@@ -136,7 +134,9 @@ const InterviewTag = ({
                 onClick={handleSubmit}
                 Icon={isSubmitting ? ImSpinner8 : undefined}
                 iconSize={`animate-spin`}
-                text={`${isSubmitting ? 'Submitting...':'Share Interview Experience'}`}
+                text={`${
+                  isSubmitting ? "Submitting..." : "Share Interview Experience"
+                }`}
                 containerStyle="flex justify-center items-center"
                 className={`px-2 sm:px-4 py-1.5 text-xs sm:text-xl rounded-sm sm:rounded-lg ${
                   selectedTags.length > 0 ? "" : ""

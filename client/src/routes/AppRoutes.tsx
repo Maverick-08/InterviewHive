@@ -6,6 +6,7 @@ import Dashboard from "@/pages/dashboard/Dashboard";
 import Landing from "@/pages/landing/Landing";
 import Profile from "@/pages/profile/Profile";
 import { Routes, Route } from "react-router-dom";
+import DashboardLayout from "@/pages/dashboard/DashboardLayout";
 
 const AppRoutes = () => {
   return (
@@ -13,10 +14,12 @@ const AppRoutes = () => {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Registration />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/bookmark" element={<BookmarkedInterviews />} />
-      <Route path="/share" element={<ShareInterviewExperience />} />
-      <Route path="/profile/*" element={<Profile />} />
+      <Route element={<DashboardLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/bookmark" element={<BookmarkedInterviews />} />
+        <Route path="/share" element={<ShareInterviewExperience />} />
+        <Route path="/profile/*" element={<Profile />} />
+      </Route>
     </Routes>
   );
 };
