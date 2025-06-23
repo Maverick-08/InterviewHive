@@ -4,8 +4,7 @@ import HeroSection from "./HeroSection";
 import Navbar from "./Navbar";
 import OrbitalSection from "./OrbitalSection";
 import Footer from "./Footer";
-import { Faq1 } from "./FaqSection";
-
+import FaqSection from "./FaqSection";
 const Landing = () => {
   return (
     <div className="w-full h-full bg-gradient-to-r from-[#161616] to-black">
@@ -14,7 +13,7 @@ const Landing = () => {
         <Navbar />
         <HeroSection />
         <FeatureSection />
-        <Faq1 />
+        <FaqSection />
         <OrbitalSection />
         <Footer />
       </div>
