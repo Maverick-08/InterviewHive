@@ -113,12 +113,12 @@ const AllInterviews = () => {
   return (
     <div className="mt-8 flex flex-col gap-4">
       {/* title + search bar + filter  */}
-      <div className="p-4 flex justify-between items-center rounded-md border-t border-white/10">
+      <div className="p-2 sm:p-4 gap-8 lg:gap-0 flex flex-col lg:flex-row justify-between items-center rounded-md border-t border-white/10">
         {/* title  */}
         <div className="text-4xl">All Interviews</div>
 
         {/* input tag + filter  */}
-        <div className="flex items-center gap-4">
+        <div className="flex-1 lg:flex-0 gap-2 lg:gap-8 flex items-center">
           {/* input  */}
           <div className="flex items-center justify-end px-2 rounded-sm border border-[#333333]">
             <MdOutlineSearch className="size-6" />

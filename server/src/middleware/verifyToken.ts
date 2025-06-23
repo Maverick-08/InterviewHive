@@ -38,7 +38,8 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     // 1. The refersh token exists in cache - rotate tokens
     // 2. The refresh token does not exists in cache - account compromise / session expired
     else if (response.valid && response.expired) {
-      refreshTokenHandler(req, res, next, userId, platform);
+      refreshTokenHandler(req, res, userId, platform);
+      next();
     } else {
       // CASE C : If access token is tampered
       res.status(code.Unauthorized).json({ msg: "Access Token Tampered" });

@@ -14,7 +14,6 @@ const BUFFERED_TIME = 5 * 60 * 1000;
 export const refreshTokenHandler = async (
   req: Request,
   res: Response,
-  next: NextFunction,
   userId: string,
   platform: "Mobile" | "Tablet" | "Laptop"
 ) => {
@@ -40,7 +39,7 @@ export const refreshTokenHandler = async (
 
   // 5. If token is expired
   if(isTokenValid.valid && isTokenValid.expired){
-    res.status(code.Unauthorized).json({msg:"Session Expired"});
+    res.status(code.Unauthorized).json({msg:"Session Expired. Login Again!"});
     return;
   }
 
@@ -87,7 +86,7 @@ export const refreshTokenHandler = async (
       setAccessToken(res, newAccessToken);
       setRefreshToken(res, newRefreshToken);
 
-      next();
+      return;
     }
   }
 

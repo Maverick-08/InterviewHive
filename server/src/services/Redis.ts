@@ -1,14 +1,15 @@
 import redisClient from "../config/redis-config";
+import jwt from "jsonwebtoken";
 
 export class Redis_Service {
-  // Token maps to userId : give token get user I
-  // userId maps to Array of tokens (each issued for different device)
+  // Key : "<platform>:<user id>"
+  // value : JSON String({token,issuedAt})
 
   public static async doesSessionExists(
     userId: string,
     platform: "Mobile" | "Tablet" | "Laptop"
   ) {
-    return await redisClient.get(`${platform}:${userId}`);
+    return await redisClient.get(`Token:${platform}-${userId}`);
   }
 
   public static async createSession({
@@ -22,7 +23,7 @@ export class Redis_Service {
   }) {
     // cache the access token
     await redisClient.set(
-      `${platform}:${userId}`,
+      `Token:${platform}-${userId}`,
       JSON.stringify({ token, issuedAt: new Date() }),
       "EX",
       30 * 24 * 60 * 60
@@ -53,32 +54,34 @@ export class Redis_Service {
   }
 
   public static async getActiveUsersCount() {
-    const doesActiveUsersCountExists = await redisClient.get("activeUsers");
-    if (!doesActiveUsersCountExists) {
-      let cursor = "0";
+    try {
+      const pattern = "Token:*";
+      const stream = redisClient.scanStream({ match: pattern });
+      const allData: Record<string, any> = {};
       let count = 0;
 
-      do {
-        const [nextCursor, keys] = await redisClient.scan(cursor);
-        cursor = nextCursor;
-
-        for (let key of keys) {
-          const token = await redisClient.get(key);
-          if (token) {
-            const parsedToken = JSON.parse(token);
-            const lastIssuedTime = new Date(parsedToken.issuedAt).getTime();
-            const currentTime = new Date().getTime();
-            const timeDiff = ((currentTime - lastIssuedTime) / 1000) * 60 * 60;
-
-            if (timeDiff < 60) ++count;
-          }
+      for await (const keys of stream) {
+        if (keys.length) {
+          const values = await redisClient.mget(...keys);
+          (keys as string[]).forEach((key: string, i: number) => {
+            try {
+              allData[key] = JSON.parse(values[i] ?? "");
+              const tokenIssueTime = new Date(allData[key].issuedAt).getTime();
+              const currentTime = new Date().getTime();
+              const timeDiff =
+                (currentTime - tokenIssueTime) / (1000 * 60 * 60);
+              if (timeDiff < 60) ++count;
+            } catch {
+              allData[key] = values[i];
+            }
+          });
         }
-      } while (cursor !== "0");
+      }
 
-      redisClient.set("activeUsers", count, "EX", 60 * 60);
       return count;
-    } else {
-      return parseInt(doesActiveUsersCountExists);
+    } catch (err) {
+      console.log("@getActiveUsersCount \n"+err);
+      return 0;
     }
   }
 }
