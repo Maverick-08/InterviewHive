@@ -14,7 +14,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const userId = useUserStore((state) => state.userId);
+  const userId = useUserStore((state) => state.id);
   const username = useUserStore((state) => state.username);
   const degree = useUserStore((state) => state.degree);
   const branch = useUserStore((state) => state.branch);

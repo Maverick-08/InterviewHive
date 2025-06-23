@@ -31,7 +31,7 @@ const BookmarkedInterviews = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const navigate = useNavigate();
   const limit = 12;
-  const userId = useUserStore((state) => state.userId);
+  const userId = useUserStore((state) => state.id);
 
   // Handle company name change
   const handleChange = (value: string) => {
