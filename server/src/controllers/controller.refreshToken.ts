@@ -28,14 +28,13 @@ export const refreshTokenHandler = async (
 
   // 2. Extract tokens
   const __refreshToken__ = token["__refreshToken__"];
-  const __accessToken__ = token["__accessToken__"];
 
   // 3. Check refresh token validity
-  const isTokenValid = isRefreshTokenValid(__refreshToken__);
+  const isTokenValid = isRefreshTokenValid({token:__refreshToken__});
 
   // 4. If token is tampered
   if(!isTokenValid.valid){
-    res.status(code.Unauthorized).json({msg:"Tampered token"});
+    res.status(code.Unauthorized).json({msg:"Refresh Token Tampered"});
     return;
   }
 

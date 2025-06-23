@@ -66,6 +66,7 @@ export const isAccessTokenValid = ({ token }: { token: string }) => {
     jwt.verify(token, ACCESS_TOKEN_KEY);
     return {valid:true,expired:false};
   } catch (err) {
+    console.log(err);
     if(err instanceof jwt.TokenExpiredError){
       return {valid:true,expired:true};
     }
