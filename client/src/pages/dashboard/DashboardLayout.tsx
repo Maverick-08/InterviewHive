@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { easeInOut } from "framer-motion"; // ✅ Import the correct easing function
 import Topbar from "./Topbar";
 import Logo from "../../assets/logo.png";
 import { RiDashboardFill } from "react-icons/ri";
@@ -9,14 +10,14 @@ import { FaMicrophone } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { useSidebarStore } from "@/store/SidebarStore";
 
-const sidebarVariants = {
+const sidebarVariants: Variants = {
   open: {
-    width: "25%", // Or your desired width
-    transition: { duration: 0.5, ease: "easeInOut" },
+    width: "25%",
+    transition: { duration: 0.5, ease: easeInOut },
   },
   closed: {
     width: 0,
-    transition: { duration: 0.5, ease: "easeInOut" },
+    transition: { duration: 0.5, ease: easeInOut }, 
   },
 };
 

@@ -15,7 +15,7 @@ datasource db {
 }
 
 model User {
-  id           String           @id @default(cuid())
+  id               String           @id @default(cuid())
   email            String           @unique
   password         String
   username         String
@@ -31,40 +31,40 @@ model User {
 }
 
 model Course {
-  id String @id @default(cuid())
-  courseInitials   String @unique
-  degree String
-  branch String?
-  user       User[]
+  id             String  @id @default(cuid())
+  courseInitials String  @unique
+  degree         String
+  branch         String?
+  user           User[]
 }
 
 model Interview {
-  id              String           @id @default(cuid())
+  id              String              @id @default(cuid())
   authorId        String
   companyName     String
   yearOfInterview Int
   role            String
   CTCOffered      Int?
   interviewStatus String
-  viewCount   BigInt @default(0)
-  bookmarkCount Int @default(0)
-  difficultyLevel String @default("EASY")
-  createdAt       DateTime         @default(now())
+  viewCount       BigInt              @default(0)
+  bookmarkCount   Int                 @default(0)
+  difficultyLevel String              @default("EASY")
+  createdAt       DateTime            @default(now())
   interviewRounds InterviewRound[]
-  tags            InterviewTopicTag[]   @relation("InterviewToTag")
-  user            User             @relation(fields: [authorId], references: [id])
+  tags            InterviewTopicTag[] @relation("InterviewToTag")
+  user            User                @relation(fields: [authorId], references: [id])
   saved           SavedInterview[]
 }
 
 model InterviewRound {
-  id        String     @id @default(cuid())
-  roundType String
-  note      String?
-  questions Question[]
+  id          String     @id @default(cuid())
+  roundType   String
+  note        String?
+  questions   Question[]
   interviewId String
 
   // When an Interview is deleted, cascade the deletion to its InterviewRounds
-  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  interview Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
 }
 
 model Question {
@@ -72,16 +72,16 @@ model Question {
   title       String
   description String?
   link        String?
-  roundId        String
+  roundId     String
 
   // When an InterviewRound is deleted, cascade the deletion to its Questions
   interviewRound InterviewRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
 }
 
 model InterviewTopicTag {
-  id      String      @id @default(cuid())
+  id          String @id @default(cuid())
   tagInitials String @unique
-  tagName    String      @unique
+  tagName     String @unique
 
   // No onDelete: Cascade here for deleting the InterviewTag itself when Interview is deleted.
   // Prisma handles the join table cleanup automatically.
@@ -92,9 +92,9 @@ model SavedInterview {
   id          String    @id @default(cuid())
   userId      String
   interviewId String
-  interview   Interview @relation(fields: [interviewId], references: [id],onDelete: Cascade)
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
   user        User      @relation(fields: [userId], references: [id])
-  savedAt DateTime @default(now())
+  savedAt     DateTime  @default(now())
 
   @@unique([userId, interviewId])
 }

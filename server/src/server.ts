@@ -8,7 +8,7 @@ import Register from "./routes/route.register";
 import Auth from "./routes/route.auth";
 import VerifyToken from "./middleware/verifyToken";
 import Interview from "./routes/route.Interview";
-import ChatBot from "./routes/route.chatbot";
+// import ChatBot from "./routes/route.chatbot";
 import Stats from "./routes/route.stats";
 
 const app = express();
@@ -39,7 +39,7 @@ app.use("/api/register",Register);
 app.use("/api/auth",Auth);
 
 // Chatbot
-app.use("/api/chatbot",ChatBot)
+// app.use("/api/chatbot",ChatBot)
 
 // ------- Middeleware - verify token -----------
 app.use(VerifyToken);

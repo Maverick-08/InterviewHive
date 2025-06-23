@@ -8,10 +8,12 @@ export const userAuth = async ({
   email: string;
   password: string;
 }) => {
+  const innerWidth = window.innerWidth;
+  const platform = innerWidth < 640 ? "Mobile" : innerWidth > 640 && innerWidth < 1024 ? "Tablet" : "Laptop";
   try {
     const response = await axios.post(
       `${BASE_URL}/api/auth`,
-      { email, password },
+      { email, password,platform },
       { withCredentials: true }
     );
 
