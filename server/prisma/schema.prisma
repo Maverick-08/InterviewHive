@@ -46,7 +46,7 @@ model Interview {
   role            String
   CTCOffered      Int?
   interviewStatus String
-  viewCount       BigInt              @default(0)
+  viewCount       Int              @default(0)
   bookmarkCount   Int                 @default(0)
   difficultyLevel String              @default("EASY")
   createdAt       DateTime            @default(now())
