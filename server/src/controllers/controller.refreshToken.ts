@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { code } from "../config/status-code";
 import { Redis_Service } from "../services/Redis";
+import jwt from "jsonwebtoken";
+import { v4 as uuid } from "uuid";
 import {
   getAccessToken,
   getRefreshToken,
@@ -14,9 +16,7 @@ import {
 export const refreshTokenHandler = async (
   req: Request,
   res: Response,
-  next: NextFunction,
-  userId: string,
-  platform: "Mobile" | "Tablet" | "Laptop"
+  next: NextFunction
 ) => {
   // Access token has been expired and a new pair of token has to be generated using valid refresh token.
   // A. If the refresh token on req object has expired - clear cache - return
@@ -35,16 +35,17 @@ export const refreshTokenHandler = async (
 
   // 3. If refresh token has expired
   if (refreshTokenState.expired) {
-    // Clear cache
-    await Redis_Service.clearSession({ userId, platform });
-
     // Return
     res.status(code.Unauthorized).json({ msg: "Session Expired" });
     return;
   }
   // 4. If refresh token has not expired
   else {
-    // 5. Check cache
+    // 5. Decode token
+    const { userId, platform, tokenId } = jwt.decode(
+      refreshToken
+    ) as jwt.JwtPayload;
+
     const cachedData = await Redis_Service.doesSessionExists(userId, platform);
 
     // 6. If cached token does not exists
@@ -56,11 +57,13 @@ export const refreshTokenHandler = async (
     // 7. Cached token exists
     else {
       // Get token
-      const cachedToken = JSON.parse(cachedData)["token"];
+      console.log({ token:refreshToken, tokenId });
+      const tokenObject = JSON.parse(cachedData);
+      console.log(tokenObject);
 
       // 8. Compare tokens
       // If tokens do not match - Account compromised
-      if (refreshToken !== cachedToken) {
+      if (tokenId !== tokenObject.tokenId) {
         // Return
         res.status(code.Unauthorized).json({ msg: "Account Compromised" });
         return;
@@ -71,14 +74,20 @@ export const refreshTokenHandler = async (
         await Redis_Service.clearSession({ userId, platform });
 
         // Get new tokens
-        const newRefreshToken = getRefreshToken({ userId, platform });
-        const newAccessToken = getAccessToken({ userId, platform });
+        const newTokenId = uuid();
+        const newRefreshToken = getRefreshToken({
+          userId,
+          platform,
+          tokenId: newTokenId,
+        });
+        const newAccessToken = getAccessToken({ userId });
 
         // Hydrate Cache
         await Redis_Service.createSession({
           token: newRefreshToken,
           userId,
           platform,
+          tokenId: newTokenId,
         });
 
         // Set cookie

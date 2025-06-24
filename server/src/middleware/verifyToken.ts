@@ -19,20 +19,21 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken = tokens["__accessToken__"];
   const refreshToken = tokens["__refreshToken__"];
 
-  // 3. Extact userId and platform
-  const { userId, platform } = jwt.decode(accessToken) as jwt.JwtPayload;
-
-  // 4. check whether the tokens are still valid - not tampered
+  // 3. check whether the tokens are still valid - not tampered
   const accessTokenState = isAccessTokenValid({ token: accessToken });
   const refreshTokenState = isRefreshTokenValid({ token: refreshToken });
+
+  // 4. If tokens have been tampered - return
   if (!(accessTokenState.valid && refreshTokenState.valid)) {
-    // If tokens have been tampered - return
     res.status(code.Unauthorized).json({ msg: "Tampered Tokens" });
     return;
   }
   // 5. If tokens are valid
   else {
-    // 6. Check access token expiry
+      // 6. Extract userId 
+      const { userId } = jwt.decode(accessToken) as jwt.JwtPayload;
+
+    // 7. Check access token expiry
     if (!accessTokenState.expired) {
       // If access token has not expired
 
@@ -45,7 +46,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
       // If access token has expired
 
       // A. Call refresh tken handler;
-      refreshTokenHandler(req, res, next, userId, platform);
+      refreshTokenHandler(req, res, next);
     }
   }
 };

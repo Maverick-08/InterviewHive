@@ -4,13 +4,22 @@ import { validateUserAuthData } from "../validations/validate.userDetails";
 import { User } from "../services/User";
 import { handleError } from "../config/errorMessages";
 import { services } from "../config/services";
-import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "../utils/utils.tokens";
+import {
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from "../utils/utils.tokens";
 import { Redis_Service } from "../services/Redis";
-
+import { v4 as uuid } from "uuid";
 
 export const userAuthController = async (req: Request, res: Response) => {
   try {
-    const payload: { email: string; password: string; platform:"Mobile" | "Tablet" | "Laptop" } = req.body;
+    const payload: {
+      email: string;
+      password: string;
+      platform: "Mobile" | "Tablet" | "Laptop";
+    } = req.body;
 
     // 1. check if payload is valid
     const validatePayloadResult = validateUserAuthData(payload);
@@ -46,33 +55,41 @@ export const userAuthController = async (req: Request, res: Response) => {
 
     // 6. create tokens
     // Access token
-    const accessToken = getAccessToken({userId:user.id,platform:payload.platform})
+    const accessToken = getAccessToken({ userId: user.id });
 
     // Refresh Token
-    const refreshToken = getRefreshToken({userId:user.id,platform:payload.platform});
+    const tokenId = uuid();
+    const refreshToken = getRefreshToken({
+      userId: user.id,
+      platform: payload.platform,
+      tokenId,
+    });
 
     // 7. Hydrate redis store
-    await Redis_Service.createSession({userId:user.id,platform:payload.platform,token:refreshToken});
+    await Redis_Service.createSession({
+      userId: user.id,
+      platform: payload.platform,
+      token: refreshToken,
+      tokenId,
+    });
 
     // 8. set access token cookie
-   setAccessToken(res,accessToken);
-   
-   // 9. set refresh token cookie
-   setRefreshToken(res,refreshToken)
-   
+    setAccessToken(res, accessToken);
+
+    // 9. set refresh token cookie
+    setRefreshToken(res, refreshToken);
+
     // 10. return data
-    res
-      .status(code.Success)
-      .json({
-        id: user.id,
-        username: user.username,
-        degree: user.course_branch.degree,
-        branch: user.course_branch.branch,
-        yearOfPassingOut: user.yearOfPassingOut,
-        avatar: user.avatar,
-        xHandle: user.xHandle,
-        linkedIn: user.linkedIn,
-      });
+    res.status(code.Success).json({
+      id: user.id,
+      username: user.username,
+      degree: user.course_branch.degree,
+      branch: user.course_branch.branch,
+      yearOfPassingOut: user.yearOfPassingOut,
+      avatar: user.avatar,
+      xHandle: user.xHandle,
+      linkedIn: user.linkedIn,
+    });
 
     return;
   } catch (err) {

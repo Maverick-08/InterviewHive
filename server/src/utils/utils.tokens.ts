@@ -5,24 +5,24 @@ const REFRESH_TOKEN_KEY = process.env.REFRESH_TOKEN_KEY as jwt.Secret;
 
 export const getAccessToken = ({
   userId,
-  platform
 }: {
   userId: string;
-  platform: "Mobile" | "Tablet" | "Laptop";
 }) => {
-  return jwt.sign({ userId, platform }, ACCESS_TOKEN_KEY, {
-    expiresIn: "15Minutes",
+  return jwt.sign({ userId }, ACCESS_TOKEN_KEY, {
+    expiresIn: "2Minutes",
   });
 };
 
 export const getRefreshToken = ({
   userId,
   platform,
+  tokenId
 }: {
   userId: string;
   platform: "Mobile" | "Tablet" | "Laptop";
+  tokenId: string
 }) => {
-  return jwt.sign({ userId, platform }, REFRESH_TOKEN_KEY, {
+  return jwt.sign({ userId, platform, tokenId }, REFRESH_TOKEN_KEY, {
     expiresIn: "30Days",
   });
 };

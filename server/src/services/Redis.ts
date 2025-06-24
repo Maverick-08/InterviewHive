@@ -1,5 +1,4 @@
 import redisClient from "../config/redis-config";
-import jwt from "jsonwebtoken";
 
 export class Redis_Service {
   // Key : "Token:<platform>:<user id>"
@@ -16,15 +15,17 @@ export class Redis_Service {
     token,
     userId,
     platform,
+    tokenId,
   }: {
     token: string;
     userId: string;
     platform: "Mobile" | "Tablet" | "Laptop";
+    tokenId: string;
   }) {
     // cache the access token
     await redisClient.set(
       `Token:${platform}-${userId}`,
-      JSON.stringify({ token, issuedAt: new Date() }),
+      JSON.stringify({ token, issuedAt: new Date(), tokenId }),
       "EX",
       30 * 24 * 60 * 60
     );
@@ -80,7 +81,7 @@ export class Redis_Service {
 
       return count;
     } catch (err) {
-      console.log("@getActiveUsersCount \n"+err);
+      console.log("@getActiveUsersCount \n" + err);
       return 0;
     }
   }
