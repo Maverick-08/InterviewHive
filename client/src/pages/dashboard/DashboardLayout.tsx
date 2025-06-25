@@ -9,7 +9,10 @@ import { IoIosChatboxes } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { useSidebarStore } from "@/store/SidebarStore";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const sidebarVariants: Variants = {
   open: {
@@ -34,8 +37,18 @@ const contentVariants = {
 const DashboardLayout = () => {
   const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
   const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
-
   const navigate = useNavigate();
+  const [authState, setAuthState] = useState(true);
+  const isAuthenticated = useAuthStore((state) => state.authState);
+
+  useEffect(() => {
+    if (isAuthenticated == false) {
+      toast.error("Session Expired");
+      setTimeout(() => {
+        setAuthState(false);
+      }, 1000);
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="w-full h-full bg-[#171717] text-white font-mono select-none">
@@ -147,7 +160,7 @@ const DashboardLayout = () => {
                 setIsSidebarOpen={toggleSidebar}
               />
               <div className="px-4 pb-8">
-                <Outlet />
+                {authState && isAuthenticated ? <Outlet /> : <Navigate to={"/login"} />}
               </div>
             </div>
           </div>

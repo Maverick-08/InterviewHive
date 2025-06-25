@@ -33,8 +33,9 @@ export interface Interview {
 }
 
 export interface Tag{
-    tagId:string;
+    id:string;
     tagName:string;
+    tagInitials:string
 }
 
 export interface DeleteRound{
@@ -61,8 +62,6 @@ export interface DeleteRoundQuestion{
 
 export interface API{
     success:boolean;
-    isAuthenticated:boolean;
-    isServerDown:boolean;
     errMsg?:string;
     msg?:string;
 }
@@ -78,4 +77,12 @@ export interface FetchUserInterviews extends API {
 
 export interface FetchInterviewTags extends API {
     data?:{tagId:string;tagName:string}[]
+}
+
+export interface AxiosReturnType {
+  success: boolean;
+  isAuthenticated: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data?: any;
+  errMsg?: string;
 }

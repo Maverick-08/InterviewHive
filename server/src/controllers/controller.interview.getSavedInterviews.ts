@@ -25,7 +25,7 @@ export const getSavedInterviewsController = async (
 
     res
       .status(code.Success)
-      .json({ data: result.data,totalCount:result.totalCount });
+      .json({ ...result });
     return;
   } catch (err) {
     const errMsg = handleError(err, services.Interview);

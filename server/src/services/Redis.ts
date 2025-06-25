@@ -15,17 +15,15 @@ export class Redis_Service {
     token,
     userId,
     platform,
-    tokenId,
   }: {
     token: string;
     userId: string;
     platform: "Mobile" | "Tablet" | "Laptop";
-    tokenId: string;
   }) {
     // cache the access token
     await redisClient.set(
       `Token:${platform}-${userId}`,
-      JSON.stringify({ token, issuedAt: new Date(), tokenId }),
+      JSON.stringify({ token, issuedAt: new Date() }),
       "EX",
       30 * 24 * 60 * 60
     );
@@ -40,7 +38,7 @@ export class Redis_Service {
     userId: string;
     platform: "Mobile" | "Tablet" | "Laptop";
   }) {
-    redisClient.del(`Token:${platform}-${userId}`);
+    await redisClient.del(`Token:${platform}-${userId}`);
 
     return;
   }

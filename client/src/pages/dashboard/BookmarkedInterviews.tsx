@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Interview } from "@/types";
 import { toast } from "sonner";
-import { fetchInterviewTags, fetchSavedInterviews } from "./utils";
+import { fetchInterviewTopicTags, fetchSavedInterviews } from "./utils";
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
@@ -18,6 +18,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FiClock } from "react-icons/fi";
 import BookmarkCards from "@/components/common/BookmarkCards";
+import { useAuthStore } from "@/store/authStore";
 
 const BookmarkedInterviews = () => {
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
@@ -27,11 +28,14 @@ const BookmarkedInterviews = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [companyName, setCompanyName] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
-  const [tags, setTags] = useState<{ tagId: string; tagName: string }[]>([]);
+  const [tags, setTags] = useState<
+    { id: string; tagName: string; tagInitials: string }[]
+  >([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const navigate = useNavigate();
   const limit = 12;
   const userId = useUserStore((state) => state.id);
+  const setAuthState = useAuthStore((state) => state.setAuthState);
 
   // Handle company name change
   const handleChange = (value: string) => {
@@ -73,54 +77,51 @@ const BookmarkedInterviews = () => {
   //  Initial fetch
   useEffect(() => {
     const fetch = async () => {
-      const response = await fetchSavedInterviews(userId as string, 1, limit);
-      const tagsResponse = await fetchInterviewTags();
+      const response = await fetchSavedInterviews(1, limit, userId as string);
+      const tagsResponse = await fetchInterviewTopicTags();
+
       if (response.success && tagsResponse.success) {
-        setAllInterviews(response.data as Interview[]);
-        // setFilteredInterviews(response.data as Interview[]);
-        setTags(tagsResponse.data as { tagId: string; tagName: string }[]);
-        setTotalCount(response.totalCount as number);
+        setAllInterviews(response.data.data as Interview[]);
+        setTotalCount(response.data.totalCount as number);
+        setFilteredInterviews(response.data.data as Interview[]);
+        setTags(
+          tagsResponse.data.data as {
+            id: string;
+            tagName: string;
+            tagInitials: string;
+          }[]
+        );
+      } else if (!response.success && !response.isAuthenticated) {
+        setAuthState(false);
       } else {
-        if (!response.isAuthenticated) {
-          toast.warning(response.errMsg);
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
-          return;
-        }
         toast.warning(response.errMsg);
       }
       setIsLoading(false);
     };
     fetch();
-  }, [navigate, userId]);
+  }, [navigate, userId, setAuthState]);
 
   // On page change
   useEffect(() => {
     const fetch = async () => {
       setIsLoading(true);
       const response = await fetchSavedInterviews(
-        userId as string,
         page,
-        limit
+        limit,
+        userId as string
       );
       if (response.success) {
-        setFilteredInterviews(response.data as Interview[]);
-        setTotalCount(response.totalCount as number);
+        setFilteredInterviews(response.data.data as Interview[]);
+        setTotalCount(response.data.totalCount as number);
+      } else if (!response.success && !response.isAuthenticated) {
+        setAuthState(false);
       } else {
-        if (!response.isAuthenticated) {
-          toast.warning(response.errMsg);
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
-          return;
-        }
         toast.warning(response.errMsg);
       }
       setIsLoading(false);
     };
     fetch();
-  }, [page, navigate, userId]);
+  }, [page, navigate, userId, setAuthState]);
 
   // On debounced value change
   useEffect(() => {

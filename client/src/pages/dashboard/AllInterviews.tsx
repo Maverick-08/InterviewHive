@@ -2,7 +2,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Loading from "@/components/common/Loading";
-import { fetchInterviews, fetchInterviewTags } from "./utils";
+import { fetchAllInterviews, fetchInterviewTopicTags } from "./utils";
 import { useEffect, useState } from "react";
 import type { Interview } from "@/types";
 import NoInterviewsAvailableCard from "@/components/common/NoInterviewsAvailableCard";
@@ -10,6 +10,7 @@ import ListInterviews from "./ListInterviews";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { InterviewFilters } from "@/components/common/InterviewFilters";
+import { useAuthStore } from "@/store/authStore";
 
 const AllInterviews = () => {
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
@@ -19,9 +20,12 @@ const AllInterviews = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [companyName, setCompanyName] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
-  const [tags, setTags] = useState<{tagId:string; tagName: string }[]>([]);
+  const [tags, setTags] = useState<
+    { id: string; tagName: string; tagInitials: string }[]
+  >([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const navigate = useNavigate();
+  const setAuthState = useAuthStore((state) => state.setAuthState);
   const limit = 12;
 
   // Handle company name change
@@ -64,51 +68,53 @@ const AllInterviews = () => {
   //  Initial fetch
   useEffect(() => {
     const fetch = async () => {
-      const response = await fetchInterviews(1, limit);
-      const tagsResponse = await fetchInterviewTags();
-      if (response.success && tagsResponse.success) {
-        setAllInterviews(response.data as Interview[]);
-        setFilteredInterviews(response.data as Interview[]);
-        setTags(tagsResponse.data as {tagId:string;tagName:string}[])
-        setTotalCount(response.totalCount as number);
+      const response = await fetchAllInterviews(1, limit, "", []);
+      const tagsResponse = await fetchInterviewTopicTags();
+
+      if (response.success) {
+        setAllInterviews(response.data.data as Interview[]);
+        setFilteredInterviews(response.data.data as Interview[]);
+        setTags(
+          tagsResponse.data.data as {
+            id: string;
+            tagName: string;
+            tagInitials: string;
+          }[]
+        );
+        setTotalCount(response.data.totalCount as number);
+      } else if (!response.success && !response.isAuthenticated) {
+        setAuthState(false);
       } else {
-        if (!response.isAuthenticated) {
-          toast.warning(response.errMsg);
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
-          return;
-        }
         toast.warning(response.errMsg);
       }
       setIsLoading(false);
     };
     fetch();
-  }, [navigate]);
+  }, [navigate, setAuthState]);
 
   // On page, debounced value or tag change
   useEffect(() => {
     const fetch = async () => {
       setIsLoading(true);
-      const response = await fetchInterviews(page, limit,debouncedValue,selectedTags);
+      const response = await fetchAllInterviews(
+        page,
+        limit,
+        debouncedValue,
+        selectedTags
+      );
       if (response.success) {
-        setAllInterviews(response.data as Interview[]);
-        setFilteredInterviews(response.data as Interview[]);
-        setTotalCount(response.totalCount as number);
+        // setAllInterviews(response.data as Interview[]);
+        setFilteredInterviews(response.data.data as Interview[]);
+        setTotalCount(response.data.totalCount as number);
+      } else if (!response.success && !response.isAuthenticated) {
+        setAuthState(false);
       } else {
-        if (!response.isAuthenticated) {
-          toast.warning(response.errMsg);
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
-          return;
-        }
         toast.warning(response.errMsg);
       }
       setIsLoading(false);
     };
     fetch();
-  }, [page, debouncedValue, selectedTags, navigate]);
+  }, [page, debouncedValue, selectedTags, navigate, setAuthState]);
 
   return (
     <div className="mt-8 flex flex-col gap-4">
@@ -135,7 +141,11 @@ const AllInterviews = () => {
           <div className="flex items-center gap-2 font-mono">
             {/* <span>Filter</span>
             <IoIosArrowDown className="size-2" /> */}
-            <InterviewFilters tags={tags} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+            <InterviewFilters
+              tags={tags}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+            />
           </div>
         </div>
       </div>
@@ -159,7 +169,7 @@ const AllInterviews = () => {
         <div className="flex items-center gap-8 select-none">
           {/* previous page  */}
           <div
-          onClick={decrement}
+            onClick={decrement}
             className={`flex items-center gap-2 cursor-pointer ${
               page == 1 || isLoading ? "text-neutral-500" : "text-white"
             }`}
@@ -170,9 +180,11 @@ const AllInterviews = () => {
 
           {/* next page  */}
           <div
-          onClick={increment}
+            onClick={increment}
             className={`flex items-center gap-2 cursor-pointer ${
-              (totalCount < limit) || isLoading ? "text-neutral-500" : "text-white"
+              totalCount < limit || isLoading
+                ? "text-neutral-500"
+                : "text-white"
             }`}
           >
             <span className="text-lg">Next</span>

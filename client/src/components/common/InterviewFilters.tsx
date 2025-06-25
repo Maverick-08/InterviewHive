@@ -22,7 +22,7 @@ export function InterviewFilters({
   selectedTags,
   setSelectedTags,
 }: {
-  tags: { tagId: string; tagName: string }[];
+  tags: { id: string; tagName: string; tagInitials:string }[];
   selectedTags: string[];
   setSelectedTags: (x: string[]) => void;
 }) {
@@ -44,7 +44,7 @@ export function InterviewFilters({
             <CommandGroup className="text-neutral-400">
               {tags.map((tag) => (
                 <CommandItem
-                  key={tag.tagId}
+                  key={tag.id}
                   className="cursor-pointer"
                   value={tag.tagName}
                   onSelect={(currentValue) => {

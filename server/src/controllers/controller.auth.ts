@@ -11,7 +11,6 @@ import {
   setRefreshToken,
 } from "../utils/utils.tokens";
 import { Redis_Service } from "../services/Redis";
-import { v4 as uuid } from "uuid";
 
 export const userAuthController = async (req: Request, res: Response) => {
   try {
@@ -58,11 +57,9 @@ export const userAuthController = async (req: Request, res: Response) => {
     const accessToken = getAccessToken({ userId: user.id });
 
     // Refresh Token
-    const tokenId = uuid();
     const refreshToken = getRefreshToken({
       userId: user.id,
       platform: payload.platform,
-      tokenId,
     });
 
     // 7. Hydrate redis store
@@ -70,7 +67,6 @@ export const userAuthController = async (req: Request, res: Response) => {
       userId: user.id,
       platform: payload.platform,
       token: refreshToken,
-      tokenId,
     });
 
     // 8. set access token cookie

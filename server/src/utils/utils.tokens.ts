@@ -15,14 +15,12 @@ export const getAccessToken = ({
 
 export const getRefreshToken = ({
   userId,
-  platform,
-  tokenId
+  platform
 }: {
   userId: string;
   platform: "Mobile" | "Tablet" | "Laptop";
-  tokenId: string
 }) => {
-  return jwt.sign({ userId, platform, tokenId }, REFRESH_TOKEN_KEY, {
+  return jwt.sign({ userId, platform }, REFRESH_TOKEN_KEY, {
     expiresIn: "30Days",
   });
 };

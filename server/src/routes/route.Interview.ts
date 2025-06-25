@@ -1,7 +1,5 @@
 import { Router } from "express";
-import { getAllInterviewsController } from "../controllers/controller.interview.getAllInterviews";
 import { addInterviewsController } from "../controllers/controller.interview.addInterviewExperienxe";
-import { getFilteredInterviewsController } from "../controllers/controller.interview.getFilteredInterviews";
 import { getUserInterviewsController } from "../controllers/controller.interviews.getUserInterviews";
 import { getInterviewByIdController } from "../controllers/controller.interview.getInterviewById";
 import { deleteInterviewByIdController } from "../controllers/controller.interview.deleteUserInterview";
@@ -9,17 +7,15 @@ import { updateInterviewExperienceController } from "../controllers/controller.i
 import { getSavedInterviewsController } from "../controllers/controller.interview.getSavedInterviews";
 import { saveInterviewController } from "../controllers/controller.save.saveInterview";
 import { getInterviewTags } from "../controllers/controller.interview.interviewTags";
+import { getAllInterviewsController } from "../controllers/controller.interview.getAllInterviews";
 
 const router = Router();
 
 // get all interview tags
 router.route("/tags").get(getInterviewTags)
 
-// get all interviews or interviews filtered by company name
+// get all interviews or filtered interviews
 router.route("/").get(getAllInterviewsController);
-
-// get filtered interviews - tags + company name
-router.route("/filter").get(getFilteredInterviewsController);
 
 // get interviews created by user
 router.route("/user").get(getUserInterviewsController);

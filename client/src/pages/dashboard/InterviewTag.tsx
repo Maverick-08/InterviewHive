@@ -4,8 +4,6 @@ import { useInterviewStore } from "@/store/interview";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
-import { handleError } from "./utils";
-import { useNavigate } from "react-router-dom";
 import { ImSpinner8 } from "react-icons/im";
 const BASE_URL = import.meta.env.VITE_API_ENDPOINT;
 
@@ -45,7 +43,6 @@ const InterviewTag = ({
   const addInterviewTag = useInterviewStore((state) => state.addInterviewTag);
   const getPayload = useInterviewStore((state) => state.getInterviewPayload);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const payload = getPayload();
@@ -66,15 +63,7 @@ const InterviewTag = ({
       localStorage.removeItem("InterviewDetails");
     } catch (err) {
       setIsSubmitting(false);
-      const response = handleError(err);
-      if (!response.isAuthenticated) {
-        toast.warning("Session Expired", {
-          description: "Please login again",
-        });
-        setTimeout(() => navigate("/login"), 1000);
-      } else {
-        toast.error(`${response.errMsg}`);
-      }
+      console.log(err)
     }
   };
 

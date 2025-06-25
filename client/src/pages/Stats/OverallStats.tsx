@@ -5,17 +5,18 @@ import { AiOutlineStock } from "react-icons/ai";
 import { FaStar } from "react-icons/fa6";
 import { BsEye } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import axios from "axios";
-const BASE_URL = import.meta.env.VITE_API_ENDPOINT;
+import { getFunction } from "@/utils/axiosRequest";
+import { toast } from "sonner";
+import { useAuthStore } from "@/store/authStore";
 
-interface Dashboard{
-    totalInterviews: number;
-    totalUsers: number;
-    successPercentage: number;
-    totalCompanies: number;
-    totalViews: number;
-    activeUsers: number;
-  }
+interface Dashboard {
+  totalInterviews: number;
+  totalUsers: number;
+  successPercentage: number;
+  totalCompanies: number;
+  totalViews: number;
+  activeUsers: number;
+}
 
 const OverallStats = () => {
   const [payload, setPayload] = useState<Dashboard>({
@@ -26,16 +27,24 @@ const OverallStats = () => {
     totalViews: 0,
     activeUsers: 0,
   });
-  console.log("Overall Stats");
+  const setAuthState = useAuthStore((state) => state.setAuthState);
+
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get(`${BASE_URL}/api/stats/dashboard`, {
-        withCredentials: true,
-      });
-      setPayload(res.data.data as Dashboard);
+      const response = await getFunction("/api/stats/dashboard");
+      if (response.success) {
+        setPayload(response.data as Dashboard);
+      } else if (!response.isAuthenticated) {
+        toast.error(`${response.errMsg}`);
+        setTimeout(() => {
+          setAuthState(false);
+        }, 1000);
+      } else {
+        toast.warning(`${response.errMsg}`);
+      }
     };
     fetch();
-  }, []);
+  }, [setAuthState]);
   return (
     <div className="pt-4 select-none">
       <div className="flex flex-col gap-1 mb-6">
@@ -78,7 +87,7 @@ const OverallStats = () => {
         <StatsCard
           Icon={CgNotes}
           growthPercentage={12}
-         totalCount={`${payload.activeUsers}`}
+          totalCount={`${payload.activeUsers}`}
           tagline="Active Users"
         />
       </div>

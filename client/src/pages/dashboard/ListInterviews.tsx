@@ -5,19 +5,19 @@ import type { Interview } from "@/types";
 
 const ListInterviews = ({ interviewData }: { interviewData: Interview[] }) => {
   const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
+
   return (
     <div
       className={cn(
         `grid  ${
-          isSidebarActive
-            ? "grid-cols-1"
-            : "grid-cols-1 md:grid-cols-2"
+          isSidebarActive ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
         }  gap-8 select-none`
       )}
     >
-      {interviewData.map((data) => {
+      {interviewData.map((data, idx) => {
         return (
           <InterviewExperienceCard
+            key={idx}
             companyName={data.companyName}
             candidate={data.user.username}
             degree={data.user.courseId}

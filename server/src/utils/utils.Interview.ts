@@ -2,53 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import { InterviewDetails } from "../services/Interview";
 const prisma = new PrismaClient();
 
-export const fetchAllInterviews = async (
-  page: number,
-  limit: number,
-  companyName: string | undefined
-) => {
-  const whereConditions: any = {};
 
-  if (companyName && companyName.trim() !== "") {
-    whereConditions.companyName = {
-      contains: companyName.trim(),
-      mode: "insensitive", // For case-insensitive search (PostgreSQL, MySQL)
-    };
-  }
-
-  const response = await prisma.interview.findMany({
-    where: whereConditions,
-    include: {
-      interviewRounds: {
-        include: {
-          questions: true,
-        },
-      },
-      user: {
-        select: {
-          username: true,
-          id: true,
-          courseId: true,
-          yearOfPassingOut: true,
-        },
-      },
-      tags: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    skip: (page - 1) * limit,
-    take: limit,
-  });
-
-  const totalCount = await prisma.interview.count({
-    where: whereConditions,
-  });
-
-  return { data: response, totalCount };
-};
-
-export const fetchFilteredInterviews = async (
+export const AllInterviews = async (
   tags: string[],
   companyName: string | undefined,
   page: number = 1,
@@ -56,13 +11,15 @@ export const fetchFilteredInterviews = async (
 ) => {
   const whereConditions: any = {};
 
-  whereConditions.tags = {
-    some: {
-      tagName: {
-        in: tags,
+  if(tags && tags.length >0){
+    whereConditions.tags = {
+      some: {
+        tagName: {
+          in: tags,
+        },
       },
-    },
-  };
+    };
+  }
 
   if (companyName && companyName.trim() !== "") {
     whereConditions.companyName = {
@@ -79,7 +36,13 @@ export const fetchFilteredInterviews = async (
           questions: true,
         },
       },
-      tags: true,
+      tags:{
+        select:{
+          id: true,
+          tagInitials:true,
+          tagName:true
+        }
+      },
       user: {
         select: {
           username: true,

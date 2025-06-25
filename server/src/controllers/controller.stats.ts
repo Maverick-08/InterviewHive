@@ -8,7 +8,7 @@ export const getDashboardStatsController = async (
 ) => {
     try{
         const response = await Stats.getDashboardStats();
-        res.json({data:response});
+        res.json({...response});
         return;
     }
     catch(err){
@@ -20,8 +20,8 @@ export const getDashboardStatsController = async (
 
 export const getTrendingTopicsStats = async (req:Request, res:Response) => {
     try{
-        const response = await Stats.getTrendingTopicsStats();
-        res.json({data:response});
+        const data = await Stats.getTrendingTopicsStats();
+        res.status(code.Success).send(data);
         return;
     }
     catch(err){

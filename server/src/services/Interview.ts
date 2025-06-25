@@ -1,8 +1,7 @@
 import {
+  AllInterviews,
   createInterviewExperience,
   deleteUserInterviewExperience,
-  fetchAllInterviews,
-  fetchFilteredInterviews,
   fetchInterviewById,
   fetchInterviewsSharedByUser,
   fetchSavedInterviewExperience,
@@ -26,31 +25,31 @@ export interface InterviewDetails {
     }[];
   }[];
   tags: {
-    tagInitials:string;
+    tagInitials: string;
     tagName: string;
   }[];
 }
 
 export class Interview {
-  public static async getAllInterviews(page: number, limit: number,companyName:string|undefined) {
-    return await fetchAllInterviews(page, limit,companyName);
-  }
-
-  public static async getFilteredInterviews(
-    tags: string[],
-    companyName: string|undefined,
+  public static async getAllInterviews(
     page: number,
-    limit: number
+    limit: number,
+    tags: string[],
+    companyName: string | undefined
   ) {
-    return await fetchFilteredInterviews(tags, companyName, page, limit);
+    return await AllInterviews(tags, companyName, page, limit);
   }
 
   public static async getUserInterviews(userId: string) {
     return await fetchInterviewsSharedByUser(userId);
   }
 
-  public static async geSavedInterviewExperience(userId: string,page:number,limit:number) {
-    return await fetchSavedInterviewExperience(userId,page,limit);
+  public static async geSavedInterviewExperience(
+    userId: string,
+    page: number,
+    limit: number
+  ) {
+    return await fetchSavedInterviewExperience(userId, page, limit);
   }
 
   public static async getInterviewById(interviewId: string) {

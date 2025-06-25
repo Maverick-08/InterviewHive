@@ -6,10 +6,10 @@ import SmoothScrollProvider from "@/components/common/SmoothScrollProvider";
 import { useEffect, useState } from "react";
 import type { Interview } from "@/types";
 import Loading from "@/components/common/Loading";
-import { fetchUserInterviews } from "./utils";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/store/userStore";
+import { getFunction } from "@/utils/axiosRequest";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -26,18 +26,11 @@ const UserProfile = () => {
 
   useEffect(() => {
     const fetch = async () =>{
-      const response = await fetchUserInterviews(`${userId}`);
+      const response = await getFunction(`/api/interview/user?userId=${userId}`);
       if(response.success){
         setAllInterviews(response.data as Interview[]);
       }
       else {
-        if(!response.isAuthenticated){
-          toast.warning(response.errMsg);
-          setTimeout(() => {
-            navigate("/login")
-          }, 2000);
-          return;
-        }
         toast.warning(response.errMsg);
       }
       setIsLoading(false);

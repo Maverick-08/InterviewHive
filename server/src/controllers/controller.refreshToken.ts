@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response} from "express";
 import { code } from "../config/status-code";
 import { Redis_Service } from "../services/Redis";
 import jwt from "jsonwebtoken";
-import { v4 as uuid } from "uuid";
 import {
   getAccessToken,
   getRefreshToken,
@@ -11,14 +10,10 @@ import {
   setRefreshToken,
 } from "../utils/utils.tokens";
 
-// const BUFFERED_TIME = 5 * 60 * 1000;
+const GRACE_PERIOD = 5
 
-export const refreshTokenHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  // Access token has been expired and a new pair of token has to be generated using valid refresh token.
+export const refreshTokenHandler = async (req: Request, res: Response) => {
+  // If Access token is expired new pair of token has to be generated using a valid refresh token.
   // A. If the refresh token on req object has expired - clear cache - return
   // B. If the refresh token on req bject has not expired
   // Check Cache
@@ -26,76 +21,94 @@ export const refreshTokenHandler = async (
   // a. Token matched - clear cache - set new tokens(token rotation)
   // b. Token did not matched - Account Compromised - terminate all session.
   // 2. The token does not exists in cache - cache has been cleared or expired.
-
+console.log("Path: ",req.originalUrl)
   // 1. Get refresh token
   const refreshToken = req.cookies["__refreshToken__"];
 
-  // 2. Check for expiry
+  // 2. Token check
   const refreshTokenState = isRefreshTokenValid({ token: refreshToken });
 
-  // 3. If refresh token has expired
-  if (refreshTokenState.expired) {
-    // Return
-    res.status(code.Unauthorized).json({ msg: "Session Expired" });
+  // 3. If token is tampered
+  if (!refreshTokenState.valid) {
+    res.status(code.Unauthorized).json({ msg: "Refresh token is tampered.",info:"Refresh token tampered" });
     return;
   }
-  // 4. If refresh token has not expired
+  // 4. If refresh token has expired
+  else if (refreshTokenState.expired) {
+    // Return
+    res.status(code.Unauthorized).json({ msg: "Session Expired",info:"Refresh token expired" });
+    return;
+  }
+  // 5. If refresh token has not expired
   else {
-    // 5. Decode token
+    // 5. Decode request object token
     const { userId, platform, tokenId } = jwt.decode(
       refreshToken
     ) as jwt.JwtPayload;
 
+    // 6. Check if cached token against (platform,userId) exists
     const cachedData = await Redis_Service.doesSessionExists(userId, platform);
 
-    // 6. If cached token does not exists
+    // 7. If cached token does not exists
     if (!cachedData) {
       // Return
-      res.status(code.Unauthorized).json({ msg: "Session Expired" });
+      res.status(code.Unauthorized).json({ msg: "Session Expired",info:"Cached data dos not exists" });
       return;
     }
-    // 7. Cached token exists
+    // 8. Cached token exists
     else {
-      // Get token
-      console.log({ token:refreshToken, tokenId });
-      const tokenObject = JSON.parse(cachedData);
-      console.log(tokenObject);
+      try {
+        // 9. Get parsed token object
+        const { token: cachedToken, issuedAt } = JSON.parse(cachedData);
 
-      // 8. Compare tokens
-      // If tokens do not match - Account compromised
-      if (tokenId !== tokenObject.tokenId) {
-        // Return
-        res.status(code.Unauthorized).json({ msg: "Account Compromised" });
+        const tokenIssueTime = (new Date(issuedAt)).getTime() // Time in ms
+        const currentTime = (new Date()).getTime() // Current time in ms
+        const timeDiff = (currentTime - tokenIssueTime)/1000 // Time in secs
+
+        if(timeDiff < GRACE_PERIOD){
+          console.log("Time Diff : ",timeDiff," Grace Period : ",10);
+          res.status(code.SuccessNoContent).send("The new token has been set. Try again with that.");
+          return;
+        }
+
+        // 10. Match token Ids
+        // If tokens do not match - Account compromised
+        else if (refreshToken !== cachedToken) {
+          // Return
+          res.status(code.Unauthorized).send("Account Compromised");
+          return;
+        }
+        // If tokens match - rotate tokens
+        else {
+          // Clear old cache
+          await Redis_Service.clearSession({ userId, platform });
+
+          // Get new tokens
+          const newRefreshToken = getRefreshToken({
+            userId,
+            platform,
+          });
+          const newAccessToken = getAccessToken({ userId });
+
+          // Hydrate Cache
+          await Redis_Service.createSession({
+            token: newRefreshToken,
+            userId,
+            platform,
+          });
+
+          // Set cookie
+          setAccessToken(res, newAccessToken);
+          setRefreshToken(res, newRefreshToken);
+
+          // Return
+          res.status(code.Success).send("Token Rotated");
+          return;
+        }
+      } catch (err) {
+        console.log("@controller.refreshToken\n", err);
+        res.status(code.ServerError).json({ msg: "Server Error" });
         return;
-      }
-      // If tokens match - rotate tokens
-      else {
-        // Clear old cache
-        await Redis_Service.clearSession({ userId, platform });
-
-        // Get new tokens
-        const newTokenId = uuid();
-        const newRefreshToken = getRefreshToken({
-          userId,
-          platform,
-          tokenId: newTokenId,
-        });
-        const newAccessToken = getAccessToken({ userId });
-
-        // Hydrate Cache
-        await Redis_Service.createSession({
-          token: newRefreshToken,
-          userId,
-          platform,
-          tokenId: newTokenId,
-        });
-
-        // Set cookie
-        setAccessToken(res, newAccessToken);
-        setRefreshToken(res, newRefreshToken);
-
-        // Call next
-        next();
       }
     }
   }

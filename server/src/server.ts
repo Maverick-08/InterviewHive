@@ -10,6 +10,7 @@ import VerifyToken from "./middleware/verifyToken";
 import Interview from "./routes/route.Interview";
 // import ChatBot from "./routes/route.chatbot";
 import Stats from "./routes/route.stats";
+import Refresh from "./routes/route.refresh";
 
 const app = express();
 
@@ -40,6 +41,9 @@ app.use("/api/auth",Auth);
 
 // Chatbot
 // app.use("/api/chatbot",ChatBot)
+
+// Refresh
+app.use("/api/refresh",Refresh);
 
 // ------- Middeleware - verify token -----------
 app.use(VerifyToken);
