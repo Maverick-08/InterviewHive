@@ -5,6 +5,11 @@ import { LuEye } from "react-icons/lu";
 import WhiteButton from "./WhiteButton";
 import { useState } from "react";
 import { useSidebarStore } from "@/store/SidebarStore";
+import type { Interview } from "@/types";
+import {
+  useInterviewModalStore,
+  useSelectedInterviewStore,
+} from "@/store/interviewModal";
 
 const InterviewExperienceCard = ({
   companyName,
@@ -17,6 +22,7 @@ const InterviewExperienceCard = ({
   tags,
   viewCount,
   difficultyLevel,
+  interviewDetails,
 }: {
   companyName: string;
   candidate: string;
@@ -28,9 +34,18 @@ const InterviewExperienceCard = ({
   tags: { tagName: string }[];
   viewCount?: number;
   difficultyLevel?: string;
+  interviewDetails: Interview;
 }) => {
   const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
   const [bookmarked, setBookmarked] = useState(false);
+
+  const setIsInterviewModalOpen = useInterviewModalStore(
+    (state) => state.setIsInterviewModalOpen
+  );
+  const setSelectedInterview = useSelectedInterviewStore(
+    (state) => state.setSelectedInterview
+  );
+
   return (
     <Card
       className={`bg-[#171717] rounded-sm text-white p-4 group ${
@@ -39,10 +54,15 @@ const InterviewExperienceCard = ({
     >
       {/* companyName & Bookmark  */}
       <div className="flex justify-between items-center">
-        <span className="text-xl sm:text-2xl md:text-3xl  font-mono tracking-wide transition-color duration-300 ease-in-out delay-300 group-hover:text-blue-400">{companyName}</span>
-        <GoBookmarkFill className={`size-5 cursor-pointer transition-colors duration-300
-          ${bookmarked?"text-yellow-400" :"text-white/50"}
-          `} onClick={()=> setBookmarked(!bookmarked)}/>
+        <span className="text-xl sm:text-2xl md:text-3xl  font-mono tracking-wide transition-color duration-300 ease-in-out delay-300 group-hover:text-blue-400">
+          {companyName}
+        </span>
+        <GoBookmarkFill
+          className={`size-5 cursor-pointer transition-colors duration-300
+          ${bookmarked ? "text-yellow-400" : "text-white/50"}
+          `}
+          onClick={() => setBookmarked(!bookmarked)}
+        />
       </div>
 
       {/* offere details  */}
@@ -53,7 +73,6 @@ const InterviewExperienceCard = ({
             <span className="text-neutral-500">Candidate:</span>
             <span>{candidate}</span>
           </div>
-          
         </div>
         {/* role  */}
         <div className="flex gap-2">
@@ -86,9 +105,9 @@ const InterviewExperienceCard = ({
           ))}
         </div>
       </div>
-        <p className="h-px w-full relative">
-          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-        </p>
+      <p className="h-px w-full relative">
+        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+      </p>
 
       {/* analytics and view details button  */}
       <div className=" mt-2 flex justify-between items-end font-mono">
@@ -102,7 +121,14 @@ const InterviewExperienceCard = ({
             <span>{difficultyLevel ?? "Medium"}</span>
           </div>
         </div>
-        <WhiteButton text="View Details " className="bg-[#333333] hover:bg-[#333333] group-hover:text-white border border-[#17171717] text-md text-white/60  transition-colors delay-300" />
+        <WhiteButton
+          onClick={() => {
+            setIsInterviewModalOpen(true);
+            setSelectedInterview(interviewDetails);
+          }}
+          text="View Details "
+          className="bg-[#333333] hover:bg-[#333333] group-hover:text-white border border-[#17171717] text-md text-white/60  transition-colors delay-300"
+        />
       </div>
     </Card>
   );

@@ -11,6 +11,8 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { InterviewFilters } from "@/components/common/InterviewFilters";
 import { useAuthStore } from "@/store/authStore";
+import { useInterviewModalStore } from "@/store/interviewModal";
+import InterviewModal from "./InterviewModal";
 
 const AllInterviews = () => {
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
@@ -26,6 +28,7 @@ const AllInterviews = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const navigate = useNavigate();
   const setAuthState = useAuthStore((state) => state.setAuthState);
+  const setIsInterviewModalOpen = useInterviewModalStore(state => state.isInterviewModalOpen);
   const limit = 12;
 
   // Handle company name change
@@ -117,7 +120,7 @@ const AllInterviews = () => {
   }, [page, debouncedValue, selectedTags, navigate, setAuthState]);
 
   return (
-    <div className="mt-8 flex flex-col gap-4">
+    <div className="relative mt-8 flex flex-col gap-4 overflow-hidden">
       {/* title + search bar + filter  */}
       <div className="p-2 sm:p-4 gap-8 lg:gap-0 flex flex-col lg:flex-row justify-between items-center rounded-md border-t border-white/10">
         {/* title  */}
@@ -192,6 +195,7 @@ const AllInterviews = () => {
           </div>
         </div>
       </div>
+      {setIsInterviewModalOpen && <InterviewModal />}
     </div>
   );
 };

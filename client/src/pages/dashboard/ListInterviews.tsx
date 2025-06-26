@@ -26,6 +26,7 @@ const ListInterviews = ({ interviewData }: { interviewData: Interview[] }) => {
             rounds={data.interviewRounds.length}
             CTCOffered={data.CTCOffered}
             tags={data.tags}
+            interviewDetails={data}
           />
         );
       })}
