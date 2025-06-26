@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import { InterviewDetails } from "../services/Interview";
 const prisma = new PrismaClient();
 
-
 export const AllInterviews = async (
   tags: string[],
   companyName: string | undefined,
@@ -11,7 +10,7 @@ export const AllInterviews = async (
 ) => {
   const whereConditions: any = {};
 
-  if(tags && tags.length >0){
+  if (tags && tags.length > 0) {
     whereConditions.tags = {
       some: {
         tagName: {
@@ -36,12 +35,12 @@ export const AllInterviews = async (
           questions: true,
         },
       },
-      tags:{
-        select:{
+      tags: {
+        select: {
           id: true,
-          tagInitials:true,
-          tagName:true
-        }
+          tagInitials: true,
+          tagName: true,
+        },
       },
       user: {
         select: {
@@ -92,7 +91,11 @@ export const fetchInterviewsSharedByUser = async (userId: string) => {
   return response;
 };
 
-export const fetchSavedInterviewExperience = async (userId: string,page:number=1,limit:number=10) => {
+export const fetchSavedInterviewExperience = async (
+  userId: string,
+  page: number = 1,
+  limit: number = 10
+) => {
   const savedInterviewIdsArray = await prisma.savedInterview.findMany({
     where: {
       userId,
@@ -100,11 +103,11 @@ export const fetchSavedInterviewExperience = async (userId: string,page:number=1
     select: {
       interviewId: true,
     },
-    skip: (page - 1)*limit,
-    take:limit,
-    orderBy:{
-      savedAt: 'desc'
-    }
+    skip: (page - 1) * limit,
+    take: limit,
+    orderBy: {
+      savedAt: "desc",
+    },
   });
 
   let savedExperiences = [];
@@ -159,71 +162,77 @@ export const fetchInterviewById = async (interviewId: string) => {
 export const createInterviewExperience = async (
   interviewData: InterviewDetails
 ) => {
-  const result = await prisma.$transaction(async (tx) => {
-    // 1. Create the Interview instance with nested operations for tags, rounds, and questions.
-    const newInterview = await tx.interview.create({
-      data: {
-        companyName: interviewData.companyName.toUpperCase(),
-        yearOfInterview: interviewData.yearOfInterview,
-        role: interviewData.role.toUpperCase(),
-        CTCOffered: interviewData.CTCOffered,
-        interviewStatus: interviewData.interviewStatus.toUpperCase(),
+  const result = await prisma.$transaction(
+    async (tx) => {
+      // 1. Create the Interview instance with nested operations for tags, rounds, and questions.
+      const newInterview = await tx.interview.create({
+        data: {
+          companyName: interviewData.companyName.toUpperCase(),
+          yearOfInterview: interviewData.yearOfInterview,
+          role: interviewData.role.toUpperCase(),
+          CTCOffered: interviewData.CTCOffered,
+          interviewStatus: interviewData.interviewStatus.toUpperCase(),
 
-        user: {
-          connect: {
-            id: interviewData.authorId, // Connect to an existing user by their ID
-          },
-        },
-
-        // Use `connectOrCreate` to handle InterviewTags for the many-to-many relationship.
-        // This will:
-        //   a) Find an existing InterviewTag by `tagName`.
-        //   b) If not found, create a new InterviewTag with that `tagName`.
-        //   c) Establish the link in the `_InterviewToTag` join table for this interview.
-        tags: {
-          connectOrCreate: interviewData.tags.map((tag) => ({
-            where: { tagInitials: tag.tagInitials }, // Try to find an existing tag by its unique name
-            create: { 
-              tagName: tag.tagName, 
-              tagInitials: tag.tagInitials // Ensure tagInitials is provided
-            }, // If not found, create a new tag
-          })),
-        },
-
-        // Use nested `create` for InterviewRounds (one-to-many relationship).
-        // Each round's `interviewId` will automatically be set by Prisma.
-        interviewRounds: {
-          create: interviewData.interviewRounds.map((round) => ({
-            roundType: round.roundType,
-            note: round.note,
-            // Use nested `create` for Questions within each InterviewRound.
-            // Each question's `roundId` will automatically be set by Prisma.
-            questions: {
-              create: round.questions.map((question) => ({
-                title: question.title,
-                description: question.description,
-                link: question.link,
-              })),
+          user: {
+            connect: {
+              id: interviewData.authorId, // Connect to an existing user by their ID
             },
-          })),
-        },
-      },
-      // Include related data in the returned object to confirm creation
-      include: {
-        tags: true, // Confirm tags were linked
-        interviewRounds: {
-          include: {
-            questions: true, // Confirm questions were linked
+          },
+
+          // Use `connectOrCreate` to handle InterviewTags for the many-to-many relationship.
+          // This will:
+          //   a) Find an existing InterviewTag by `tagInitials`.
+          //   b) If not found, create a new InterviewTag with that `tagName`.
+          //   c) Establish the link in the `_InterviewToTag` join table for this interview.
+          tags: {
+            connectOrCreate: interviewData.tags.map((tag) => ({
+              where: { tagInitials: tag.tagInitials }, // Try to find an existing tag by its unique name
+              create: {
+                tagName: tag.tagName,
+                tagInitials: tag.tagInitials, // Ensure tagInitials is provided
+              }, // If not found, create a new tag
+            })),
+          },
+
+          // Use nested `create` for InterviewRounds (one-to-many relationship).
+          // Each round's `interviewId` will automatically be set by Prisma.
+          interviewRounds: {
+            create: interviewData.interviewRounds.map((round) => ({
+              roundType: round.roundType,
+              note: round.note,
+              // Use nested `create` for Questions within each InterviewRound.
+              // Each question's `roundId` will automatically be set by Prisma.
+              questions: {
+                create: round.questions.map((question) => ({
+                  title: question.title,
+                  description: question.description,
+                  link: question.link,
+                })),
+              },
+            })),
           },
         },
-        // You might also include the user if needed:
-        // user: { select: { userId: true, username: true } },
-      },
-    });
+        // Include related data in the returned object to confirm creation
+        include: {
+          tags: true, // Confirm tags were linked
+          interviewRounds: {
+            include: {
+              questions: true, // Confirm questions were linked
+            },
+          },
+          // You might also include the user if needed:
+          // user: { select: { userId: true, username: true } },
+        },
+      });
 
-    // The transaction will return the entire newInterview object if successful
-    return newInterview;
-  });
+      // The transaction will return the entire newInterview object if successful
+      return newInterview;
+    },
+    {
+      maxWait: 10000, // wait up to 10s to get a database connection
+      timeout: 20000, // allow up to 20s for the transaction to complete
+    }
+  );
 
   return result;
 };
