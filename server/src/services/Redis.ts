@@ -21,14 +21,12 @@ export class Redis_Service {
     platform: "Mobile" | "Tablet" | "Laptop";
   }) {
     // cache the access token
-    await redisClient.set(
+    return await redisClient.set(
       `Token:${platform}-${userId}`,
       JSON.stringify({ token, issuedAt: new Date() }),
       "EX",
       30 * 24 * 60 * 60
     );
-
-    return;
   }
 
   public static async clearSession({

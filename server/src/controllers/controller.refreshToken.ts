@@ -21,7 +21,7 @@ export const refreshTokenHandler = async (req: Request, res: Response) => {
   // a. Token matched - clear cache - set new tokens(token rotation)
   // b. Token did not matched - Account Compromised - terminate all session.
   // 2. The token does not exists in cache - cache has been cleared or expired.
-console.log("Path: ",req.originalUrl)
+
   // 1. Get refresh token
   const refreshToken = req.cookies["__refreshToken__"];
 
@@ -42,17 +42,18 @@ console.log("Path: ",req.originalUrl)
   // 5. If refresh token has not expired
   else {
     // 5. Decode request object token
-    const { userId, platform, tokenId } = jwt.decode(
+    const decoded = jwt.decode(
       refreshToken
     ) as jwt.JwtPayload;
 
     // 6. Check if cached token against (platform,userId) exists
-    const cachedData = await Redis_Service.doesSessionExists(userId, platform);
+    const cachedData = await Redis_Service.doesSessionExists(decoded.userId, decoded.platform);
+    
 
     // 7. If cached token does not exists
     if (!cachedData) {
       // Return
-      res.status(code.Unauthorized).json({ msg: "Session Expired",info:"Cached data dos not exists" });
+      res.status(code.Unauthorized).json({ msg: "Session Expired",info:"Cached data does not exists" });
       return;
     }
     // 8. Cached token exists
@@ -81,20 +82,17 @@ console.log("Path: ",req.originalUrl)
         // If tokens match - rotate tokens
         else {
           // Clear old cache
-          await Redis_Service.clearSession({ userId, platform });
+          await Redis_Service.clearSession({ userId:decoded.userId, platform:decoded.platform });
 
           // Get new tokens
-          const newRefreshToken = getRefreshToken({
-            userId,
-            platform,
-          });
-          const newAccessToken = getAccessToken({ userId });
+          const newRefreshToken = getRefreshToken({ userId:decoded.userId, platform:decoded.platform });
+          const newAccessToken = getAccessToken({ userId:decoded.userId });
 
           // Hydrate Cache
           await Redis_Service.createSession({
             token: newRefreshToken,
-            userId,
-            platform,
+            userId:decoded.userId,
+            platform:decoded.platform,
           });
 
           // Set cookie

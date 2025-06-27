@@ -20,9 +20,11 @@ export const getRefreshToken = ({
   userId: string;
   platform: "Mobile" | "Tablet" | "Laptop";
 }) => {
-  return jwt.sign({ userId, platform }, REFRESH_TOKEN_KEY, {
+  const token =  jwt.sign({ userId, platform }, REFRESH_TOKEN_KEY, {
     expiresIn: "30Days",
   });
+
+  return token;
 };
 
 export const setAccessToken = (res: Response, token: string) => {
