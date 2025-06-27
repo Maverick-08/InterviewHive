@@ -56,6 +56,7 @@ const getData = async (url: string) => {
 
 const postData = async (url:string,payload:unknown) => {
   try{
+    
     const response = await axiosInstance.post(url,payload,{withCredentials:true});
     return {success:true,statusCode:200,isAuthenticated:true,data:response.data}
   }

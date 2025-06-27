@@ -8,7 +8,7 @@ interface Message {
 
 interface Chat {
   messages: Message[];
-  addPrompt: (x:Message) => void;
+  addPrompt: (x: Message) => void;
   clearPrompt: () => void;
 }
 
@@ -18,12 +18,12 @@ export const usePromptStore = create<Chat>()(
       (set) => ({
         messages: [],
         addPrompt(x: Message) {
-            set((state) => ({
-                messages: [...state.messages, x]
-            }));
+          set((state) => ({
+            messages: [...state.messages, x],
+          }));
         },
         clearPrompt() {
-            set({messages:[]});
+          set({ messages: [] });
         },
       }),
       { name: "Prompt" }
@@ -31,3 +31,15 @@ export const usePromptStore = create<Chat>()(
     { name: "PromptStore" }
   )
 );
+
+interface LoadResponse {
+  isResponseLoading: boolean;
+  loadResponse: (x: boolean) => void;
+}
+
+export const useLoadResponseStore = create<LoadResponse>((set) => ({
+  isResponseLoading: false,
+  loadResponse: (x: boolean) => {
+    set({ isResponseLoading: x });
+  },
+}));

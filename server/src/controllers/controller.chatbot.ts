@@ -6,6 +6,7 @@ const token = process.env.OPEN_ROUTER_KEY;
 export const chatbotontroller = async (req: Request, res: Response) => {
   try {
     const { query } = req.body;
+    console.log(query)
 
     const metaDataArray = await getTopKContexts(query, 10);
 
