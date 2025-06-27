@@ -7,6 +7,7 @@ import Landing from "@/pages/landing/Landing";
 import Profile from "@/pages/profile/Profile";
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout";
+import EditInterview from "@/pages/dashboard/EditInterview";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path="/bookmark" element={<BookmarkedInterviews />} />
         <Route path="/share" element={<ShareInterviewExperience />} />
         <Route path="/profile/*" element={<Profile />} />
+        <Route path="/edit/:interviewId" element={<EditInterview />} />
       </Route>
     </Routes>
   );

@@ -13,6 +13,7 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useUserStore } from "@/store/userStore";
 
 const sidebarVariants: Variants = {
   open: {
@@ -40,6 +41,7 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
   const [authState, setAuthState] = useState(true);
   const isAuthenticated = useAuthStore((state) => state.authState);
+  const username = useUserStore(state=> state.username);
 
   useEffect(() => {
     if (isAuthenticated == false) {
@@ -140,7 +142,7 @@ const DashboardLayout = () => {
                       className="p-2 border border-neutral-600 hover:border-neutral-700 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10 "
                     >
                       <IoPersonSharp className="size-4" />
-                      <div className="text-end text-xl">Vivek Ojha</div>
+                      <div className="text-end text-xl">{username?.toUpperCase() ?? "User"}</div>
                     </div>
                   </div>
                 </div>

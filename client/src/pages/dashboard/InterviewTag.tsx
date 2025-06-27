@@ -1,11 +1,13 @@
 import Card from "@/components/common/Card";
 import WhiteButton from "@/components/common/WhiteButton";
 import { useInterviewStore } from "@/store/interview";
-import axios from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ImSpinner8 } from "react-icons/im";
-const BASE_URL = import.meta.env.VITE_API_ENDPOINT;
+import { postFunction } from "@/utils/axiosRequest";
+import { useAuthStore } from "@/store/authStore";
+import { useLocation } from "react-router-dom";
+import { useUserStore } from "@/store/userStore";
 
 const list = [
   { tagInitials: "DSA", tagName: "DSA" },
@@ -36,34 +38,53 @@ const list = [
 
 const InterviewTag = ({
   setComponentActive,
+  interviewId,
 }: {
   setComponentActive: (x: number) => void;
+  interviewId?: string;
 }) => {
   const selectedTags = useInterviewStore((state) => state.tags);
   const addInterviewTag = useInterviewStore((state) => state.addInterviewTag);
   const getPayload = useInterviewStore((state) => state.getInterviewPayload);
+  const setAuthState = useAuthStore((state) => state.setAuthState);
+  const userId = useUserStore((state) => state.id);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const pathname = useLocation().pathname;
 
   const handleSubmit = async () => {
     const payload = getPayload();
-    console.log(payload)
-    try {
-      setIsSubmitting(true);
-      const response = await axios.post(
-        `${BASE_URL}/api/interview/add`,
-        payload,
-        { withCredentials: true }
-      );
+    setIsSubmitting(true);
+    const response = await postFunction("/api/interview/add", payload);
 
-      setIsSubmitting(false);
-
+    if (response.success) {
       toast.success(`${response.data.msg}`, {
         description: "Check Dashboard",
       });
       localStorage.removeItem("InterviewDetails");
-    } catch (err) {
+    } else if (!response.isAuthenticated) {
+      toast.warning("Session Expired");
+      setAuthState(false);
+    } else {
+      toast.warning(`${response.errMsg}`);
+    }
+
+    setIsSubmitting(false);
+  };
+
+  const handleUpdate = async () => {
+    const interviewData = getPayload();
+    const payload = { interviewData, userId, interviewId };
+    setIsSubmitting(true);
+    const response = await postFunction("/api/interview/update", payload);
+
+    if (response.success) {
+      toast.success("Interview Updated Successfully !", {
+        description: "Check Dashboard",
+      });
       setIsSubmitting(false);
-      console.log(err)
+    } else {
+      toast.error(`${response.errMsg}`);
+      setIsSubmitting(false);
     }
   };
 
@@ -71,7 +92,11 @@ const InterviewTag = ({
     <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md select-none">
       <div>
         {/* title  */}
-        <h3 className="text-xl sm:text-2xl md:text-4xl">Add Interview Tags</h3>
+        <h3 className="text-xl sm:text-2xl md:text-4xl">
+          {pathname.includes("share")
+            ? "Add Interview Tags"
+            : "Edit Interview Tags"}
+        </h3>
 
         <div className="pt-12 flex flex-col gap-8">
           <p className="text-lg text-neutral-400">
@@ -80,9 +105,10 @@ const InterviewTag = ({
           </p>
 
           <div className="flex flex-wrap gap-4">
-            {list.map((tag) => {
+            {list.map((tag, idx) => {
               return (
                 <span
+                  key={idx}
                   onClick={() => addInterviewTag(tag)}
                   className="px-2 py-1 rounded-md border-amber-600 bg-yellow-500/70 hover:bg-yellow-500/80 cursor-pointer text-black font-bold"
                 >
@@ -109,6 +135,7 @@ const InterviewTag = ({
             <div className="flex flex-row gap-8">
               <WhiteButton
                 text="Previous Section"
+                disabled={isSubmitting}
                 onClick={() => setComponentActive(2)}
                 className={`px-2 sm:px-4 py-1.5 text-xs sm:text-xl rounded-sm sm:rounded-lg`}
               />
@@ -120,11 +147,17 @@ const InterviewTag = ({
             /> */}
               <WhiteButton
                 disabled={isSubmitting}
-                onClick={handleSubmit}
+                onClick={
+                  pathname.includes("share") ? handleSubmit : handleUpdate
+                }
                 Icon={isSubmitting ? ImSpinner8 : undefined}
                 iconSize={`animate-spin`}
                 text={`${
-                  isSubmitting ? "Submitting..." : "Share Interview Experience"
+                  isSubmitting
+                    ? "Submitting..."
+                    : pathname.includes("share")
+                    ? "Share Interview Experience"
+                    : "Update Interview Experience"
                 }`}
                 containerStyle="flex justify-center items-center"
                 className={`px-2 sm:px-4 py-1.5 text-xs sm:text-xl rounded-sm sm:rounded-lg ${

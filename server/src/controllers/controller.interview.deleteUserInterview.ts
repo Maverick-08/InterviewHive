@@ -9,19 +9,19 @@ export const deleteInterviewByIdController = async (
   res: Response
 ) => {
   try {
-    const { interviewId, userId } = req.query as unknown as { interviewId: string; userId:string };
+    const { interviewId } = req.query as unknown as { interviewId: string };
 
-    if (!interviewId || !userId) {
+    if (!interviewId) {
       res.status(code.BadRequest).json({ msg: "Invalid query parameters." });
       return;
     }
 
-    const currentUsersId = req.userId;
+    // const currentUsersId = req.userId;
 
-    if(currentUsersId !== userId){
-      res.status(code.Forbidden).json({msg:"You do not have access to perform this operation."});
-      return;
-    }
+    // if(currentUsersId !== userId){
+    //   res.status(code.Forbidden).json({msg:"You do not have access to perform this operation."});
+    //   return;
+    // }
 
     await Interview.deleteInterviewExperience(interviewId);
 

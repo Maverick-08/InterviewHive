@@ -10,6 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useInterviewStore } from "@/store/interview";
 import { useUserStore } from "@/store/userStore";
+import { useLocation } from "react-router-dom";
 
 const AddCompanyInfo = ({
   setNextComponentActive,
@@ -17,12 +18,17 @@ const AddCompanyInfo = ({
   setNextComponentActive: (x: number) => void;
 }) => {
   // Stored Data
-  const store_companyName = useInterviewStore(state => state.companyName);
-  const store_yearOfInterview = useInterviewStore(state => state.yearOfInterview);
-  const store_role = useInterviewStore(state => state.role);
-  const store_CTCOffered = useInterviewStore(state => state.CTCOffered);
-  const store_interviewStatus = useInterviewStore(state => state.interviewStatus);
+  const store_companyName = useInterviewStore((state) => state.companyName);
+  const store_yearOfInterview = useInterviewStore(
+    (state) => state.yearOfInterview
+  );
+  const store_role = useInterviewStore((state) => state.role);
+  const store_CTCOffered = useInterviewStore((state) => state.CTCOffered);
+  const store_interviewStatus = useInterviewStore(
+    (state) => state.interviewStatus
+  );
   const setInterview = useInterviewStore((state) => state.updateInterview);
+  const pathname = useLocation().pathname;
 
   // Managing state change
   const [companyName, setCompanyName] = useState(store_companyName ?? "");
@@ -30,15 +36,19 @@ const AddCompanyInfo = ({
     store_yearOfInterview ?? new Date().getFullYear()
   );
   const [role, setRole] = useState(store_role ?? "");
-  const [CTCOffered, setCTCOffered] = useState<number | null>(store_CTCOffered ?? null);
-  const [interviewStatus, setInterviewStatus] = useState(store_interviewStatus ?? "");
+  const [CTCOffered, setCTCOffered] = useState<number | null>(
+    store_CTCOffered ?? null
+  );
+  const [interviewStatus, setInterviewStatus] = useState(
+    store_interviewStatus ?? ""
+  );
   const authorId = useUserStore((state) => state.id);
-  const regex = /[a-zA-Z]+$/;;
+  const regex = /[a-zA-Z]+$/;
 
   const saveInterviewInfo = () => {
     const allowedStatuses = ["SELECTED", "PENDING", "REJECTED"];
 
-    if(companyName == "" || role == "" || interviewStatus == ""){
+    if (companyName == "" || role == "" || interviewStatus == "") {
       toast.warning("Empty Fields", {
         description: "Please fill complete information.",
       });
@@ -52,14 +62,14 @@ const AddCompanyInfo = ({
       return false;
     }
 
-    if(yearOfInterview > (new Date).getFullYear()){
+    if (yearOfInterview > new Date().getFullYear()) {
       toast.warning("Invalid Year");
       return false;
     }
 
-    if(yearOfInterview < (new Date).getFullYear()-5){
-      toast.info("Content Review Required",{
-        description:'The year of interview seems outdated.'
+    if (yearOfInterview < new Date().getFullYear() - 5) {
+      toast.info("Content Review Required", {
+        description: "The year of interview seems outdated.",
       });
       return false;
     }
@@ -77,9 +87,9 @@ const AddCompanyInfo = ({
           "The interview status can be - Selected, Rejected or Pending",
       });
       return false;
-    } 
+    }
 
-    if(!allowedStatuses.includes(interviewStatus.toUpperCase())){
+    if (!allowedStatuses.includes(interviewStatus.toUpperCase())) {
       toast.warning("Invalid Format", {
         description:
           "The interview status can be - Selected, Rejected or Pending",
@@ -102,14 +112,16 @@ const AddCompanyInfo = ({
     <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md">
       <div>
         <h3 className="text-xl sm:text-2xl md:text-4xl">
-          Add Interview Experience
+          {pathname.includes("share")
+            ? "Add Interview Experience"
+            : "Edit Interview Experience"}
         </h3>
         <div className="pt-8 flex flex-col gap-8">
           <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-4">
             <InputComponent
               title="Enter Company Name"
               value={companyName}
-              onChange={e => setCompanyName(e.target.value.trim())}
+              onChange={(e) => setCompanyName(e.target.value.trim())}
               placeholder="Ex - Amazon, Razorpay"
               inputType={`text`}
               Icon={HiOutlineBuildingOffice2}
@@ -134,7 +146,7 @@ const AddCompanyInfo = ({
           <InputComponent
             title="Role"
             value={role}
-            onChange={e => setRole(e.target.value.trim())}
+            onChange={(e) => setRole(e.target.value.trim())}
             placeholder="Ex - SDE, SWE, Analyst"
             inputType={`text`}
             Icon={LiaToolsSolid}
@@ -173,7 +185,7 @@ const AddCompanyInfo = ({
       <div className="pt-8 flex justify-center items-center">
         <WhiteButton
           onClick={() => {
-            if(saveInterviewInfo()) setNextComponentActive(2);
+            if (saveInterviewInfo()) setNextComponentActive(2);
           }}
           text="Next Section"
           className="w-full max-w-sm sm:max-w-md text-lg sm:text-xl"

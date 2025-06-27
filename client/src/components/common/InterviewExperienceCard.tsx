@@ -10,6 +10,8 @@ import {
   useInterviewModalStore,
   useSelectedInterviewStore,
 } from "@/store/interviewModal";
+import EditAndDeleteCommand from "./EditAndDeleteCommand";
+import { useLocation } from "react-router-dom";
 
 const InterviewExperienceCard = ({
   companyName,
@@ -23,7 +25,9 @@ const InterviewExperienceCard = ({
   viewCount,
   difficultyLevel,
   interviewDetails,
+  interviewId,
 }: {
+  interviewId: string;
   companyName: string;
   candidate: string;
   degree: string;
@@ -45,6 +49,7 @@ const InterviewExperienceCard = ({
   const setSelectedInterview = useSelectedInterviewStore(
     (state) => state.setSelectedInterview
   );
+  const pathname = useLocation().pathname;
 
   return (
     <Card
@@ -57,12 +62,16 @@ const InterviewExperienceCard = ({
         <span className="text-xl sm:text-2xl md:text-3xl  font-mono tracking-wide transition-color duration-300 ease-in-out delay-300 group-hover:text-blue-400">
           {companyName}
         </span>
-        <GoBookmarkFill
-          className={`size-5 cursor-pointer transition-colors duration-300
+        {pathname.includes("profile") ? (
+          <EditAndDeleteCommand interviewId={interviewId as string} />
+        ) : (
+          <GoBookmarkFill
+            className={`size-5 cursor-pointer transition-colors duration-300
           ${bookmarked ? "text-yellow-400" : "text-white/50"}
           `}
-          onClick={() => setBookmarked(!bookmarked)}
-        />
+            onClick={() => setBookmarked(!bookmarked)}
+          />
+        )}
       </div>
 
       {/* offere details  */}

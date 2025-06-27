@@ -27,6 +27,7 @@ const ListInterviews = ({ interviewData }: { interviewData: Interview[] }) => {
             CTCOffered={data.CTCOffered}
             tags={data.tags}
             interviewDetails={data}
+            interviewId={data.id}
           />
         );
       })}

@@ -4,6 +4,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import WhiteButton from "@/components/common/WhiteButton";
 import InterviewRound from "./InterviewRound";
 import { useInterviewStore } from "@/store/interview";
+import { useLocation } from "react-router-dom";
 
 const InterviewDetails = ({
   setComponentActive,
@@ -14,13 +15,16 @@ const InterviewDetails = ({
   const addInterviewRound = useInterviewStore(
     (state) => state.addInterviewRound
   );
+  const pathname = useLocation().pathname;
 
   return (
     <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md select-none">
       <div>
         {/* title  */}
         <h3 className="text-xl sm:text-2xl md:text-4xl">
-          Add Interview Rounds
+          {pathname.includes("share")
+            ? "Add Interview Rounds"
+            : "Edit Interview Rounds"}
         </h3>
 
         {/* round accordion  */}
@@ -57,13 +61,13 @@ const InterviewDetails = ({
           <div className="flex flex-row gap-8">
             <WhiteButton
               text="Previous Section"
-              onClick={()=>setComponentActive(1)}
+              onClick={() => setComponentActive(1)}
               className={`px-2 sm:px-4 py-1.5 text-xs sm:text-xl rounded-sm sm:rounded-lg`}
             />
 
             <WhiteButton
               disabled={interviewRounds.length == 0}
-              onClick={()=>setComponentActive(3)}
+              onClick={() => setComponentActive(3)}
               text="Next Section"
               className={`px-2 sm:px-4 py-1.5 text-xs sm:text-xl rounded-sm sm:rounded-lg ${
                 interviewRounds.length > 0
