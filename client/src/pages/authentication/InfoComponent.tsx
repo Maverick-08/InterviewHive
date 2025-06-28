@@ -16,9 +16,10 @@ const InfoComponent = () => {
         <img src={Logo} alt="" className="h-10 w-10" />
         <p className="text-4xl">Interview Hive</p>
       </div>
-      <div className="text-xl tracking-wide space-y-2">
-        <p>Welcome back to the realm of preparation.</p>
-        <p>Keep preparing and practising until you land your dream offer.</p>
+      <div className="text-xl tracking-wide space-y-2 ">
+        <p>Welcome back to the realm of preparation. <br />
+        Keep preparing and practising until you 
+          <br />land your dream offer.</p>
       </div>
     </div>
   );
