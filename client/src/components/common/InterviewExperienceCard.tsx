@@ -38,7 +38,7 @@ const InterviewExperienceCard = ({
   role: string;
   rounds: number;
   CTCOffered?: number;
-  tags: { tagName: string }[];
+  tags: { tagName: string; tagInitials: string }[];
   viewCount?: number;
   difficultyLevel?: string;
   interviewDetails: Interview;
@@ -85,7 +85,9 @@ const InterviewExperienceCard = ({
 
   const handleViewCountUpdate = async () => {
     await getFunction(`/api/interview/viewCount?interviewId=${interviewId}`);
-  }
+  };
+
+  const [tagClicked, setTagClicked] = useState(false);
 
   return (
     <Card
@@ -140,19 +142,40 @@ const InterviewExperienceCard = ({
           <span>{CTCOffered ?? "Not Disclosed"}</span>
         </div>
         {/* tags  */}
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap relative ">
           <div className="flex gap-1 px-2 text-sm rounded-full bg-blue-500/20 border border-blue-700/10 text-blue-500">
             <span className="">{degree}</span>
             <span>{yearOfPassingOut}</span>
           </div>
-          {tags.map((tag, idx) => (
+          {tags.slice(0, 3).map((tag, idx) => (
             <span
               key={idx}
-              className="bg-neutral-500/20 px-3 py-0.5 rounded-full text-[12px] text-neutral-400"
+              className="bg-neutral-500/20 px-3 py-0.5 rounded-full text-[12px] text-neutral-300"
             >
               {tag.tagName}
             </span>
           ))}
+          <div className="">
+            {tags.length > 3 && (
+            <div className="absolute">
+              <button
+                onClick={() => setTagClicked((prev) => !prev)}
+                className="bg-neutral-500/20 px-3 py-0.5 rounded-full text-[12px] text-neutral-400  cursor-pointer "
+              >
+                +{tags.length - 3} more
+              </button>
+              {tagClicked && (
+                <div className="w-56 left-0 mt-1 bg-neutral-800 text-white text-xs rounded-md px-3 py-2 z-100 shadow-lg">
+                  {tags.slice(3).map((tag, idx) => (
+                    <div key={idx} className="text-neutral-300">
+                      <span>{tag.tagName}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+          </div>
         </div>
       </div>
       <p className="h-px w-full relative">

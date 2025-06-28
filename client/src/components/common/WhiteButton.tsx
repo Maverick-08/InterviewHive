@@ -22,7 +22,7 @@ const WhiteButton = ({
     <button
       {...rest}
       className={cn(
-        ` px-4 py-1 rounded-md bg-white hover:bg-white/80 text-black text-lg cursor-pointer font-mono ${className}`
+        ` px-4 py-1 rounded-md bg-white/90 hover:bg-white text-black text-lg cursor-pointer font-mono ${className}`
       )}
     >
       {Icon ? (
