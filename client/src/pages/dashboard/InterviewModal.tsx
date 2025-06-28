@@ -38,6 +38,9 @@ const InterviewModal = () => {
   const setIsInterviewModalOpen = useInterviewModalStore(
     (state) => state.setIsInterviewModalOpen
   );
+  const isModalOpen =  useInterviewModalStore(
+    (state) => state.isInterviewModalOpen
+  );
   const interviewDataFunction = useSelectedInterviewStore(
     (state) => state.getSelectedInterviewData
   );
@@ -58,7 +61,7 @@ const InterviewModal = () => {
   if (!open) return null;
 
   return (
-    <Dialog open={true} onOpenChange={setIsInterviewModalOpen}>
+    <Dialog open={isModalOpen} onOpenChange={setIsInterviewModalOpen}>
       <DialogContent className="p-8 h-120 max-h-[600px] w-full md:w-[768px] lg:w-[896px] max-w-4xl overflow-y-scroll bg-[#171717] border border-white/20 text-white">
         <div className="flex flex-col justify-between">
           {/* Top conatiner  */}

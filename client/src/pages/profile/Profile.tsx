@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/store/userStore";
 import { getFunction } from "@/utils/axiosRequest";
+import InterviewModal from "../dashboard/InterviewModal";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ const Profile = () => {
               <div className="w-full px-4 pb-12 max-w-4xl">
                 <Accordion type="single" collapsible>
                   <UserInterviews interviews={allInterviews} />
+                  <InterviewModal />
                 </Accordion>
               </div>
             </div>
