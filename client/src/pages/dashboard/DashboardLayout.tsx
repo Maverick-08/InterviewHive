@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { easeInOut } from "framer-motion"; // ✅ Import the correct easing function
+import { easeInOut } from "framer-motion";
 import Topbar from "./Topbar";
 import Logo from "../../assets/logo.png";
 import { RiDashboardFill } from "react-icons/ri";
@@ -9,11 +9,12 @@ import { IoIosChatboxes } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { useSidebarStore } from "@/store/SidebarStore";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useUserStore } from "@/store/userStore";
+import { cn } from "@/lib/utils";
 
 const sidebarVariants: Variants = {
   open: {
@@ -41,7 +42,8 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
   const [authState, setAuthState] = useState(true);
   const isAuthenticated = useAuthStore((state) => state.authState);
-  const username = useUserStore(state=> state.username);
+  const username = useUserStore((state) => state.username);
+  const pathname = useLocation().pathname;
 
   useEffect(() => {
     if (isAuthenticated == false) {
@@ -74,7 +76,7 @@ const DashboardLayout = () => {
                 {/* Top container */}
                 <div
                   onClick={() => navigate("/")}
-                  className="flex items-center gap-4 pb-4"
+                  className="flex items-center gap-4 pb-4 cursor-pointer"
                 >
                   <img
                     src={Logo}
@@ -93,7 +95,13 @@ const DashboardLayout = () => {
                       {/* dashboard  */}
                       <div
                         onClick={() => navigate("/dashboard")}
-                        className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10"
+                        className={cn(
+                          `p-2 flex items-center gap-4 rounded-md  ${
+                            pathname.includes("dashboard")
+                              ? "text-blue-500 bg-white/10"
+                              : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
+                          }`
+                        )}
                       >
                         <RiDashboardFill className="size-4" />
                         <span className="text-xl">Dashboard</span>
@@ -102,7 +110,13 @@ const DashboardLayout = () => {
                       {/* bookmark  */}
                       <div
                         onClick={() => navigate("/bookmark")}
-                        className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10"
+                        className={cn(
+                          `p-2 flex items-center gap-4 rounded-md  ${
+                            pathname.includes("bookmark")
+                              ? "text-blue-500 bg-white/10"
+                              : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
+                          }`
+                        )}
                       >
                         <FaBookmark className="size-4" />
                         <span className="text-xl">Bookmark</span>
@@ -111,7 +125,13 @@ const DashboardLayout = () => {
                       {/* share  */}
                       <div
                         onClick={() => navigate("/share")}
-                        className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10"
+                        className={cn(
+                          `p-2 flex items-center gap-4 rounded-md  ${
+                            pathname.includes("share")
+                              ? "text-blue-500 bg-white/10"
+                              : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
+                          }`
+                        )}
                       >
                         <MdLibraryAdd className="size-4" />
                         <span className="text-xl">Share</span>
@@ -120,7 +140,13 @@ const DashboardLayout = () => {
                       {/* connect  */}
                       <div
                         onClick={() => navigate("/connect")}
-                        className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10"
+                        className={cn(
+                          `p-2 flex items-center gap-4 rounded-md  ${
+                            pathname.includes("connect")
+                              ? "text-blue-500 bg-white/10"
+                              : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
+                          }`
+                        )}
                       >
                         <IoIosChatboxes className="size-4" />
                         <span className="text-xl">Connect</span>
@@ -129,7 +155,13 @@ const DashboardLayout = () => {
                       {/* prepare  */}
                       <div
                         onClick={() => navigate("/prepare")}
-                        className="p-2 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10"
+                        className={cn(
+                          `p-2 flex items-center gap-4 rounded-md  ${
+                            pathname.includes("prepare")
+                              ? "text-blue-500 bg-white/10"
+                              : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
+                          }`
+                        )}
                       >
                         <FaMicrophone className="size-4" />
                         <span className="text-xl">Prepare</span>
@@ -139,10 +171,18 @@ const DashboardLayout = () => {
                     {/* profile  */}
                     <div
                       onClick={() => navigate("/profile")}
-                      className="p-2 border border-neutral-600 hover:border-neutral-700 hover:text-blue-500 transition-colors delay-10 flex items-center gap-4 rounded-md hover:bg-white/10 "
+                      className={cn(
+                          `p-2 flex items-center gap-4 rounded-md border border-[#333333]  ${
+                            pathname.includes("profile")
+                              ? "text-blue-500 bg-white/10"
+                              : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
+                          }`
+                        )}
                     >
                       <IoPersonSharp className="size-4" />
-                      <div className="text-end text-xl">{username?.toUpperCase() ?? "User"}</div>
+                      <div className="text-end text-xl">
+                        {username?.toUpperCase() ?? "User"}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -162,7 +202,11 @@ const DashboardLayout = () => {
                 setIsSidebarOpen={toggleSidebar}
               />
               <div className="px-4 pb-8">
-                {authState && isAuthenticated ? <Outlet /> : <Navigate to={"/login"} />}
+                {authState && isAuthenticated ? (
+                  <Outlet />
+                ) : (
+                  <Navigate to={"/login"} />
+                )}
               </div>
             </div>
           </div>

@@ -6,7 +6,7 @@ interface Sidebar {
 }
 
 export const useSidebarStore = create<Sidebar>((set, get) => ({
-  isSidebarActive: false,
+  isSidebarActive: true,
   toggleSidebar: () => {
     if (get().isSidebarActive) set({ isSidebarActive: false });
     else set({ isSidebarActive: true });
