@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const BlackButton = ({text,className,...rest}:ButtonProps) => {
   return (
-    <button {...rest} className={cn(`px-4 py-1 rounded-md border border-slate-400 hover:bg-black/60 text-lg cursor-pointer ${className} `)}>
+    <button {...rest} className={cn(`px-4 py-1 rounded-md border border-white/20 hover:bg-black/60 text-lg cursor-pointer ${className} `)}>
       {text}
     </button>
   )

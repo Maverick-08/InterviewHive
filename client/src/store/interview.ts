@@ -355,11 +355,14 @@ export const useInterviewStore = create<Interview>()(
         addInterviewTag: (value: { tagInitials:string; tagName: string }) => {
           const interviewTags = get().tags;
           if (!interviewTags.includes(value)) {
-            if (interviewTags.length == 3) {
+            if (interviewTags.length === 6) {
               const updatedInterviewTags = [
                 value,
                 interviewTags[0],
                 interviewTags[1],
+                interviewTags[2],
+                interviewTags[3],
+                interviewTags[4],
               ];
               set({
                 tags: updatedInterviewTags,

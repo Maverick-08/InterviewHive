@@ -8,6 +8,7 @@ import { postFunction } from "@/utils/axiosRequest";
 import { useAuthStore } from "@/store/authStore";
 import { useLocation } from "react-router-dom";
 import { useUserStore } from "@/store/userStore";
+import BlackButton from "@/components/common/BlackButton";
 
 const list = [
   { tagInitials: "DSA", tagName: "DSA" },
@@ -89,28 +90,28 @@ const InterviewTag = ({
   };
 
   return (
-    <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md select-none">
+    <Card componentStyle="px-4 py-4 sm:p-6 bg-[#171717] border-1 border-[#333333] rounded-md select-none">
       <div>
         {/* title  */}
-        <h3 className="text-xl sm:text-2xl md:text-4xl">
+        <h3 className="text-xl font-bold sm:text-2xl md:text-4xl">
           {pathname.includes("share")
             ? "Add Interview Tags"
             : "Edit Interview Tags"}
         </h3>
 
-        <div className="pt-12 flex flex-col gap-8">
-          <p className="text-lg text-neutral-400">
+        <div className="pt-4 flex flex-col gap-2">
+          <p className="text-lg text-white/80">
             Select the major topic tags around which your interview was
             centered.
           </p>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-2">
             {list.map((tag, idx) => {
               return (
                 <span
                   key={idx}
                   onClick={() => addInterviewTag(tag)}
-                  className="px-2 py-1 rounded-md border-amber-600 bg-yellow-500/70 hover:bg-yellow-500/80 cursor-pointer text-black font-bold"
+                  className="px-2 py-1 rounded-md border-amber-600 bg-yellow-500/90 hover:bg-yellow-500 cursor-pointer text-black font-medium"
                 >
                   {tag.tagName}
                 </span>
@@ -118,12 +119,12 @@ const InterviewTag = ({
             })}
           </div>
 
-          <div className="flex flex-col gap-2">
-            <p>Selected tags</p>
-            <div className="flex flex-wrap gap-4">
+          <div className="mt-4 flex flex-col gap-2 text-white/80">
+            <p className="text-lg">Selected tags</p>
+            <div className="flex flex-wrap gap-2">
               {selectedTags.map((tag) => {
                 return (
-                  <span className="bg-sky-400 px-2 py-1 rounded-md text-black">
+                  <span className="bg-sky-500 px-2 py-1 rounded-md text-black">
                     {tag.tagName}
                   </span>
                 );
@@ -131,9 +132,18 @@ const InterviewTag = ({
             </div>
           </div>
 
-          <div className="pt-12 w-full flex justify-center">
+          <div className="mt-4 flex flex-col font-mono">
+            <p className="text-lg text-white/80">Select difficulty level:</p>
+            <div className="py-2 flex gap-2 items-center justify-start">
+                <div className="px-3 py-1 rounded-sm text-green-500 bg-gradient-to-b  to-green-500/30 border border-green-400/70 hover:bg-green-500/10 cursor-pointer transition-all duration-300">EASY</div>
+                <div className="px-3 py-1 rounded-sm text-yellow-500 bg-gradient-to-b  to-yellow-500/30 border border-yellow-400/70 hover:bg-yellow-500/10 cursor-pointer transition-all duration-300">MEDIUM</div>
+                <div className="px-3 py-1 rounded-sm text-red-500 bg-gradient-to-b  to-red-500/30 border border-red-400/70 hover:bg-red-500/10 cursor-pointer transition-all duration-300">HARD</div>
+            </div>
+          </div>
+
+          <div className="pt-4 w-full flex justify-center">
             <div className="flex flex-row gap-8">
-              <WhiteButton
+              <BlackButton
                 text="Previous Section"
                 disabled={isSubmitting}
                 onClick={() => setComponentActive(2)}
