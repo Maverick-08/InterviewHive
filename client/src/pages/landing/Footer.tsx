@@ -5,10 +5,18 @@ import { FaGithubSquare } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { getFunction } from "@/utils/axiosRequest";
 // import { useState } from "react";
 
 const Footer = () => {
   const navigate = useNavigate();
+  useEffect(()=> {
+    const systemsCheck = async () => {
+      await getFunction("/api/");
+    } 
+    systemsCheck();
+  },[])
   // const [isFeedbackFormOpen, setisFeedbackFormOpen] = useState(false);
   return (
     <AnimatedSection>
