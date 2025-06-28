@@ -9,9 +9,11 @@ import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
 import { CiSearch } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";
 import { HashLink } from "react-router-hash-link";
+import { useAuthStore } from "@/store/authStore";
 
 const HeroSection = () => {
   const navigate = useNavigate();
+  const authState = useAuthStore((state) => state.authState);
   return (
     <div
       id="hero"
@@ -46,7 +48,13 @@ const HeroSection = () => {
               text="Try Interview Hive"
               className="hidden md:block font-mono text-xs md:text-lg"
               onClick={() => {
-                setTimeout(() => navigate("/login"), 250);
+                setTimeout(() => {
+                  if (authState) {
+                    navigate("/dashboard");
+                  } else {
+                    navigate("/login");
+                  }
+                }, 250);
               }}
             />
           </motion.div>

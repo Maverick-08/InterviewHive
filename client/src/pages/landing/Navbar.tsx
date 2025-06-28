@@ -6,11 +6,20 @@ import { useEffect, useState } from "react";
 import { HashLink } from "react-router-hash-link";
 import { FiMenu } from "react-icons/fi";
 import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
+import { useAuthStore } from "@/store/authStore";
+import { useUserStore } from "@/store/userStore";
+import Doodle from "@/assets/doodle.png";
+
+const avatarMap = new Map();
+avatarMap.set("Doodle", Doodle);
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavigationMenuOpen, setIsNavigationMenuOpen] = useState(false);
+  const authState = useAuthStore((state) => state.authState);
+  const username = useUserStore((state) => state.username);
+  const avatar = useUserStore((state) => state.avatar);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,10 +83,24 @@ const Navbar = () => {
           </div>
 
           <div className="flex-2 hidden lg:block">
-            <div className="flex gap-4">
-              <BlackButton onClick={() => navigate("/login")} text="Login" />
-              <WhiteButton onClick={() => navigate("/register")} text="Register" />
-            </div>
+            {authState ? (
+              <div onClick={()=>navigate("/profile")} className="flex items-center gap-4 cursor-pointer">
+                <img
+                  src={avatarMap.get(avatar) ? avatarMap.get(avatar) : Doodle}
+                  alt="Avatar"
+                  className="rounded-full h-12 w-12 border-2 border-sky-500"
+                ></img>
+                <span className="text-lg">{username}</span>
+              </div>
+            ) : (
+              <div className="flex gap-4">
+                <BlackButton onClick={() => navigate("/login")} text="Login" />
+                <WhiteButton
+                  onClick={() => navigate("/register")}
+                  text="Register"
+                />
+              </div>
+            )}
           </div>
 
           <div
@@ -95,32 +118,41 @@ const Navbar = () => {
         </div>
       </nav>
       {isNavigationMenuOpen && (
-        <div className={`fixed block lg:hidden w-full max-w-4xl  ${isScrolled ? 'mt-20 sm:mt-[104px]': 'mt-16 sm:mt-24'} z-50 transition-all ease-in duration-500 text-neutral-400 bg-black/10 backdrop-blur-lg font-mono`}>
-          <div
-           
-            className="pt-4 pb-8 w-full flex flex-col items-center justify-center gap-4"
-          >
-            <div  onClick={() => setIsNavigationMenuOpen(false)}>
+        <div
+          className={`fixed block lg:hidden w-full max-w-4xl  ${
+            isScrolled ? "mt-20 sm:mt-[104px]" : "mt-16 sm:mt-24"
+          } z-50 transition-all ease-in duration-500 text-neutral-400 bg-black/10 backdrop-blur-lg font-mono`}
+        >
+          <div className="pt-4 pb-8 w-full flex flex-col items-center justify-center gap-4">
+            <div onClick={() => setIsNavigationMenuOpen(false)}>
               <HashLink smooth to="#features">
                 <p>Features</p>
               </HashLink>
             </div>
 
-            <div  onClick={() => setIsNavigationMenuOpen(false)}>
+            <div onClick={() => setIsNavigationMenuOpen(false)}>
               <HashLink smooth to="#companies">
                 <p>Companies</p>
               </HashLink>
             </div>
 
-            <div  onClick={() => setIsNavigationMenuOpen(false)}>
+            <div onClick={() => setIsNavigationMenuOpen(false)}>
               <HashLink smooth to="#reviews">
                 <p>Reviews</p>
               </HashLink>
             </div>
 
             <div className="w-full px-4 flex flex-col sm:flex-row items-center gap-4">
-                <BlackButton onClick={()=>navigate("/login")} text="Login" className="w-full"/>
-                <WhiteButton onClick={()=>navigate("/register")} text="Register" className="w-full"/>
+              <BlackButton
+                onClick={() => navigate("/login")}
+                text="Login"
+                className="w-full"
+              />
+              <WhiteButton
+                onClick={() => navigate("/register")}
+                text="Register"
+                className="w-full"
+              />
             </div>
           </div>
         </div>

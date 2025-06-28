@@ -8,6 +8,8 @@ import Profile from "@/pages/profile/Profile";
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout";
 import EditInterview from "@/pages/dashboard/EditInterview";
+import MockInterview from "@/pages/mockInterview/MockInterview";
+import Chat from "@/pages/connect/Chat";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +21,8 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/bookmark" element={<BookmarkedInterviews />} />
         <Route path="/share" element={<ShareInterviewExperience />} />
+        <Route path="/connect" element={<Chat />} />
+        <Route path="/prepare" element={<MockInterview />} />
         <Route path="/profile/*" element={<Profile />} />
         <Route path="/edit/:interviewId" element={<EditInterview />} />
       </Route>
