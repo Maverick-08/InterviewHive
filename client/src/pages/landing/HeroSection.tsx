@@ -3,7 +3,6 @@ import TrueFocus from "@/blocks/TextAnimations/TrueFocus/TrueFocus";
 import BlackButton from "@/components/common/BlackButton";
 import WhiteButton from "@/components/common/WhiteButton";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import HeroSectionImage from "../../assets/heroSection2.png";
 import AnimatedSection from "@/components/animations/ComponentEmergeAnimation";
 import { CiSearch } from "react-icons/ci";
@@ -43,31 +42,27 @@ const HeroSection = () => {
         </div>
 
         <div className="flex px-2 gap-2 md:gap-8 select-none">
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <BlackButton
-              text="Try Interview Hive"
-              className="hidden md:block font-mono text-xs md:text-lg"
-              onClick={() => {
-                setTimeout(() => {
-                  if (authState) {
-                    navigate("/dashboard");
-                  } else {
-                    navigate("/login");
-                  }
-                }, 250);
-              }}
-            />
-          </motion.div>
+          <BlackButton
+            text="Try Interview Hive"
+            className="hidden md:block font-mono text-xs md:text-lg hover:scale-110 transition-all duration-300"
+            onClick={() => {
+              setTimeout(() => {
+                if (authState) {
+                  navigate("/dashboard");
+                } else {
+                  navigate("/login");
+                }
+              }, 250);
+            }}
+          />
 
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <HashLink smooth to={"#features"}>
-              {" "}
-              <WhiteButton
-                text="Explore Now"
-                className="hidden md:block font-mono text-xs md:text-lg"
-              />
-            </HashLink>
-          </motion.div>
+          <HashLink smooth={true} to={"#features"}>
+            {" "}
+            <WhiteButton
+              text="Explore Now"
+              className="hidden md:block font-mono text-xs md:text-lg hover:scale-110 transition-all duration-300"
+            />
+          </HashLink>
 
           <WhiteButton
             text="Explore Now"

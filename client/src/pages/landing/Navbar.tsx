@@ -88,7 +88,7 @@ const Navbar = () => {
                 <img
                   src={avatarMap.get(avatar) ? avatarMap.get(avatar) : Doodle}
                   alt="Avatar"
-                  className="rounded-full h-12 w-12 border-2 border-sky-500"
+                  className="rounded-full h-12 w-12 border border-[#333333]"
                 ></img>
                 <span className="text-lg">{username}</span>
               </div>
