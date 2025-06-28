@@ -81,4 +81,32 @@ export class Redis_Service {
       return 0;
     }
   }
+
+  public static async getTotalViews() {
+    const viewCount = await redisClient.get("TotalViews");
+    if (!viewCount) {
+      return "No view count";
+    } else {
+      const parsedValue = parseInt(viewCount);
+      const thousandsCount = parsedValue / 1000;
+      const hundredsCount = (parsedValue - thousandsCount * 1000) / 100;
+      if (thousandsCount == 0 && hundredsCount >= 0) {
+        return `${parsedValue}`;
+      }
+
+      return `${thousandsCount}.${hundredsCount} K`;
+    }
+  }
+
+  public static async setTotalViews() {
+    const lastViewCount = await redisClient.get("TotalViews");
+    if (!lastViewCount) {
+      redisClient.set("TotalViews", 1);
+    } else {
+      const parsedValue = parseInt(lastViewCount);
+      redisClient.set("TotalViews", parsedValue + 1);
+      console.log("Increasing Views : ", parsedValue);
+    }
+    return;
+  }
 }

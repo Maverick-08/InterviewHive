@@ -11,6 +11,7 @@ import Interview from "./routes/route.Interview";
 import ChatBot from "./routes/route.chatbot";
 import Stats from "./routes/route.stats";
 import Refresh from "./routes/route.refresh";
+import ViewCount from "./routes/route.viewsCount";
 
 const app = express();
 
@@ -30,8 +31,11 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// View count
+app.use("/api/",ViewCount)
+
 // Health check point
-app.use("/api/", Health);
+app.use("/api/health", Health);
 
 // Register
 app.use("/api/register",Register);

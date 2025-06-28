@@ -8,13 +8,14 @@ export class Stats {
   public static async getDashboardStats() {
     const doesDashboardStatsExist = await redisClient.get("DashboardStats");
     if (!doesDashboardStatsExist) {
+      console.log("Recomputing dashboard stats");
       const [
         totalInterviews,
         totalUsers,
         totalSelectedCandidates,
         totalCompanies,
-        interviewViewsArray,
         activeUsers,
+        totalViews
       ] = await Promise.all([
         prisma.interview.count(),
         prisma.user.count(),
@@ -26,12 +27,8 @@ export class Stats {
         prisma.interview.groupBy({
           by: ["companyName"],
         }),
-        prisma.interview.findMany({
-          select: {
-            viewCount: true,
-          },
-        }),
         Redis_Service.getActiveUsersCount(),
+        Redis_Service.getTotalViews()
       ]);
 
       // calculate success percentage
@@ -41,10 +38,10 @@ export class Stats {
           : 0;
 
       // calculate total view counts
-      let totalViews = 0;
-      for (let { viewCount } of interviewViewsArray) {
-        totalViews += Number(viewCount);
-      }
+      // let totalViews = 0;
+      // for (let { viewCount } of interviewViewsArray) {
+      //   totalViews += Number(viewCount);
+      // }
 
       redisClient.set(
         "DashboardStats",
