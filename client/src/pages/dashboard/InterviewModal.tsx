@@ -115,14 +115,21 @@ const InterviewModal = () => {
                 <div className="flex items-center gap-2">
                   <span>Tags: </span>
                   <div className="flex items-center gap-2">
-                    {interviewData.tags.map((tag, idx) => {
+                    {interviewData.tags.slice(0,3).map((tag, idx) => {
                       const color = tagColorClass[idx % tagColorClass.length  ];
                       return (
-                        <span key={idx + 100} className={`px-3 py-0.5 text-xs rounded-full      ${color.bg}  ${color.border} `}>
+                        <span key={idx + 100} className={`px-3 py-0.5 text-xs rounded-full ${color.bg}  ${color.border} `}>
                           {tag.tagName}
                         </span>
                       );
                     })}
+                    {
+                      interviewData.tags.length > 3 && (
+                        <div className="text-start">
+                          <span className="text-[10px] rounded-full text-neutral-300"> +{interviewData.tags.length - 3} more </span>
+                        </div>
+                      )
+                    }
                   </div>
                 </div>
               </div>
