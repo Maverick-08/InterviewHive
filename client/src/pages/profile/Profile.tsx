@@ -27,7 +27,7 @@ const Profile = () => {
     const fetch = async () => {
       const response = await getFunction(`/api/interview/user?userId=${userId}`);
       if (response.success) {
-        setAllInterviews(response.data.data as Interview[]);
+        setAllInterviews(response.data.data.interviews as Interview[]);
       } else {
         toast.warning(response.errMsg);
       }
