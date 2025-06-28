@@ -12,13 +12,14 @@ import {
   checkRegistrationDetails,
   courseOptions,
   getYearList,
-  submitRegistrationData,
 } from "./register.util";
 import { toast } from "sonner";
 import { ImSpinner8 } from "react-icons/im";
 import { Combobox } from "@/components/ui/combobox";
+import { useRegisterUserStore } from "@/store/registerStore";
+import { getFunction } from "@/utils/axiosRequest";
 
-const RegistrationComponent = () => {
+const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:boolean)=>void}) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);
@@ -29,6 +30,7 @@ const RegistrationComponent = () => {
   const [isComboboxOpen, setIsComboboxOpen] = useState(false);
   const [isYearComboboxOpen, setIsYearComboboxOpen] = useState(false);
   const yearList = getYearList();
+  const updateRegistrationDetails = useRegisterUserStore(state=>state.updateUserDetails);
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
@@ -48,31 +50,22 @@ const RegistrationComponent = () => {
     });
 
     if (!isPayloadValid) {
-      toast.error(<p className="text-lg font-mono">Please fill all details</p>);
+      toast.error(`Invalid Details`);
     } else {
       setIsSubmitting(true);
-      await new Promise((r) => {
-        setTimeout(r, 2000);
-      });
-      const response = await submitRegistrationData({
-        username,
-        email,
-        password,
-        courseId,
-        yearOfPassingOut: Number(yearOfPassingOut),
-      });
-      if (response.status < 300) {
-        toast.success(
-          <p className="text-lg font-mono">User Registered Successfully.</p>,
-          { description: <p className="font-mono">Navigating to login page!</p> }
-        );
+      updateRegistrationDetails({username: username as string,email: email as string,password: password as string, courseId: courseId as string,yearOfPassingOut: Number(yearOfPassingOut)});
+      const response = await getFunction("/api/register/sendOtp");
+      if(response.success){
+        toast.success(`${response.data}`);
+        setIsSubmitting(false);
         setTimeout(() => {
-          navigate("/login");
-        }, 2000);
-      } else {
-        toast.error(<p className="text-lg font-mono">{response.data.msg}</p>);
+          activateOTPComponent(true);
+        }, 1000);
       }
-      setIsSubmitting(false);
+      else{
+        toast.warning(`${response.errMsg}`);
+        setIsSubmitting(false);
+      }
     }
   };
 

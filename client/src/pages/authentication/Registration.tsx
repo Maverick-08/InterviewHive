@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import InfoComponent from "./InfoComponent";
 import RegistrationComponent from "./RegistrationComponent";
+import OTPComponent from "./OTPComponent";
 
 const Registration = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isOTPComponentActive,setIsOTPComponentActive] = useState(false);
 
   useEffect(() => {
     const Id = setTimeout(() => {
@@ -25,7 +27,7 @@ const Registration = () => {
   return (
     <div className="w-full flex">
       <div className="flex-1 flex justify-center items-center bg-[#111111]">
-        <RegistrationComponent />
+       {isOTPComponentActive ? <OTPComponent /> : <RegistrationComponent activateOTPComponent={setIsOTPComponentActive} />}
       </div>
       <div className="flex-1 hidden lg:flex justify-center items-center bg-[#171717]">
         <InfoComponent />

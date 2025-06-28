@@ -5,6 +5,7 @@ import { validateUserRegistrationData } from "../validations/validate.userDetail
 import { User } from "../services/User";
 import { handleError } from "../config/errorMessages";
 import { services } from "../config/services";
+import { Redis_Service } from "../services/Redis";
 
 export const userRegistrationController = async (req:Request,res:Response) => {
     try{
@@ -19,10 +20,25 @@ export const userRegistrationController = async (req:Request,res:Response) => {
             return;
         }
 
-        // 3. if payload is valid then create user
+        // 3. if otp is missing
+        if(!payload.otp){
+            res.status(code.BadRequest).send("OTP is missing");
+            return;
+        }
+
+        // 4. Verify OTP
+        const doesOTPMatch = await Redis_Service.verifyOtp(payload.email,parseInt(payload.otp))
+
+        // 5. If OTP does not match
+        if(!doesOTPMatch){
+            res.status(code.BadRequest).send("Incorrect OTP");
+            return;
+        }
+
+        // 6. if payload is valid then create user
         await User.createUser(payload);
         
-        // 4. return
+        // 7. return
         res.status(code.Success).json({msg:"User created successfully."});
 
         return;

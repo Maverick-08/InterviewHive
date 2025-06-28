@@ -117,4 +117,15 @@ export class Redis_Service {
   public static async setInterviewViewCount(interviewId:string,value:number){
     return await redisClient.set(`Interview:${interviewId}`,JSON.stringify({viewCount:value,bookmarkCount:0}));
   }
+
+  public static async createOtp(email:string,otp:number){
+    return await redisClient.set(`OTP:${email}`,otp,'EX',10*60);// 10 mins
+  }
+
+  public static async verifyOtp(email:string,otp:number){
+    const cachedOtp = await redisClient.get(`OTP:${email}`);
+    const otpValue = parseInt(cachedOtp as string);
+    console.log("(cached,user)",otpValue,otp);
+    return otp==otpValue;
+  }
 }
