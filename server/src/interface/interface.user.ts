@@ -4,7 +4,7 @@ export interface UserRegistrationDetails {
   username: string;
   yearOfPassingOut: number;
   courseId: string;
-  otp:string;
+  otp?:string;
 }
 
 export interface UserDetails extends UserRegistrationDetails{
