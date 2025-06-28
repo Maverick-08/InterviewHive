@@ -10,6 +10,7 @@ import DashboardLayout from "@/pages/dashboard/DashboardLayout";
 import EditInterview from "@/pages/dashboard/EditInterview";
 import MockInterview from "@/pages/mockInterview/MockInterview";
 import Chat from "@/pages/connect/Chat";
+import UserProfile from "@/pages/profile/UserProfile";
 
 const AppRoutes = () => {
   return (
@@ -23,7 +24,8 @@ const AppRoutes = () => {
         <Route path="/share" element={<ShareInterviewExperience />} />
         <Route path="/connect" element={<Chat />} />
         <Route path="/prepare" element={<MockInterview />} />
-        <Route path="/profile/*" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:userId" element={<UserProfile />} />
         <Route path="/edit/:interviewId" element={<EditInterview />} />
       </Route>
     </Routes>

@@ -28,6 +28,7 @@ const ListInterviews = ({ interviewData }: { interviewData: Interview[] }) => {
             tags={data.tags}
             interviewDetails={data}
             interviewId={data.id}
+            userId={data.authorId}
           />
         );
       })}

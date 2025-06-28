@@ -2,7 +2,7 @@ import {
   UserDetails,
   UserRegistrationDetails,
 } from "../interface/interface.user";
-import { createUser, getUserDetails } from "../utils/utils.user";
+import { createUser, getUser, getUserDetails } from "../utils/utils.user";
 import bcrypt from "bcrypt";
 
 
@@ -96,5 +96,9 @@ export class User {
     password: string;
   }) {
     return await bcrypt.compare(password, hashedPassword);
+  }
+
+  static async getUserDetails({userId}:{userId:string}) {
+    return await getUser(userId);
   }
 }

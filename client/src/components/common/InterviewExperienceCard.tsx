@@ -11,7 +11,7 @@ import {
   useSelectedInterviewStore,
 } from "@/store/interviewModal";
 import EditAndDeleteCommand from "./EditAndDeleteCommand";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const InterviewExperienceCard = ({
   companyName,
@@ -26,6 +26,7 @@ const InterviewExperienceCard = ({
   difficultyLevel,
   interviewDetails,
   interviewId,
+  userId
 }: {
   interviewId: string;
   companyName: string;
@@ -39,6 +40,7 @@ const InterviewExperienceCard = ({
   viewCount?: number;
   difficultyLevel?: string;
   interviewDetails: Interview;
+  userId?:string
 }) => {
   const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
   const [bookmarked, setBookmarked] = useState(false);
@@ -50,6 +52,8 @@ const InterviewExperienceCard = ({
     (state) => state.setSelectedInterview
   );
   const pathname = useLocation().pathname;
+  const isUserProfile = (pathname.length - pathname.indexOf("profile")) > 10
+  const navigate = useNavigate();
 
   return (
     <Card
@@ -62,7 +66,7 @@ const InterviewExperienceCard = ({
         <span className="text-xl sm:text-2xl md:text-3xl  font-mono tracking-wide transition-color duration-300 ease-in-out delay-300 group-hover:text-blue-400">
           {companyName}
         </span>
-        {pathname.includes("profile") ? (
+        {pathname.includes("profile") && !isUserProfile ? (
           <EditAndDeleteCommand interviewId={interviewId as string} />
         ) : (
           <GoBookmarkFill
@@ -78,7 +82,7 @@ const InterviewExperienceCard = ({
       <div className="flex flex-col gap-1 font-mono">
         {/* candidate name  */}
         <div className="flex items-center gap-4">
-          <div className="flex gap-2">
+          <div onClick={()=>{navigate(`/profile/${userId}`)}} className="flex gap-2 cursor-pointer">
             <span className="text-neutral-500">Candidate:</span>
             <span>{candidate}</span>
           </div>
