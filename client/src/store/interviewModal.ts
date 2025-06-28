@@ -27,6 +27,8 @@ export const useSelectedInterviewStore = create<SelectedInterview>(
     authorId: "",
     companyName: "",
     yearOfInterview: new Date().getFullYear(),
+    viewCount: 0,
+    bookmarkCount: 0,
     role: "",
     CTCOffered: 0,
     user: {
@@ -39,7 +41,27 @@ export const useSelectedInterviewStore = create<SelectedInterview>(
     tags: [],
     interviewRounds: [],
     setSelectedInterview: (value: Interview) => {
-      set({ ...value });
+      set({
+        id: value.id,
+        authorId: value.authorId,
+        companyName: value.companyName,
+        yearOfInterview: value.yearOfInterview,
+        viewCount: value.viewCount,
+        bookmarkCount: value.bookmarkCount,
+        role: value.role,
+        CTCOffered: value.CTCOffered,
+        user: {
+          userId: value.user.userId,
+          username: value.user.username,
+          yearOfPassingOut: value.user.yearOfPassingOut,
+          courseId: value.user.courseId,
+        },
+        interviewStatus: value.interviewStatus,
+        tags: value.tags,
+        interviewRounds: value.interviewRounds,
+        setSelectedInterview: get().setSelectedInterview,
+        getSelectedInterviewData: get().getSelectedInterviewData,
+      });
     },
     getSelectedInterviewData: () => {
       return {
@@ -47,6 +69,8 @@ export const useSelectedInterviewStore = create<SelectedInterview>(
         authorId: get().authorId,
         companyName: get().companyName,
         yearOfInterview: get().yearOfInterview,
+        viewCount: get().viewCount,
+        bookmarkCount: get().bookmarkCount,
         role: get().role,
         CTCOffered: get().CTCOffered,
         user: {
