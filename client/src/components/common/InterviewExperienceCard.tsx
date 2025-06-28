@@ -12,6 +12,8 @@ import {
 } from "@/store/interviewModal";
 import EditAndDeleteCommand from "./EditAndDeleteCommand";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getFunction } from "@/utils/axiosRequest";
+import { toast } from "sonner";
 
 const InterviewExperienceCard = ({
   companyName,
@@ -26,7 +28,7 @@ const InterviewExperienceCard = ({
   difficultyLevel,
   interviewDetails,
   interviewId,
-  userId
+  userId,
 }: {
   interviewId: string;
   companyName: string;
@@ -40,10 +42,11 @@ const InterviewExperienceCard = ({
   viewCount?: number;
   difficultyLevel?: string;
   interviewDetails: Interview;
-  userId?:string
+  userId?: string;
 }) => {
   const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
-  const [bookmarked, setBookmarked] = useState(false);
+  const pathname = useLocation().pathname;
+  const [bookmarked, setBookmarked] = useState(pathname.includes("bookmark"));
 
   const setIsInterviewModalOpen = useInterviewModalStore(
     (state) => state.setIsInterviewModalOpen
@@ -51,9 +54,34 @@ const InterviewExperienceCard = ({
   const setSelectedInterview = useSelectedInterviewStore(
     (state) => state.setSelectedInterview
   );
-  const pathname = useLocation().pathname;
-  const isUserProfile = (pathname.length - pathname.indexOf("profile")) > 10
+  const isUserProfile = pathname.length - pathname.indexOf("profile") > 10;
   const navigate = useNavigate();
+
+  const handleBookmark = async () => {
+    const response = await getFunction(
+      `/api/interview/save?interviewId=${interviewId}`
+    );
+
+    if (!bookmarked) {
+      if (response.success) {
+        setBookmarked(true);
+        toast.success("Interview Saved Successfully !", {
+          description: "Check Bookmarks",
+        });
+      } else {
+        toast.warning(`${response.errMsg}`);
+      }
+    } else {
+      if (response.success) {
+        setBookmarked(false);
+        toast.info("Interview Removed Successfully !", {
+          description: "Check Bookmarks",
+        });
+      } else {
+        toast.warning(`${response.errMsg}`);
+      }
+    }
+  };
 
   return (
     <Card
@@ -73,7 +101,7 @@ const InterviewExperienceCard = ({
             className={`size-5 cursor-pointer transition-colors duration-300
           ${bookmarked ? "text-yellow-400" : "text-white/50"}
           `}
-            onClick={() => setBookmarked(!bookmarked)}
+            onClick={handleBookmark}
           />
         )}
       </div>
@@ -82,7 +110,12 @@ const InterviewExperienceCard = ({
       <div className="flex flex-col gap-1 font-mono">
         {/* candidate name  */}
         <div className="flex items-center gap-4">
-          <div onClick={()=>{navigate(`/profile/${userId}`)}} className="flex gap-2 cursor-pointer">
+          <div
+            onClick={() => {
+              navigate(`/profile/${userId}`);
+            }}
+            className="flex gap-2 cursor-pointer"
+          >
             <span className="text-neutral-500">Candidate:</span>
             <span>{candidate}</span>
           </div>

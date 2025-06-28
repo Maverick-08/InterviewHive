@@ -19,11 +19,15 @@ import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FiClock } from "react-icons/fi";
 import BookmarkCards from "@/components/common/BookmarkCards";
 import { useAuthStore } from "@/store/authStore";
+import { getFunction } from "@/utils/axiosRequest";
 
 const BookmarkedInterviews = () => {
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
   const [filteredInterviews, setFilteredInterviews] = useState<Interview[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [averageCTC,setAverageCTC] = useState("0 LPA");
+  const [recentBookmarkCount,setRecentBookmarkCount] = useState(0);
+  const [differentCompanies, setDifferentCompanies] =  useState(0);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [companyName, setCompanyName] = useState("");
@@ -36,6 +40,39 @@ const BookmarkedInterviews = () => {
   const limit = 12;
   const userId = useUserStore((state) => state.id);
   const setAuthState = useAuthStore((state) => state.setAuthState);
+
+  // Different companies
+
+
+  // Fetch Recent Bookmark count
+  useEffect(()=>{
+    const fetch = async () => {
+      const response = await getFunction("/api/interview/save/stats");
+      if(response.success){
+        setRecentBookmarkCount(response.data.count);
+      }
+    }
+    fetch();
+  },[]);
+
+  useEffect(()=>{
+    const set = new Set();
+    let total = 0;
+
+    for(const data of allInterviews){
+      set.add(data.companyName);
+      if(data.CTCOffered){
+        total+= data.CTCOffered
+      }
+    }
+    if(total == 0){
+      setAverageCTC("0 LPA")
+    }
+    else{
+      setAverageCTC(`${(total/allInterviews.length).toFixed(2)} LPA`)
+    }
+    setDifferentCompanies(set.size);
+  },[allInterviews])
 
   // Handle company name change
   const handleChange = (value: string) => {
@@ -91,6 +128,7 @@ const BookmarkedInterviews = () => {
             tagInitials: string;
           }[]
         );
+
       } else if (!response.success && !response.isAuthenticated) {
         setAuthState(false);
       } else {
@@ -175,25 +213,25 @@ const BookmarkedInterviews = () => {
       <div className="w-full flex flex-wrap justify-between gap-8 px-4">
         <BookmarkCards
           title="Total Bookmarks"
-          value={`${totalCount}`}
+          value={`${allInterviews.length}`}
           Icon={CiBookmark}
           iconStyle="text-yellow-500 bg-yellow-500/20"
         />
         <BookmarkCards
           title="Companies"
-          value={`2`}
+          value={`${differentCompanies}`}
           Icon={FaRegHeart}
           iconStyle="text-blue-500 bg-blue-500/20"
         />
         <BookmarkCards
           title="Average CTC"
-          value={`15 LPA`}
+          value={`${averageCTC}`}
           Icon={FaIndianRupeeSign}
           iconStyle="text-green-500 bg-green-500/20"
         />
         <BookmarkCards
           title="Recent Bookmarks"
-          value={`1`}
+          value={`${recentBookmarkCount}`}
           Icon={FiClock}
           iconStyle="text-purple-500 bg-purple-500/20"
         />
