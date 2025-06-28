@@ -13,7 +13,22 @@ import {
 } from "@/store/interviewModal";
 import { useState } from "react";
 
+
 const InterviewModal = () => {
+  const tagColorClass = [
+    {
+      bg: "bg-teal-500/20",
+      border: "border-teal-500 text-teal-300",
+    },
+    {
+      bg: "bg-fuchsia-500/20",
+      border: "border-fuchsia-500 text-fuchsia-300",
+    },
+    {
+      bg: "bg-green-600/20",
+      border: "border-green-600 text-green-300",
+    },
+  ];
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -55,7 +70,12 @@ const InterviewModal = () => {
             <div>
               <RoughNotationGroup show={show}>
                 <p className="text-3xl relative">
-                  <RoughNotation type="box" color="yellow" animationDuration={900} padding={8}>
+                  <RoughNotation
+                    type="box"
+                    color="yellow"
+                    animationDuration={900}
+                    padding={8}
+                  >
                     {interviewData.companyName}
                   </RoughNotation>
                 </p>
@@ -96,8 +116,9 @@ const InterviewModal = () => {
                   <span>Tags: </span>
                   <div className="flex items-center gap-2">
                     {interviewData.tags.map((tag, idx) => {
+                      const color = tagColorClass[idx % tagColorClass.length  ];
                       return (
-                        <span key={idx + 100} className="text-white/90">
+                        <span key={idx + 100} className={`px-3 py-0.5 text-xs rounded-full      ${color.bg}  ${color.border} `}>
                           {tag.tagName}
                         </span>
                       );
