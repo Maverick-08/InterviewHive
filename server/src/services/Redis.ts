@@ -88,8 +88,8 @@ export class Redis_Service {
       return "No view count";
     } else {
       const parsedValue = parseInt(viewCount);
-      const thousandsCount = parsedValue / 1000;
-      const hundredsCount = (parsedValue - thousandsCount * 1000) / 100;
+      const thousandsCount = Math.floor(parsedValue / 1000);
+      const hundredsCount = Math.floor((parsedValue - thousandsCount * 1000) / 100);
       if (thousandsCount == 0 && hundredsCount >= 0) {
         return `${parsedValue}`;
       }
