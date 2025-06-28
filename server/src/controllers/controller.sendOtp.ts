@@ -13,7 +13,7 @@ export const sendOtpHandler = async (req: Request, res: Response) => {
 
     // 2. If bad request
     if (!payload) {
-      res.status(code.BadRequest).send("Email id is missing.");
+      res.status(code.BadRequest).json({data:"Email id is missing."});
       return;
     }
 
@@ -26,7 +26,7 @@ export const sendOtpHandler = async (req: Request, res: Response) => {
 
     // 4. If user already exists
     if (userExists) {
-      res.status(code.Forbidden).send("User is already registered");
+      res.status(code.Forbidden).json({data:"User is already registered"});
       return;
     }
 
@@ -42,15 +42,15 @@ export const sendOtpHandler = async (req: Request, res: Response) => {
       `<p>Thank you for choosing <b>Interview Hive</b>!</p>
         <p>Your OTP is: <b>${otp}</b></p>
         <p><i>It is valid for 10 minutes only.</i></p>
-        <p>Sent at: ${new Date().toLocaleString()}</p>`
+        <p>Sent at: ${new Date().toLocaleDateString()}</p>`
     );
 
     // 7. Return
-    res.status(code.Success).send("OTP sent successfully");
+    res.status(code.Success).json({data:"OTP sent successfully"});
     return;
   } catch (err) {
     console.log("@sendOtpHandler : \n", err);
-    res.status(code.ServerError).send("Failed to send OTP. Try again later.");
+    res.status(code.ServerError).json({data:"Failed to send OTP. Try again later."});
     return;
   }
 };

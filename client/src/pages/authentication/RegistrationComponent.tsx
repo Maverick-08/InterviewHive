@@ -19,28 +19,40 @@ import { Combobox } from "@/components/ui/combobox";
 import { useRegisterUserStore } from "@/store/registerStore";
 import { getFunction } from "@/utils/axiosRequest";
 
-const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:boolean)=>void}) => {
+const RegistrationComponent = ({
+  activateOTPComponent,
+}: {
+  activateOTPComponent: (x: boolean) => void;
+}) => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
-  const [courseId, setCourseId] = useState<string | null>(null);
-  const [yearOfPassingOut, setYearOfPassingOut] = useState<string | null>(null);
+  const year = useRegisterUserStore((state) => state.yearOfPassingOut);
+
+  const [username, setUsername] = useState<string | null>(
+    useRegisterUserStore((state) => state.username) ?? null
+  );
+  const [email, setEmail] = useState<string | null>(
+    useRegisterUserStore((state) => state.email) ?? null
+  );
+  const [password, setPassword] = useState<string | null>(
+    useRegisterUserStore((state) => state.password) ?? null
+  );
+  const [courseId, setCourseId] = useState<string | null>(
+    useRegisterUserStore((state) => state.courseId) ?? null
+  );
+  const [yearOfPassingOut, setYearOfPassingOut] = useState<string | null>(
+    year !== null && year !== undefined ? String(year) : null
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComboboxOpen, setIsComboboxOpen] = useState(false);
   const [isYearComboboxOpen, setIsYearComboboxOpen] = useState(false);
   const yearList = getYearList();
-  const updateRegistrationDetails = useRegisterUserStore(state=>state.updateUserDetails);
+  const updateRegistrationDetails = useRegisterUserStore(
+    (state) => state.updateUserDetails
+  );
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    console.log({
-      username,
-      email,
-      password,
-      courseId,
-      yearOfPassingOut: Number(yearOfPassingOut),
-    });
+    
     const isPayloadValid = checkRegistrationDetails({
       username,
       email,
@@ -50,19 +62,28 @@ const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:b
     });
 
     if (!isPayloadValid) {
-      toast.error(`Invalid Details`);
+      toast.error(`Incomplete Details`);
     } else {
       setIsSubmitting(true);
-      updateRegistrationDetails({username: username as string,email: email as string,password: password as string, courseId: courseId as string,yearOfPassingOut: Number(yearOfPassingOut)});
-      const response = await getFunction("/api/register/sendOtp");
-      if(response.success){
-        toast.success(`${response.data}`);
+
+      updateRegistrationDetails({
+        username: username as string,
+        email: email as string,
+        password: password as string,
+        courseId: courseId as string,
+        yearOfPassingOut: Number(yearOfPassingOut),
+      });
+      const response = await getFunction(
+        `/api/register/sendOtp?email=${email}`
+      );
+
+      if (response.success) {
+        toast.success(`${response.data.data}`);
         setIsSubmitting(false);
         setTimeout(() => {
           activateOTPComponent(true);
         }, 1000);
-      }
-      else{
+      } else {
         toast.warning(`${response.errMsg}`);
         setIsSubmitting(false);
       }
@@ -70,13 +91,14 @@ const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:b
   };
 
   return (
-    <div className="w-full max-w-md h-full min-h-screen px-4 flex flex-col gap-4 text-white select-none">
+    <div className="w-full max-w-md h-full min-h-screen px-4 flex flex-col gap-4 justify-center items-center text-white select-none">
       {/* Back Button  */}
       <span
         onClick={() => navigate("/")}
         className="absolute lg:hidden top-6 left-4 text-neutral-400 cursor-pointer flex items-center gap-2"
       >
-        <IoChevronBackOutline className="h-6 w-6" /> <span className="text-lg text-neutral-400">Back</span>
+        <IoChevronBackOutline className="h-6 w-6" />{" "}
+        <span className="text-lg text-neutral-400">Back</span>
       </span>
 
       {/* Top Heading - Welcome Back  */}
@@ -96,8 +118,9 @@ const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:b
           {/* Course  */}
           <div className="flex flex-col">
             <InputComponent
-              defaultValue={courseId ? courseId : ""}
+              value={courseId ? courseId : ""}
               onClick={() => setIsComboboxOpen(true)}
+              onChange={() => setCourseId(courseId)}
               title="Course"
               Icon={LuNotebookPen}
               inputType={"text"}
@@ -123,8 +146,9 @@ const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:b
           {/* Year of passing out   */}
           <div className="relative flex flex-col">
             <InputComponent
-              defaultValue={yearOfPassingOut ? yearOfPassingOut : ""}
+              value={yearOfPassingOut ? yearOfPassingOut : ""}
               onClick={() => setIsYearComboboxOpen(true)}
+              onChange={() => setYearOfPassingOut(yearOfPassingOut)}
               title="Year"
               Icon={FaRegCalendarCheck}
               inputType={"text"}
@@ -139,11 +163,7 @@ const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:b
                 showTriggerIcon="hidden sm:hidden"
                 options={yearList}
                 styleOption="text-lg"
-                value={
-                  yearOfPassingOut
-                    ? `${yearOfPassingOut}`
-                    : `1999`
-                }
+                value={yearOfPassingOut ? `${yearOfPassingOut}` : `1999`}
                 setValue={setYearOfPassingOut}
                 isPopoverOpen={isYearComboboxOpen}
                 setIsPopoverOpen={setIsYearComboboxOpen}
@@ -182,7 +202,7 @@ const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:b
         onClick={handleSubmit}
         Icon={isSubmitting ? ImSpinner8 : undefined}
         iconSize={`animate-spin`}
-        text="Register"
+        text="Get OTP"
         containerStyle="flex justify-center items-center"
         className="mt-4 w-full font-mono"
       />
@@ -195,11 +215,11 @@ const RegistrationComponent = ({activateOTPComponent}:{activateOTPComponent:(x:b
 
       {/* Sign in with google */}
 
-        <WhiteButton
-          text="Sign up with Google"
-          className="w-full font-mono flex items-center justify-center gap-2"
-          Icon={AiOutlineChrome}
-        />
+      <WhiteButton
+        text="Sign up with Google"
+        className="w-full font-mono flex items-center justify-center gap-2"
+        Icon={AiOutlineChrome}
+      />
 
       <div className="pb-8 text-right">
         Have an account ?{" "}
