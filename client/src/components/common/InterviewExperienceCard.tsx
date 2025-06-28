@@ -83,6 +83,10 @@ const InterviewExperienceCard = ({
     }
   };
 
+  const handleViewCountUpdate = async () => {
+    await getFunction(`/api/interview/viewCount?interviewId=${interviewId}`);
+  }
+
   return (
     <Card
       className={`bg-[#171717] rounded-sm text-white p-4 group ${
@@ -158,7 +162,7 @@ const InterviewExperienceCard = ({
       {/* analytics and view details button  */}
       <div className=" mt-2 flex justify-between items-end font-mono">
         <div className="flex gap-4">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <LuEye className="size-4 text-green-400/60" />
             <span>{viewCount ?? 234}</span>
           </div>
@@ -171,6 +175,7 @@ const InterviewExperienceCard = ({
           onClick={() => {
             setIsInterviewModalOpen(true);
             setSelectedInterview(interviewDetails);
+            handleViewCountUpdate();
           }}
           text="View Details "
           className="bg-[#333333] hover:bg-[#333333] group-hover:text-white border border-[#17171717] text-md text-white/60  transition-colors delay-300"

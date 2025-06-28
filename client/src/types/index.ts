@@ -25,6 +25,8 @@ export interface Interview {
     companyName:string;
     yearOfInterview:number;
     role:string;
+    viewCount:number;
+    bookmarkCount:number;
     CTCOffered?:number;
     user: User;
     interviewStatus:string;

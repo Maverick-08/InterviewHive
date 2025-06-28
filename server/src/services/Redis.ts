@@ -109,4 +109,12 @@ export class Redis_Service {
     }
     return;
   }
+
+  public static async getInterviewViewCount(interviewId:string){
+    return await redisClient.get(`Interview:${interviewId}`);
+  }
+
+  public static async setInterviewViewCount(interviewId:string,value:number){
+    return await redisClient.set(`Interview:${interviewId}`,JSON.stringify({viewCount:value,bookmarkCount:0}));
+  }
 }

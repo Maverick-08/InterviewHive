@@ -9,6 +9,7 @@ import { saveInterviewController } from "../controllers/controller.save.saveInte
 import { getInterviewTags } from "../controllers/controller.interview.interviewTags";
 import { getAllInterviewsController } from "../controllers/controller.interview.getAllInterviews";
 import { getBookmarkStats } from "../controllers/controller.interview.bookmarkStats";
+import { viewCountHandler } from "../controllers/controller.interview.viewCount";
 
 const router = Router();
 
@@ -17,6 +18,9 @@ router.route("/tags").get(getInterviewTags);
 
 // get all interviews or filtered interviews
 router.route("/").get(getAllInterviewsController);
+
+// get interview view count
+router.route("/viewCount").get(viewCountHandler);
 
 // get interviews created by user
 router.route("/user").get(getUserInterviewsController);
