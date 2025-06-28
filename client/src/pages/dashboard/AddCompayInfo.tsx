@@ -43,7 +43,8 @@ const AddCompanyInfo = ({
     store_interviewStatus ?? ""
   );
   const authorId = useUserStore((state) => state.id);
-  const regex = /[a-zA-Z]+$/;
+  const regex = /[a-zA-Z ]+$/;
+  const roleRegex = /[a-z1-9A-Z- ]+$/;
 
   const saveInterviewInfo = () => {
     const allowedStatuses = ["SELECTED", "PENDING", "REJECTED"];
@@ -74,7 +75,7 @@ const AddCompanyInfo = ({
       return false;
     }
 
-    if (!regex.test(role)) {
+    if (!roleRegex.test(role)) {
       toast.warning("Invalid Format", {
         description: "The role can have only letters or spaces.",
       });
