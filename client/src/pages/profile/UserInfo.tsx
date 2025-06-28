@@ -8,17 +8,20 @@ import AllGood from "../../assets/AllGood.png";
 import Birthday from "../../assets/Birthday.png";
 import DontMove from "../../assets/DontMove.png";
 import Vibing from "../../assets/Vibing.png";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import ProfileUpdateModal from "./ProfileUpdateModal";
 
-const getAvatar = (avatar:string) => {
-  if(avatar == "Doodle") return Doodle;
-  if(avatar == "Female") return Female;
-  if(avatar == "Waiting") return Waiting;
-  if(avatar == "AllGood") return AllGood;
-  if(avatar == "Birthday") return Birthday;
-  if(avatar == "DontMove") return DontMove;
-  if(avatar == "Vibing") return Vibing;
+const getAvatar = (avatar: string) => {
+  if (avatar == "Doodle") return Doodle;
+  if (avatar == "Female") return Female;
+  if (avatar == "Waiting") return Waiting;
+  if (avatar == "AllGood") return AllGood;
+  if (avatar == "Birthday") return Birthday;
+  if (avatar == "DontMove") return DontMove;
+  if (avatar == "Vibing") return Vibing;
   return Doodle;
-}
+};
 
 const UserInfo = ({
   username,
@@ -31,17 +34,25 @@ const UserInfo = ({
 }: {
   username: string;
   degree: string;
-  branch: string|null;
+  branch: string | null;
   yearOfPassingOut: number;
   xHandle?: string | null;
   linkedIn?: string | null;
   avatar: string;
 }) => {
+  const [updateModal, setUpdateModal] = useState(false);
+  const pathname = useLocation().pathname;
+  const isUserProfile = pathname.length - pathname.indexOf("profile") > 10;
+
   return (
     <div className="w-full max-w-4xl  px-4 flex gap-12 flex-col lg:flex-row md:justify-between items-center ">
       {/* profile image  */}
       <div className="p-1 bg-neutral-400/40 rounded-full">
-        <img src={getAvatar(avatar)} alt="Avatar" className="h-36 w-36 rounded-full" />
+        <img
+          src={getAvatar(avatar)}
+          alt="Avatar"
+          className="h-36 w-36 rounded-full"
+        />
         {/* <div className="h-36 w-36 rounded-full bg-neutral-400"></div> */}
       </div>
 
@@ -50,7 +61,14 @@ const UserInfo = ({
         {/* edit  */}
         <div className="absolute top-4 right-4">
           <div className="w-fit p-2 cursor-pointer rounded-full bg-neutral-800 hover:bg-neutral-600 text-neutral-400">
-            <MdModeEditOutline className="h-6 w-6" />
+            {isUserProfile ? (
+              ""
+            ) : (
+              <MdModeEditOutline
+                onClick={() => setUpdateModal(true)}
+                className="h-6 w-6"
+              />
+            )}
           </div>
         </div>
 
@@ -86,18 +104,27 @@ const UserInfo = ({
         <div className="flex justify-end">
           <div className="text-neutral-400 flex gap-6">
             <span className="hover:text-blue-500 hover:scale-125 transition-all duration-200 ease-in cursor-pointer">
-              <a href={`${xHandle ?? "#"}`} target="_blank"  rel="noopener noreferrer">
+              <a
+                href={`${xHandle ?? "#"}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FaXTwitter className="h-6 w-6" />
               </a>
             </span>
             <span className="hover:text-blue-500 hover:scale-125 transition-all duration-200 ease-in cursor-pointer">
-              <a href={`${linkedIn ?? "#"}`} target="_blank"  rel="noopener noreferrer">
+              <a
+                href={`${linkedIn ?? "#"}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FaLinkedin className="h-6 w-6" />
               </a>
             </span>
           </div>
         </div>
       </div>
+      <ProfileUpdateModal open={updateModal} onOpenChange={setUpdateModal}/>
     </div>
   );
 };
