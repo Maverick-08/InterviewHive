@@ -91,7 +91,7 @@ const DashboardLayout = () => {
                 {/* central container */}
                 <div className="h-full border-t border-white/20 pt-4">
                   <div className="h-full flex flex-col justify-between">
-                    <div className="flex flex-col gap-4 ">
+                    <div className="flex flex-col gap-4 cursor-pointer">
                       {/* dashboard  */}
                       <div
                         onClick={() => navigate("/dashboard")}

@@ -38,23 +38,23 @@ const DeleteDialog = ({
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#171717] text-neutral-500 border-none">
+      <DialogContent className="font-mono bg-[#171717] text-neutral-500 border-none">
         <DialogHeader>
-          <DialogTitle className="text-neutral-300">
+          <DialogTitle className="text-2xl text-neutral-300">
             Are you absolutely sure?
           </DialogTitle>
-          <DialogDescription className="leading-8">
-            This action cannot be undone. This will permanently delete your
-            <span className="text-neutral-300"> Interview Record</span> and it's
+          <DialogDescription className="text-md leading-8">
+            This action cannot be undone. This will
+            <span className="text-neutral-300"> permanently delete your interview record</span> and it's
             associated data.
           </DialogDescription>
         </DialogHeader>
-        <div className="pt-4 flex justify-end">
+        <div className="flex justify-end">
           <div className="flex items-center gap-6">
             {/* Cancel button  */}
             <div
               onClick={() => onOpenChange(false)}
-              className="px-8 py-1.5 rounded-sm bg-blue-500/80 text-neutral-200 cursor-pointer"
+              className="px-8 py-1.5 rounded-sm bg-blue-500/80 hover:bg-blue-500 text-neutral-200 cursor-pointer"
             >
               Cancel
             </div>
@@ -62,7 +62,7 @@ const DeleteDialog = ({
             {/* Delete button  */}
             <div
               onClick={handleDelete}
-              className="px-8 py-1.5 rounded-sm bg-red-500/80 text-neutral-200 cursor-pointer"
+              className="px-8 py-1.5 rounded-sm bg-red-500/80 hover:bg-red-500 text-neutral-200 cursor-pointer"
             >
               {isdeleting ? (
                 <div className="flex items-center gap-2">
