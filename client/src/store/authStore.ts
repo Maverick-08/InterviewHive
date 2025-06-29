@@ -10,7 +10,7 @@ export const useAuthStore = create<AuthState>()(
   devtools(
     persist(
       (set) => ({
-        authState: true,
+        authState: false,
 
         setAuthState: (value: boolean) => set({ authState: value }),
       }),
