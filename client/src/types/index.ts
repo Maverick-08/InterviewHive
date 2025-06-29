@@ -27,6 +27,7 @@ export interface Interview {
     role:string;
     viewCount:number;
     bookmarkCount:number;
+    difficultyLevel:string;
     CTCOffered?:number;
     user: User;
     interviewStatus:string;

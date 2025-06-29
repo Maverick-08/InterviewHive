@@ -172,6 +172,7 @@ export const createInterviewExperience = async (
           role: interviewData.role.toUpperCase(),
           CTCOffered: interviewData.CTCOffered,
           interviewStatus: interviewData.interviewStatus.toUpperCase(),
+          difficultyLevel: interviewData.difficultyLevel,
 
           user: {
             connect: {

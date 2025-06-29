@@ -30,6 +30,7 @@ const ListInterviews = ({ interviewData }: { interviewData: Interview[] }) => {
             interviewId={data.id}
             userId={data.authorId}
             viewCount={data.viewCount}
+            difficultyLevel={data.difficultyLevel}
           />
         );
       })}

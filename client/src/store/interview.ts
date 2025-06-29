@@ -28,6 +28,7 @@ interface Interview {
   companyName: string;
   yearOfInterview: number;
   role: string;
+  difficultyLevel:string;
   CTCOffered: number | null;
   interviewStatus: string;
   interviewRounds: InterviewRound[];
@@ -46,6 +47,7 @@ interface Interview {
     companyName: string;
     yearOfInterview: number;
     role: string;
+    difficultyLevel: string;
     CTCOffered: number | undefined | null;
     interviewStatus: string;
     interviewRounds: InterviewRound[];
@@ -114,6 +116,7 @@ const InitialInterviewSate = {
   companyName: "",
   yearOfInterview: new Date().getFullYear(),
   role: "",
+  difficultyLevel:"",
   CTCOffered: null,
   interviewStatus: "",
   interviewRounds: [],
@@ -152,6 +155,7 @@ export const useInterviewStore = create<Interview>()(
             companyName: get().companyName,
             yearOfInterview: get().yearOfInterview,
             role: get().role,
+            difficultyLevel: get().difficultyLevel,
             CTCOffered: get().CTCOffered,
             interviewStatus: get().interviewStatus,
             interviewRounds: get().interviewRounds,

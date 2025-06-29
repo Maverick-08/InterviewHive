@@ -15,6 +15,7 @@ export interface InterviewDetails {
   role: string;
   CTCOffered?: number;
   interviewStatus: string;
+  difficultyLevel: string;
   interviewRounds: {
     roundType: string;
     note?: string;

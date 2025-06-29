@@ -47,13 +47,30 @@ const InterviewTag = ({
   const selectedTags = useInterviewStore((state) => state.tags);
   const addInterviewTag = useInterviewStore((state) => state.addInterviewTag);
   const getPayload = useInterviewStore((state) => state.getInterviewPayload);
+  const updateInterviewDetails = useInterviewStore(
+    (state) => state.updateInterview
+  );
   const setAuthState = useAuthStore((state) => state.setAuthState);
   const userId = useUserStore((state) => state.id);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [difficultyLevel, setDifficultyLevel] = useState<string>("");
   const pathname = useLocation().pathname;
 
   const handleSubmit = async () => {
     const payload = getPayload();
+
+    // check for tags
+    if (payload.tags.length == 0) {
+      toast.warning("Please tag your Interview Experience");
+      return;
+    }
+
+    // check for difficulty level
+    if (difficultyLevel == "") {
+      toast.warning("Please select difficulty level");
+      return;
+    }
+
     setIsSubmitting(true);
     const response = await postFunction("/api/interview/add", payload);
 
@@ -135,9 +152,50 @@ const InterviewTag = ({
           <div className="mt-4 flex flex-col font-mono">
             <p className="text-lg text-white/80">Select difficulty level:</p>
             <div className="py-2 flex gap-2 items-center justify-start">
-                <div className="px-3 py-1 rounded-sm text-green-500 bg-gradient-to-b  to-green-500/30 border border-green-400/70 hover:bg-green-500/10 cursor-pointer transition-all duration-300">EASY</div>
-                <div className="px-3 py-1 rounded-sm text-yellow-500 bg-gradient-to-b  to-yellow-500/30 border border-yellow-400/70 hover:bg-yellow-500/10 cursor-pointer transition-all duration-300">MEDIUM</div>
-                <div className="px-3 py-1 rounded-sm text-red-500 bg-gradient-to-b  to-red-500/30 border border-red-400/70 hover:bg-red-500/10 cursor-pointer transition-all duration-300">HARD</div>
+              <div
+                onClick={() => {
+                  setDifficultyLevel("EASY");
+                  updateInterviewDetails({
+                    ...getPayload(),
+                    difficultyLevel: "Easy",
+                  });
+                }}
+                className={`px-3 py-1 rounded-sm text-green-500 border border-green-400/70 cursor-pointer transition-all duration-300 ${
+                  difficultyLevel == "EASY" ? "bg-green-500 text-white" : ""
+                }`}
+              >
+                EASY
+              </div>
+              <div
+                onClick={() => {
+                  setDifficultyLevel("MEDIUM");
+                  updateInterviewDetails({
+                    ...getPayload(),
+                    difficultyLevel: "Medium",
+                  });
+                }}
+                className={`px-3 py-1 rounded-sm  border border-yellow-400/70 cursor-pointer transition-all duration-300
+                  ${
+                    difficultyLevel == "MEDIUM"
+                      ? "bg-yellow-500 text-white"
+                      : "text-yellow-500"
+                  }`}
+              >
+                MEDIUM
+              </div>
+              <div
+                onClick={() => {
+                  setDifficultyLevel("HARD");
+                  updateInterviewDetails({
+                    ...getPayload(),
+                    difficultyLevel: "Hard",
+                  });
+                }}
+                className={`px-3 py-1 rounded-sm text-red-500 border border-red-400/70 cursor-pointer transition-all duration-300
+                  ${difficultyLevel == "HARD" ? "bg-red-500 text-white" : ""}`}
+              >
+                HARD
+              </div>
             </div>
           </div>
 
