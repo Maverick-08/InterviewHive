@@ -91,7 +91,7 @@ const RegistrationComponent = ({
   };
 
   return (
-    <div className="w-full max-w-md h-full min-h-screen px-4 flex flex-col gap-4 justify-center items-center text-white select-none">
+    <div className="w-full max-w-md h-full min-h-screen px-4 flex flex-col gap-4 justify-center items-center text-white select-none font-mono">
       {/* Back Button  */}
       <span
         onClick={() => navigate("/")}
@@ -102,7 +102,7 @@ const RegistrationComponent = ({
       </span>
 
       {/* Top Heading - Welcome Back  */}
-      <p className="pt-24 text-2xl text-center">Welcome Back ! 👋</p>
+      <p className="pt-24 text-2xl text-center">Welcome Back!👋</p>
       <div className="flex flex-col gap-6">
         {/* Username  */}
         <InputComponent
@@ -207,10 +207,10 @@ const RegistrationComponent = ({
         className="mt-4 w-full font-mono"
       />
 
-      <div className="flex items-center gap-1">
-        <span className="flex-1 border border-[#333333]"></span>
-        <span className="text-lg font-mono">OR</span>
-        <span className="flex-1 border border-[#333333]"></span>
+      <div className="flex w-full items-center gap-2">
+        <p className="h-px bg-gradient-to-r from-transparent to-white/40 w-full "></p>
+        <p className="text-sm text-white/80">OR</p>
+        <p className="h-px bg-gradient-to-l from-transparent to-white/40 w-full "></p>
       </div>
 
       {/* Sign in with google */}
@@ -221,11 +221,11 @@ const RegistrationComponent = ({
         Icon={AiOutlineChrome}
       />
 
-      <div className="pb-8 text-right">
+      <div className="pb-8 text-right text-neutral-400">
         Have an account ?{" "}
         <span
           onClick={() => navigate("/login")}
-          className="underline cursor-pointer hover:text-neutral-400"
+          className="hover:underline underline-offset-4 cursor-pointer text-neutral-200 hover:text-neutral-400"
         >
           Sign In
         </span>

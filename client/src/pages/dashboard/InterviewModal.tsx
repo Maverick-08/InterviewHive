@@ -62,8 +62,8 @@ const InterviewModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsInterviewModalOpen}>
-      <DialogContent className="p-8 h-120 max-h-[600px] w-full md:w-[768px] lg:w-[896px] max-w-4xl overflow-y-scroll bg-[#171717] border border-white/20 text-white">
-        <div className="flex flex-col justify-between">
+      <DialogContent className="p-8 w-4xl max-h-120 font-mono overflow-y-scroll bg-[#171717] border border-white/20 text-white">
+        <div className="flex flex-col w-full ">
           {/* Top conatiner  */}
           <div>
             <RoughNotationGroup show={show}>
@@ -71,8 +71,8 @@ const InterviewModal = () => {
                 <RoughNotation
                   type="box"
                   color="yellow"
-                  animationDuration={900}
                   padding={8}
+                  animationDuration={1200}
                 >
                   {interviewData.companyName}
                 </RoughNotation>
