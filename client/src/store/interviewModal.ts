@@ -30,6 +30,7 @@ export const useSelectedInterviewStore = create<SelectedInterview>(
     viewCount: 0,
     bookmarkCount: 0,
     role: "",
+    difficultyLevel:"",
     CTCOffered: 0,
     user: {
       userId: "",
@@ -72,6 +73,7 @@ export const useSelectedInterviewStore = create<SelectedInterview>(
         viewCount: get().viewCount,
         bookmarkCount: get().bookmarkCount,
         role: get().role,
+        difficultyLevel: get().difficultyLevel,
         CTCOffered: get().CTCOffered,
         user: {
           userId: get().user.userId,
