@@ -128,4 +128,25 @@ export class Redis_Service {
     console.log("(cached,user)",otpValue,otp);
     return otp==otpValue;
   }
+
+  public static async setResetPasswordToken(userId:string,secret:string){
+    await redisClient.set(`RESET_PASSWORD:${userId}`,secret,'EX',10*60);
+  }
+
+  public static async verifyPasswordToken(userId:string,secret:string){
+    const cachedSecret = await redisClient.get(`RESET_PASSWORD:${userId}`);
+    console.log("cached secret")
+    console.log(cachedSecret)
+    if(!cachedSecret) return {success:false,msg:"The reset password link has been expired"};
+
+    if(secret == cachedSecret){
+      return {success:true,msg:""}
+    }
+
+    return {success:false,msg:"Invalid Action"}; 
+  }
+
+  public static async invalidateSecretToken(userId:string){
+    return await redisClient.del(`RESET_PASSWORD:${userId}`);
+  }
 }

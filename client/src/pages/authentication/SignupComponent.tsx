@@ -124,7 +124,7 @@ const SignupComponent = () => {
         </div>
 
         {/* Reset Password  */}
-        <p className="my-4 text-right underline cursor-pointer">
+        <p onClick={()=> navigate("/reset")} className="my-4 text-right underline cursor-pointer">
           Reset password
         </p>
 
