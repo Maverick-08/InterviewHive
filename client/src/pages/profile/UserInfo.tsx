@@ -81,7 +81,7 @@ const UserInfo = ({
         {/* Degree  */}
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <span className="text-neutral-400 text-nowrap">Degree : </span>
-          <span>{degree}</span>
+          <span>{degree ?? "Not Available"}</span>
         </div>
 
         {/* Branch  */}
@@ -97,7 +97,7 @@ const UserInfo = ({
             Year of Passing Out :{" "}
           </span>
 
-          <span>{yearOfPassingOut}</span>
+          <span>{yearOfPassingOut ?? "Not Available"}</span>
         </div>
 
         {/* socials  */}
