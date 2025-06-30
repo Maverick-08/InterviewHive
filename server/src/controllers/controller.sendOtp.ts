@@ -13,7 +13,7 @@ export const sendOtpHandler = async (req: Request, res: Response) => {
 
     // 2. If bad request
     if (!payload) {
-      res.status(code.BadRequest).json({data:"Email id is missing."});
+      res.status(code.BadRequest).json({msg:"Email id is missing."});
       return;
     }
 
@@ -26,7 +26,7 @@ export const sendOtpHandler = async (req: Request, res: Response) => {
 
     // 4. If user already exists
     if (userExists) {
-      res.status(code.Forbidden).json({data:"User is already registered"});
+      res.status(code.Forbidden).json({msg:"User is already registered"});
       return;
     }
 
@@ -46,11 +46,11 @@ export const sendOtpHandler = async (req: Request, res: Response) => {
     );
 
     // 7. Return
-    res.status(code.Success).json({data:"OTP sent successfully"});
+    res.status(code.Success).json({msg:"OTP sent successfully"});
     return;
   } catch (err) {
     console.log("@sendOtpHandler : \n", err);
-    res.status(code.ServerError).json({data:"Failed to send OTP. Try again later."});
+    res.status(code.ServerError).json({msg:"Failed to send OTP. Try again later."});
     return;
   }
 };
