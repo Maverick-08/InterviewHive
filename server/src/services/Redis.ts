@@ -135,8 +135,7 @@ export class Redis_Service {
 
   public static async verifyPasswordToken(userId:string,secret:string){
     const cachedSecret = await redisClient.get(`RESET_PASSWORD:${userId}`);
-    console.log("cached secret")
-    console.log(cachedSecret)
+    
     if(!cachedSecret) return {success:false,msg:"The reset password link has been expired"};
 
     if(secret == cachedSecret){

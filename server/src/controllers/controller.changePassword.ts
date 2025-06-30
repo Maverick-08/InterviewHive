@@ -17,7 +17,6 @@ export const changePasswordHandler = async (req:Request, res:Response) => {
         }
 
         // 2. Validate the secret token
-        console.log({secretToken,userId,password})
         const isTokenValid = await Redis_Service.verifyPasswordToken(userId,secretToken);
 
         // 3. If token validation fails - link expired or invalid token sent
