@@ -20,6 +20,13 @@ export const userRegistrationController = async (req:Request,res:Response) => {
             return;
         }
 
+        const userExists = await User.exists({email:payload.email});
+
+        if(userExists){
+            res.status(code.BadRequest).json({msg:"Account is already registered."});
+            return;
+        }
+
         // 3. if otp is missing
         if(!payload.otp){
             res.status(code.BadRequest).send("OTP is missing");

@@ -10,10 +10,10 @@ export class User {
   public id: string;
   public email: string;
   public username: string;
-  public password: string;
-  public yearOfPassingOut: number;
-  public courseId: string;
-  public avatar: string;
+  public password: string|null|undefined;
+  public yearOfPassingOut: number|null|undefined;
+  public courseId: string|null|undefined;
+  public avatar: string|undefined|null;
   public xHandle: string | null;
   public linkedIn: string | null;
   public createdAt: Date;
@@ -44,20 +44,25 @@ export class User {
 
   static async createUser({
     email,
-    password,
     username,
+    password,
     courseId,
+    avatar,
     yearOfPassingOut,
   }: UserRegistrationDetails) {
     // 1 Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    let hashedPassword = null;
+    if(password){
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
 
     // 2 create user
     const user = await createUser({
       payload: {
         email,
-        password: hashedPassword,
         username,
+        avatar,
+        password: hashedPassword,
         courseId,
         yearOfPassingOut,
       },

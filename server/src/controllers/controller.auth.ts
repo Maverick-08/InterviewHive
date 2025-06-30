@@ -38,6 +38,12 @@ export const userAuthController = async (req: Request, res: Response) => {
       return;
     }
 
+    // 5. If user is registered via google - no password
+    if(!user.password){
+      res.status(code.BadRequest).json({msg:"Reset your password"});
+      return;
+    } 
+
     // 4. if user is registered - match password
     const isPasswordCorrect = await User.isPasswordCorrect({
       password: payload.password,

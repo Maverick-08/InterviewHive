@@ -25,7 +25,7 @@ export const createUser = async ({
   payload: UserRegistrationDetails;
 }) => {
   const user = await prisma.user.create({
-    data: { ...payload },
+    data: { ...payload,courseId: payload.courseId ?? "NA"},
   });
 
   return user;

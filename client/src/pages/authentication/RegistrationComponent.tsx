@@ -17,7 +17,10 @@ import { toast } from "sonner";
 import { ImSpinner8 } from "react-icons/im";
 import { Combobox } from "@/components/ui/combobox";
 import { useRegisterUserStore } from "@/store/registerStore";
-import { getFunction } from "@/utils/axiosRequest";
+import { getFunction, postFunction } from "@/utils/axiosRequest";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useUserStore } from "@/store/userStore";
+import { useAuthStore } from "@/store/authStore";
 
 const RegistrationComponent = ({
   activateOTPComponent,
@@ -49,6 +52,8 @@ const RegistrationComponent = ({
   const updateRegistrationDetails = useRegisterUserStore(
     (state) => state.updateUserDetails
   );
+  const setUserState = useUserStore((state) => state.setUserState);
+    const setAuthState = useAuthStore((state) => state.setAuthState);
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
@@ -89,6 +94,35 @@ const RegistrationComponent = ({
       }
     }
   };
+
+  const handleGoogleSignup = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+
+      const response = await postFunction("/api/oauth",{code:tokenResponse.code});
+
+      const userData:{userId:string,email:string;username:string} = response.data;
+
+      if(response.success){
+        // set user
+        setUserState({id:userData.userId,username:userData.username});
+        setAuthState(true);
+
+        // navigate to dashboard
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
+
+        toast.success("Logging In");
+      }
+      else{
+        toast.warning(`${response.errMsg}`);
+      }
+    },
+    onError: () => {
+     toast.error("Google Authentication Failed")
+    },
+    flow: "auth-code", // or "auth-code" if using backend exchange
+  });
 
   return (
     <div className="w-full max-w-md h-full min-h-screen px-4 flex flex-col gap-4 justify-center items-center text-white select-none font-mono">
@@ -216,7 +250,8 @@ const RegistrationComponent = ({
       {/* Sign in with google */}
 
       <WhiteButton
-        text="Sign up with Google"
+        text="Continue with Google"
+        onClick={handleGoogleSignup}
         className="w-full font-mono flex items-center justify-center gap-2"
         Icon={AiOutlineChrome}
       />

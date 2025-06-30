@@ -12,6 +12,7 @@ import ChatBot from "./routes/route.chatbot";
 import Stats from "./routes/route.stats";
 import Refresh from "./routes/route.refresh";
 import ViewCount from "./routes/route.viewsCount";
+import OAUTH from "./routes/route.oauth";
 
 const app = express();
 
@@ -42,6 +43,9 @@ app.use("/api/register",Register);
 
 // Auth
 app.use("/api/auth",Auth);
+
+// OAuth
+app.use("/api/oauth",OAUTH);
 
 // Chatbot
 app.use("/api/chatbot",ChatBot)
