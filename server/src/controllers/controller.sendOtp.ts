@@ -46,7 +46,7 @@ export const sendOtpHandler = async (req: Request, res: Response) => {
     );
 
     // 7. Return
-    res.status(code.Success).json({msg:"OTP sent successfully"});
+    res.status(code.Success).json({data:"OTP sent successfully"});
     return;
   } catch (err) {
     console.log("@sendOtpHandler : \n", err);
