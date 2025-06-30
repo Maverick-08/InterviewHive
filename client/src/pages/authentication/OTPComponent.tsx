@@ -34,30 +34,30 @@ const OTPComponent = () => {
   }
   
   return (
-    <div className="w-full max-w-md h-full min-h-screen px-4 flex flex-col justify-center items-center gap-4 text-white select-none">
-      <div className="flex flex-col gap-4">
-        <p className="text-4xl text-center">Verification Code</p>
-        <p className="text-neutral-500">
+    <div className="w-full max-w-md h-full min-h-screen flex flex-col justify-center items-start gap-8 text-white select-none font-mono">
+      <div className="flex flex-col gap-2 text-start">
+        <p className=" text-5xl tracking-tight font-bold">Verification Code</p>
+        <p className="text-neutral-400 text-lg">
           Please enter 6 digit OTP sent to your email address :{" "}
-          {email.slice(0, 4) + "*****" + ".com"}
+          <span className="text-neutral-200">{email.slice(0, 2) + "*******" + ".com"}</span>
         </p>
       </div>
       <div>
         <InputOTP maxLength={6}>
-          <InputOTPGroup>
-            <InputOTPSlot index={0} id="slot-0" />
-            <InputOTPSlot index={1} id="slot-1" />
-            <InputOTPSlot index={2} id="slot-2" />
+          <InputOTPGroup className="space-x-2">
+            <InputOTPSlot index={0} id="slot-0" className="h-12 w-12 border border-slate-600"/>
+            <InputOTPSlot index={1} id="slot-1" className="h-12 w-12 border border-slate-600"/>
+            <InputOTPSlot index={2} id="slot-2" className="h-12 w-12 border border-slate-600"/>
           </InputOTPGroup>
           <InputOTPSeparator />
-          <InputOTPGroup>
-            <InputOTPSlot index={3} id="slot-3" />
-            <InputOTPSlot index={4} id="slot-4" />
-            <InputOTPSlot index={5} id="slot-5" />
+          <InputOTPGroup className="space-x-2">
+            <InputOTPSlot index={3} id="slot-3" className="h-12 w-12 border border-slate-600"/>
+            <InputOTPSlot index={4} id="slot-4" className="h-12 w-12 border border-slate-600"/>
+            <InputOTPSlot index={5} id="slot-5" className="h-12 w-12 border border-slate-600"/>
           </InputOTPGroup>
         </InputOTP>
       </div>
-      <div className="flex items-center gap-4">
+      <div className=" flex items-center gap-4">
         <BlackButton text="Resend OTP"  onClick={handleSubmit}/>
         <WhiteButton text="Register"  onClick={handleSubmit}/>
       </div>
