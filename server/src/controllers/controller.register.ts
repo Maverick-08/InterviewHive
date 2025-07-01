@@ -29,7 +29,7 @@ export const userRegistrationController = async (req:Request,res:Response) => {
 
         // 3. if otp is missing
         if(!payload.otp){
-            res.status(code.BadRequest).send("OTP is missing");
+            res.status(code.BadRequest).json({msg:"OTP is missing"});
             return;
         }
 
@@ -38,7 +38,7 @@ export const userRegistrationController = async (req:Request,res:Response) => {
 
         // 5. If OTP does not match
         if(!doesOTPMatch){
-            res.status(code.BadRequest).send("Incorrect OTP");
+            res.status(code.BadRequest).json({msg:"Incorrect OTP"});
             return;
         }
 
@@ -46,7 +46,7 @@ export const userRegistrationController = async (req:Request,res:Response) => {
         await User.createUser(payload);
         
         // 7. return
-        res.status(code.Success).json({msg:"User created successfully."});
+        res.status(code.Success).json({data:"Account created successfully."});
 
         return;
     }

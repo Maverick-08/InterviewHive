@@ -2,7 +2,7 @@ import { IoKeyOutline } from "react-icons/io5";
 import InfoComponent from "./InfoComponent";
 import InputComponent from "@/components/common/InputComponent";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import WhiteButton from "@/components/common/WhiteButton";
 import { ImSpinner8 } from "react-icons/im";
 import { postFunction } from "@/utils/axiosRequest";
@@ -13,6 +13,7 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { secretToken, userId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const post = async () => {
@@ -26,10 +27,13 @@ const ResetPassword = () => {
         toast.warning("The link has been expired", {
           description: "Initiate the process again.",
         });
+        setTimeout(() => {
+          navigate("/login")
+        }, 1000);
       }
     };
     post();
-  }, [secretToken, userId]);
+  }, [secretToken, userId,navigate]);
 
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
