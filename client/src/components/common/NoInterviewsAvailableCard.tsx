@@ -1,18 +1,21 @@
-import { Card } from "../ui/card";
-
 const NoInterviewsAvailableCard = () => {
   return (
-    <div className="flex justify-center">
-      <Card className="bg-[#171717] w-full max-w-4xl h-56 flex justify-center border-1 border-[#333333] rounded-md select-none">
-        <p className="text-xl md:text-3xl text-center text-white">
+    <div className="w-full h-full">
+      <div className="px-2 py-4 flex flex-col items-center rounded-md max-w-3xl mx-auto  border border-white/15 bg-neutral-800">
+        <p className="text-xl md:text-2xl lg:text-3xl text-center">
           Oops...! No Interviews Available.
         </p>
-        <p className="text-xs md:text-sm text-neutral-400 text-center">
+        <p className="text-xs md:text-sm text-neutral-400 text-center text-balance">
           Try searching with different keywords or filter tags.
         </p>
-      </Card>
+      </div>
     </div>
   );
 };
 
 export default NoInterviewsAvailableCard;
+
+// <p className="text-xl md:text-3xl text-center text-white">
+//   Oops...! No Interviews Available.
+// </p>
+//

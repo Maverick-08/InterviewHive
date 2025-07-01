@@ -21,15 +21,14 @@ const StatsCard = ({
 }) => {
   return (
     <motion.div
-      className="hover:bg-gray-900/70 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-neutral-500/15 group w-full sm:w-fit  "
+      className="hover:bg-gray-900/70 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-neutral-500/15 group w-full sm:w-fit"
     >
       <Card
         className={cn(
-          `bg-[#171717] rounded-sm text-white group-hover:text-blue-400 transition-all
-           px-4 py-4 w-full md:w-xs border border-[#333333] ${cardStyle}`
+          `bg-[#171717] rounded-sm text-white group-hover:text-blue-400 transition-all p-4 min-w-56 border border-[#333333] ${cardStyle}`
         )}
       >
-          <div className="flex flex-col gap-4">
+          <div className="w-full flex flex-col gap-4">
             {/* <div className="flex justify-between items-center"> */}
               <div className={cn(`text-zinc-400 group-hover:text-white transition-all ${iconContainerStyle}`)}>
                 <Icon className="h-6 w-6 " />
