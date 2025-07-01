@@ -1,6 +1,6 @@
 import { useContentAccessStore } from "@/store/contentAccessStore";
 import ComingSoon from "../../assets/ComingSoon.png";
-import ContentNotAccessible from "@/components/common/contentNotAccessible";
+import ContentNotAccessible from "@/components/common/ContentNotAccessible";
 
 const MockInterview = () => {
   const isContentAccessible = useContentAccessStore(state => state.isAccessible);
