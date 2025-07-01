@@ -6,6 +6,7 @@ import { User } from "../services/User";
 import { handleError } from "../config/errorMessages";
 import { services } from "../config/services";
 import { Redis_Service } from "../services/Redis";
+import { sendEmail } from "../utils/utils.mail";
 
 export const userRegistrationController = async (req:Request,res:Response) => {
     try{
@@ -47,6 +48,25 @@ export const userRegistrationController = async (req:Request,res:Response) => {
         
         // 7. return
         res.status(code.Success).json({data:"Account created successfully."});
+
+        // 8. Send a mail
+        sendEmail(
+            payload.email,
+            "Welcome to Interview Hive!",
+            "",
+            `
+            <h2>Welcome to Interview Hive!</h2>
+            <p>Thank you for registering with us.</p>
+            <p>With Interview Hive, you can:</p>
+            <ul>
+                <li>Read a wide range of interview questions and answers</li>
+                <li>Bookmark your favorite interviews for quick access</li>
+                <li>Prepare effectively for your upcoming interviews</li>
+            </ul>
+            <p>We're excited to help you on your interview journey!</p>
+            <p>Best regards,<br/>The Interview Hive Team</p>
+            `
+        );
 
         return;
     }
