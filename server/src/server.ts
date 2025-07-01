@@ -14,6 +14,7 @@ import Refresh from "./routes/route.refresh";
 import ViewCount from "./routes/route.viewsCount";
 import OAUTH from "./routes/route.oauth";
 import ResetPassword from "./routes/route.resetPassword";
+import Profile from "./routes/route.profile";
 
 const app = express();
 
@@ -48,9 +49,6 @@ app.use("/api/auth",Auth);
 // OAuth
 app.use("/api/oauth",OAUTH);
 
-// Chatbot
-app.use("/api/chatbot",ChatBot)
-
 // Refresh
 app.use("/api/refresh",Refresh);
 
@@ -63,8 +61,14 @@ app.use(VerifyToken);
 // Interviews
 app.use("/api/interview",Interview);
 
+// Chatbot
+app.use("/api/chatbot",ChatBot)
+
 // Stats
 app.use("/api/stats",Stats);
+
+// Profile
+app.use("/api/profile",Profile);
 
 
 app.listen(process.env.PORT || 3000, () => {
