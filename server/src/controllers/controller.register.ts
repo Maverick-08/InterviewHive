@@ -55,7 +55,7 @@ export const userRegistrationController = async (req:Request,res:Response) => {
             "Welcome to Interview Hive!",
             "",
             `
-            <h2>Welcome to Interview Hive!</h2>
+            <h2>Ole Mate !</h2>
             <p>Thank you for registering with us.</p>
             <p>With Interview Hive, you can:</p>
             <ul>
