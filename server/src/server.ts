@@ -13,6 +13,7 @@ import Stats from "./routes/route.stats";
 import Refresh from "./routes/route.refresh";
 import ViewCount from "./routes/route.viewsCount";
 import OAUTH from "./routes/route.oauth";
+import ResetPassword from "./routes/route.resetPassword";
 
 const app = express();
 
@@ -52,6 +53,9 @@ app.use("/api/chatbot",ChatBot)
 
 // Refresh
 app.use("/api/refresh",Refresh);
+
+// Reset password
+app.use("/api/reset-password",ResetPassword)
 
 // ------- Middeleware - verify token -----------
 app.use(VerifyToken);

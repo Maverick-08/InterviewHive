@@ -84,13 +84,13 @@ const Navbar = () => {
 
           <div className="flex-2 hidden lg:block">
             {authState ? (
-              <div onClick={()=>navigate("/profile")} className="flex items-center gap-4 cursor-pointer">
+              <div onClick={()=>navigate("/profile")} className="flex items-center justify-end gap-4 cursor-pointer">
+                <span className="text-lg">{username}</span>
                 <img
                   src={avatarMap.get(avatar) ? avatarMap.get(avatar) : Doodle}
                   alt="Avatar"
                   className="rounded-full h-12 w-12 border border-[#333333]"
                 ></img>
-                <span className="text-lg">{username}</span>
               </div>
             ) : (
               <div className="flex gap-4">

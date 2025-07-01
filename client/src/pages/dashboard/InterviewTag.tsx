@@ -128,7 +128,7 @@ const InterviewTag = ({
                 <span
                   key={idx}
                   onClick={() => addInterviewTag(tag)}
-                  className="px-2 py-1 rounded-md border-amber-600 bg-yellow-500/90 hover:bg-yellow-500 cursor-pointer text-black font-medium"
+                  className="px-2 py-1 rounded-md border-amber-600 bg-yellow-500/80 hover:bg-yellow-500 cursor-pointer text-black font-medium"
                 >
                   {tag.tagName}
                 </span>
@@ -161,7 +161,7 @@ const InterviewTag = ({
                   });
                 }}
                 className={`px-3 py-1 rounded-sm text-green-500 border border-green-400/70 cursor-pointer transition-all duration-300 ${
-                  difficultyLevel == "EASY" ? "bg-green-500 text-white" : ""
+                  difficultyLevel == "EASY" ? "bg-gradient-to-t from-green-500 to-black text-white" : ""
                 }`}
               >
                 EASY
@@ -177,7 +177,7 @@ const InterviewTag = ({
                 className={`px-3 py-1 rounded-sm  border border-yellow-400/70 cursor-pointer transition-all duration-300
                   ${
                     difficultyLevel == "MEDIUM"
-                      ? "bg-yellow-500 text-white"
+                      ? "bg-gradient-to-t from-yellow-500 to-black text-white"
                       : "text-yellow-500"
                   }`}
               >
@@ -192,7 +192,7 @@ const InterviewTag = ({
                   });
                 }}
                 className={`px-3 py-1 rounded-sm text-red-500 border border-red-400/70 cursor-pointer transition-all duration-300
-                  ${difficultyLevel == "HARD" ? "bg-red-500 text-white" : ""}`}
+                  ${difficultyLevel == "HARD" ? "bg-gradient-to-t from-red-500 to-black text-white" : ""}`}
               >
                 HARD
               </div>

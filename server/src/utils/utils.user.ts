@@ -48,7 +48,8 @@ export const getUser = async (userId:string) => {
           yearOfPassingOut:true,
           avatar:true,
           linkedIn:true,
-          xHandle:true
+          xHandle:true,
+          email:true
         }
       });
 
