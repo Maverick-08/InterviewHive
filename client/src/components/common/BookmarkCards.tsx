@@ -18,7 +18,7 @@ const BookmarkCards = ({
   return (
     <Card
       className={cn(
-        `bg-[#171717] rounded-sm text-white px-4 py-4 w-xs border border-[#333333] ${cardStyle}`
+        `bg-[#171717] rounded-sm text-white px-2 py-2 w-72 border border-[#333333] ${cardStyle}`
       )}
     >
       <div className="flex justify-between items-center">

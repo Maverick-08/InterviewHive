@@ -25,9 +25,9 @@ const BookmarkedInterviews = () => {
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
   const [filteredInterviews, setFilteredInterviews] = useState<Interview[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [averageCTC,setAverageCTC] = useState("0 LPA");
-  const [recentBookmarkCount,setRecentBookmarkCount] = useState(0);
-  const [differentCompanies, setDifferentCompanies] =  useState(0);
+  const [averageCTC, setAverageCTC] = useState("0 LPA");
+  const [recentBookmarkCount, setRecentBookmarkCount] = useState(0);
+  const [differentCompanies, setDifferentCompanies] = useState(0);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [companyName, setCompanyName] = useState("");
@@ -43,36 +43,34 @@ const BookmarkedInterviews = () => {
 
   // Different companies
 
-
   // Fetch Recent Bookmark count
-  useEffect(()=>{
+  useEffect(() => {
     const fetch = async () => {
       const response = await getFunction("/api/interview/save/stats");
-      if(response.success){
+      if (response.success) {
         setRecentBookmarkCount(response.data.count);
       }
-    }
+    };
     fetch();
-  },[]);
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const set = new Set();
     let total = 0;
 
-    for(const data of allInterviews){
+    for (const data of allInterviews) {
       set.add(data.companyName);
-      if(data.CTCOffered){
-        total+= data.CTCOffered
+      if (data.CTCOffered) {
+        total += data.CTCOffered;
       }
     }
-    if(total == 0){
-      setAverageCTC("0 LPA")
-    }
-    else{
-      setAverageCTC(`${(total/allInterviews.length).toFixed(2)} LPA`)
+    if (total == 0) {
+      setAverageCTC("0 LPA");
+    } else {
+      setAverageCTC(`${(total / allInterviews.length).toFixed(2)} LPA`);
     }
     setDifferentCompanies(set.size);
-  },[allInterviews])
+  }, [allInterviews]);
 
   // Handle company name change
   const handleChange = (value: string) => {
@@ -128,7 +126,6 @@ const BookmarkedInterviews = () => {
             tagInitials: string;
           }[]
         );
-
       } else if (!response.success && !response.isAuthenticated) {
         setAuthState(false);
       } else {
@@ -176,41 +173,11 @@ const BookmarkedInterviews = () => {
   // On
 
   return (
-    <div className="pt-8 flex flex-col gap-16">
+    <div className="pt-8 flex flex-col gap-16 w-full">
       {/* title + search bar + filter  */}
-      <div className="px-4 flex justify-between items-center">
-        {/* title  */}
-        <div className="text-4xl">Bookmarked Interviews</div>
-
-        {/* input tag + filter  */}
-        <div className="flex items-center gap-8">
-          {/* input  */}
-          <div className="flex items-center px-4 gap-2 rounded-sm border border-[#333333]">
-            <MdOutlineSearch className="size-6" />
-            <input
-              type="text"
-              value={companyName}
-              onChange={(e) => handleChange(e.target.value)}
-              className="focus:outline-none border-none px-2 py-2 placeholder:text-neutral-400 placeholder:text-center"
-              placeholder="Search company name"
-            />
-          </div>
-
-          {/* filter  */}
-          <div className="flex items-center gap-2">
-            {/* <span>Filter</span>
-                        <IoIosArrowDown className="size-2" /> */}
-            <InterviewFilters
-              tags={tags}
-              selectedTags={selectedTags}
-              setSelectedTags={setSelectedTags}
-            />
-          </div>
-        </div>
-      </div>
 
       {/* Stats  */}
-      <div className="w-full flex flex-wrap justify-between gap-8 px-4">
+      <div className="w-full flex flex-wrap justify-center  gap-8 items-center">
         <BookmarkCards
           title="Total Bookmarks"
           value={`${allInterviews.length}`}
@@ -237,17 +204,48 @@ const BookmarkedInterviews = () => {
         />
       </div>
 
+
       {/* list interviews  */}
       {isLoading ? (
         <div className="w-full h-screen flex justify-center items-center">
           <Loading />
         </div>
       ) : (
-        <div className="flex flex-col gap-4 px-4">
-          <div className="flex gap-4 items-center">
-            <span className="text-3xl">Your Bookmarks</span>
-            <div className="text-yellow-400 bg-yellow-500/20 rounded-2xl px-3 py-1 border border-yellow-600">
-              <span className="text-xs">{allInterviews.length} Interviews</span>
+        <div className="flex flex-col gap-8 justify-between w-full">
+          <div className="flex flex-col sm:flex-row justify-between w-full">
+
+            {/* Bookmar Tag */}
+            <div className="flex-col sm:flex gap-1">
+              <div className="text-xl sm:text-3xl">Bookmarked Interviews</div>
+              <span className="w-fit px-2 flex justify-center text-xs text-yellow-400 bg-yellow-500/20 border border-yellow-400/50 rounded-full h-4">
+                {allInterviews.length} Interviews
+              </span>
+            </div>
+
+            {/* Filter and Search */}
+            <div className="mt-4 sm:mt-0 flex flex-col sm:flex-row sm:items-center sm:justify-center items-start justify-start gap-2 sm:gap-4">
+              {/* input  */}
+              <div className="w-fit h-fit flex items-center justify-center px-1 sm:px-4 gap-0 rounded-sm border border-[#333333]">
+                <MdOutlineSearch className="size-6" />
+                <input
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => handleChange(e.target.value)}
+                  className="focus:outline-none border-none py-2 placeholder:text-neutral-400 placeholder:text-center"
+                  placeholder="Search company name"
+                />
+              </div>
+
+              {/* filter  */}
+              <div className="flex items-center justify-center gap-2">
+                {/* <span>Filter</span>
+                        <IoIosArrowDown className="size-2" /> */}
+                <InterviewFilters
+                  tags={tags}
+                  selectedTags={selectedTags}
+                  setSelectedTags={setSelectedTags}
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-8">
