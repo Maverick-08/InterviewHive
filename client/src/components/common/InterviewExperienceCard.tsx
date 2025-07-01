@@ -91,7 +91,7 @@ const InterviewExperienceCard = ({
 
   return (
     <Card
-      className={`bg-[#171717] rounded-sm text-white p-4 group ${
+      className={`bg-[#171717] rounded-sm text-white p-4 group w-full ${
         isSidebarActive ? "w-full" : "w-full "
       }  border border-[#333333] transition-all duration-300 ease-in-out delay-300 hover:border-neutral-600  font-mono gap-4`}
     >
@@ -160,7 +160,7 @@ const InterviewExperienceCard = ({
             <div className="absolute">
               <button
                 onClick={() => setTagClicked((prev) => !prev)}
-                className="bg-neutral-500/20 px-3 py-0.5 rounded-full text-[12px] text-neutral-400  cursor-pointer "
+                className="bg-neutral-500/20 px-3 py-0.5 rounded-full text-[8px] sm:text-[12px] text-neutral-400  cursor-pointer "
               >
                 +{tags.length - 3} more
               </button>

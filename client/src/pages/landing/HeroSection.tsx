@@ -9,6 +9,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";
 import { HashLink } from "react-router-hash-link";
 import { useAuthStore } from "@/store/authStore";
+import TypingText from "@/components/animata/text/TypingText";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -93,7 +94,8 @@ const HeroSection = () => {
                     <div className="px-2 md:px-16">
                       <a href="https://interview-hive-five.vercel.app/">
                         <span className="overflow-hidden font-mono text-xs md:text-md md:text-lg">
-                          https://InterviewHive.com
+                          <TypingText text="https://InterviewHive.com" waitTime={2500}/>
+                          
                         </span>
                       </a>
                     </div>
