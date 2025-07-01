@@ -15,11 +15,11 @@ const SelectCourse = ({
 }) => {
   return (
     <Select>
-      <SelectTrigger className="w-full">
+      <SelectTrigger className="w-full text-white">
         {selectedCourse == "" ? (
-          <SelectValue placeholder="Course" />
+          <SelectValue placeholder="Course" className="text-neutral-500" />
         ) : (
-          <p className="text-neutral-500 text-lg">{selectedCourse}</p>
+          <p className="text-lg">{selectedCourse}</p>
         )}
       </SelectTrigger>
       <SelectContent className="bg-[#181818] border border-white/30 text-neutral-500">

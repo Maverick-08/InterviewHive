@@ -23,19 +23,27 @@ const Profile = () => {
   const xHandle = useUserStore((state) => state.xHandle);
   const linkedIn = useUserStore((state) => state.linkedIn);
   const avatar = useUserStore((state) => state.avatar);
+  const setUserState = useUserStore(state => state.setUserState);
 
   useEffect(() => {
     const fetch = async () => {
       const response = await getFunction(`/api/interview/user?userId=${userId}`);
       if (response.success) {
         setAllInterviews(response.data.data.interviews as Interview[]);
+        const username = response.data.data.userInfo.username;
+        const yearOfPassingOut = response.data.data.userInfo.yearOfPassingOut;
+        const linkedIn = response.data.data.userInfo.linkedIn;
+        const xHandle = response.data.data.userInfo.xHandle;
+        const degree = response.data.data.userInfo.course_branch.degree;
+        const branch = response.data.data.userInfo.course_branch.branch;
+        setUserState({username,yearOfPassingOut,linkedIn,xHandle,degree,branch});
       } else {
         toast.warning(response.errMsg);
       }
       setIsLoading(false);
     };
     fetch();
-  }, [navigate, userId]);
+  }, [navigate, userId,setUserState]);
 
   return (
     <div>

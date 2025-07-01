@@ -4,7 +4,7 @@ import InterviewDetails from "./InterviewDetails";
 import InterviewTag from "./InterviewTag";
 import { useSidebarStore } from "@/store/SidebarStore";
 import { useContentAccessStore } from "@/store/contentAccessStore";
-import ContentNotAccessible from "@/components/common/contentNotAccessible";
+import ContentNotAccessible from "@/components/common/ContentNotAccessible";
 
 const ShareInterviewExperience = () => {
   const [componentActive, setComponentActive] = useState(1);

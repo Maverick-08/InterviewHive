@@ -16,16 +16,20 @@ export const profileUpdateController = async (req:Request,res:Response) => {
             },
             data:{
                 username: username ?? undefined,
-                courseId: courseId ?? "NA",
                 yearOfPassingOut:parseInt(yearOfPassingOut) ?? null,
                 xHandle: xHandle ?? null,
-                linkedIn: linkedIn ?? null
+                linkedIn: linkedIn ?? null,
+                course_branch:{
+                    connect:{
+                        courseInitials:courseId
+                    }
+                }
             }
         })
 
-        const contenAccess = (courseId && yearOfPassingOut) ? true : false;
+        const contentAccess = (courseId && yearOfPassingOut) ? true : false;
 
-        res.status(code.Success).json({contenAccess});
+        res.status(code.Success).json({contentAccess});
         return;
     }
     catch(err){

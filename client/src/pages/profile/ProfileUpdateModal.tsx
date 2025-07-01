@@ -46,7 +46,11 @@ const ProfileUpdateModal = ({
       linkedIn == ""
     ) {
       toast.warning(`Please make changes for updation.`);
-    } else {
+    }
+    else if(yearOfPassingOut && yearOfPassingOut > (new Date().getFullYear()) + 5){
+      toast.warning("Invalid year of passing out");
+    } 
+    else {
       setIsSubmitting(true);
       const response = await postFunction("/api/profile/update", {
         userName: savedName == userName ? undefined : userName,
@@ -57,10 +61,10 @@ const ProfileUpdateModal = ({
       });
 
       if(response.success){
-        console.log(response.data);
         toast.success(`Profile Updated Successfully`);
         setIsSubmitting(false);
-        setContentAccessibilityState(response.data.contentAccess);
+        setContentAccessibilityState(response.data.contentAccess as boolean);
+        onOpenChange(false);
       }
       else{
         toast.warning(`${response.errMsg}`)

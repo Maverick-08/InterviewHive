@@ -99,9 +99,10 @@ export const postFunction = async (
   do {
     // 1. Fetch Data
     const response = await postData(url,payload);
-
+    
     // 2. If data is fetched successfully - return
     if (response.success) {
+
       return { ...response, isAuthenticated: true };
     }
     // 3. If failed to fetch data
@@ -109,10 +110,7 @@ export const postFunction = async (
       // A. Token Expired - get new tokens
       if (response.statusCode == 401) {
         const tokensResponse = await getNewTokens();
-        if(tokensResponse.statusCode == 401) break;
-        else{
-          return {...tokensResponse,isAuthenticated:true};
-        }
+        if(!tokensResponse.success) break;
       }
       else{
         // B. Something else happend
