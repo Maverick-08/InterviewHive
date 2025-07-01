@@ -42,7 +42,7 @@ const ChatWindow = ({
   };
 
   return (
-    <div className="absolute sm:right-12 bottom-28 h-110 w-100 bg-[#171717] border border-[#333333] rounded-md text-white">
+    <div className="absolute rounded-xl right-4 md:right-4 bottom-24 h-124 sm:h-120 w-86 sm:w-100 bg-[#171717] border border-white/20 text-white">
       <div className="h-full flex flex-col">
         {/* topbar  */}
         <div className="px-4 py-2 flex justify-between items-center border-b border-[#333333] ">
@@ -78,7 +78,7 @@ const ChatWindow = ({
         </div>
 
         {/* chat section  */}
-        <div className="flex-1 p-2 flex flex-col overflow-y-scroll gap-4">
+        <div className="flex-1 p-2 flex flex-col overflow-y-scroll gap-4 ">
           {conversation.length == 0 ? (
             <SuggestPrompt />
           ) : (

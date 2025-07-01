@@ -160,7 +160,7 @@ const InterviewTag = ({
                     difficultyLevel: "Easy",
                   });
                 }}
-                className={`px-3 py-1 rounded-sm text-green-500 border border-green-400/70 cursor-pointer transition-all duration-300 ${
+                className={`px-3 py-1 rounded-sm text-green-400 border border-green-400/30 cursor-pointer transition-all duration-300 ${
                   difficultyLevel == "EASY" ? "bg-gradient-to-t from-green-500 to-black text-white" : ""
                 }`}
               >
