@@ -9,6 +9,7 @@ export const profileUpdateController = async (req:Request,res:Response) => {
         const {username,courseId,yearOfPassingOut,xHandle,linkedIn} = req.body as {username:string,courseId:string,yearOfPassingOut:string,xHandle:string,linkedIn:string}
 
         const userId = req.userId;
+        console.log({username,courseId,yearOfPassingOut,xHandle,linkedIn})
 
         await prisma.user.update({
             where:{

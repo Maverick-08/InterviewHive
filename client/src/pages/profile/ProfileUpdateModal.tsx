@@ -22,11 +22,11 @@ const ProfileUpdateModal = ({
   const savedYearOfPassingOut = useUserStore((state) => state.yearOfPassingOut);
 
   const [userName, setUsername] = useState(
-    useUserStore((state) => state.username) ?? ""
+    savedName ?? ""
   );
   const [selectedCourse, setSelectedCourse] = useState("");
   const [yearOfPassingOut, setYearOfPassingOut] = useState<number | null>(
-    useUserStore((state) => state.yearOfPassingOut) ?? null
+    savedYearOfPassingOut ?? null
   );
   const [xHandle, setxHandle] = useState(
     useUserStore((state) => state.xHandle) ?? ""
@@ -54,7 +54,7 @@ const ProfileUpdateModal = ({
       setIsSubmitting(true);
       const response = await postFunction("/api/profile/update", {
         userName: savedName == userName ? undefined : userName,
-        courseId: selectedCourse,
+        courseId: selectedCourse ?? "NA",
         yearOfPassingOut,
         xHandle: xHandle == "" ? undefined : xHandle,
         linkedIn: linkedIn == "" ? undefined : linkedIn,
