@@ -50,6 +50,8 @@ export const oAuthHandler = async (req: Request, res: Response) => {
         // 7. Check if account exists
         const userExists = await User.exists({email:emailId});
         let userId = userExists?.id;
+        // If user's details are complete - allow him to access content
+        const contentAccess = (userExists?.password && userExists.courseId && userExists.yearOfPassingOut) ? true : false
 
         // 8. If account does not exists - create an account
         if(!userExists){
@@ -68,7 +70,7 @@ export const oAuthHandler = async (req: Request, res: Response) => {
         setRefreshToken(res,refreshToken);
 
         // 12. Return
-        res.status(code.Success).json({userId,email:emailId,username});
+        res.status(code.Success).json({userId,email:emailId,username,contentAccess});
         return;
     }
   } catch (err) {

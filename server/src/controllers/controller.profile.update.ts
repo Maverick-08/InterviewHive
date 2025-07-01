@@ -23,7 +23,9 @@ export const profileUpdateController = async (req:Request,res:Response) => {
             }
         })
 
-        res.status(code.Success).json({data:"Profile updated successfully!"});
+        const contenAccess = (courseId && yearOfPassingOut) ? true : false;
+
+        res.status(code.Success).json({contenAccess});
         return;
     }
     catch(err){

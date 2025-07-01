@@ -21,6 +21,7 @@ import { getFunction, postFunction } from "@/utils/axiosRequest";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useUserStore } from "@/store/userStore";
 import { useAuthStore } from "@/store/authStore";
+import { useContentAccessStore } from "@/store/contentAccessStore";
 
 const RegistrationComponent = ({
   activateOTPComponent,
@@ -53,7 +54,8 @@ const RegistrationComponent = ({
     (state) => state.updateUserDetails
   );
   const setUserState = useUserStore((state) => state.setUserState);
-    const setAuthState = useAuthStore((state) => state.setAuthState);
+  const setAuthState = useAuthStore((state) => state.setAuthState);
+  const setContentAccessState = useContentAccessStore(state => state.setContentAccessibility);
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
@@ -100,12 +102,13 @@ const RegistrationComponent = ({
 
       const response = await postFunction("/api/oauth",{code:tokenResponse.code});
 
-      const userData:{userId:string,email:string;username:string} = response.data;
+      const userData:{userId:string,email:string;username:string,contentAccess:boolean} = response.data;
 
       if(response.success){
         // set user
         setUserState({id:userData.userId,username:userData.username});
         setAuthState(true);
+        setContentAccessState(userData.contentAccess);
 
         // navigate to dashboard
         setTimeout(() => {

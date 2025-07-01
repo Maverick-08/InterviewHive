@@ -1,6 +1,7 @@
-import SelectCourse from "@/components/common/selectCourse";
+import SelectCourse from "@/components/common/SelectCourse";
 import WhiteButton from "@/components/common/WhiteButton";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useContentAccessStore } from "@/store/contentAccessStore";
 import { useUserStore } from "@/store/userStore";
 import { postFunction } from "@/utils/axiosRequest";
 import { DialogTitle } from "@radix-ui/react-dialog";
@@ -15,6 +16,7 @@ const ProfileUpdateModal = ({
   open: boolean;
   onOpenChange: (x: boolean) => void;
 }) => {
+  const setContentAccessibilityState = useContentAccessStore(state => state.setContentAccessibility);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const savedName = useUserStore((state) => state.username);
   const savedYearOfPassingOut = useUserStore((state) => state.yearOfPassingOut);
@@ -55,8 +57,10 @@ const ProfileUpdateModal = ({
       });
 
       if(response.success){
-        toast.success(`${response.data.data}`);
+        console.log(response.data);
+        toast.success(`Profile Updated Successfully`);
         setIsSubmitting(false);
+        setContentAccessibilityState(response.data.contentAccess);
       }
       else{
         toast.warning(`${response.errMsg}`)

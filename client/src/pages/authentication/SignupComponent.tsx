@@ -12,6 +12,7 @@ import { useUserStore } from "@/store/userStore";
 import { useAuthStore } from "@/store/authStore";
 import { useGoogleLogin } from "@react-oauth/google";
 import { postFunction } from "@/utils/axiosRequest";
+import { useContentAccessStore } from "@/store/contentAccessStore";
 
 const SignupComponent = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const SignupComponent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const setUserState = useUserStore((state) => state.setUserState);
   const setAuthState = useAuthStore((state) => state.setAuthState);
+  const setContentAccessState = useContentAccessStore(state => state.setContentAccessibility);
 
   const handleSubmit = async () => {
     if (isSubmitting) return false;
@@ -41,6 +43,7 @@ const SignupComponent = () => {
       if (response.success) {
         setUserState({ ...data });
         setAuthState(true);
+        setContentAccessState(true);
         toast.success(<p className="text-lg font-mono">Login Successful.</p>, {
           description: "Navigating to Dashboard.",
         });
@@ -61,12 +64,13 @@ const SignupComponent = () => {
 
       const response = await postFunction("/api/oauth",{code:tokenResponse.code});
 
-      const userData:{userId:string,email:string;username:string} = response.data;
+      const userData:{userId:string,email:string;username:string;contentAccess:boolean} = response.data;
 
       if(response.success){
         // set user
         setUserState({id:userData.userId,username:userData.username});
         setAuthState(true);
+        setContentAccessState(userData.contentAccess);
 
         // navigate to dashboard
         setTimeout(() => {
