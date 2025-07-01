@@ -136,8 +136,8 @@ const RegistrationComponent = ({
       </span>
 
       {/* Top Heading - Welcome Back  */}
-      <p className="pt-24 text-2xl text-center">Welcome Back!👋</p>
-      <div className="flex flex-col gap-6">
+      <p className="pt-24 text-2xl text-center ">Welcome Back!👋</p>
+      <div className="w-full flex flex-col gap-6">
         {/* Username  */}
         <InputComponent
           value={username ? username : ""}

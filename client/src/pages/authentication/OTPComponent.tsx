@@ -35,14 +35,14 @@ const OTPComponent = () => {
   
   return (
     <div className="w-full max-w-md h-full min-h-screen flex flex-col justify-center items-start gap-8 text-white select-none font-mono">
-      <div className="flex flex-col gap-2 text-start">
+      <div className="p-2 flex flex-col gap-2 text-start">
         <p className=" text-5xl tracking-tight font-bold">Verification Code</p>
         <p className="text-neutral-400 text-lg">
           Please enter 6 digit OTP sent to your email address :{" "}
           <span className="text-neutral-200">{email.slice(0, 2) + "*******" + ".com"}</span>
         </p>
       </div>
-      <div>
+      <div className="w-full p-2">
         <InputOTP maxLength={6}>
           <InputOTPGroup className="space-x-2">
             <InputOTPSlot index={0} id="slot-0" className="h-12 w-12 border border-slate-600"/>

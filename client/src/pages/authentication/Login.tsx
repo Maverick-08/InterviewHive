@@ -9,7 +9,7 @@ const Login = () => {
         <div className="hidden flex-1 lg:flex items-center justify-center bg-[#171717]">
             <InfoComponent />
         </div>
-        <div className="flex-1 flex justify-center bg-[#111111]">
+        <div className="flex-1 flex font-mono justify-center bg-[#111111]">
             <SignupComponent />
         </div>
       </div>
