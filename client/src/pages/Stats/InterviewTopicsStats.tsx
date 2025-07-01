@@ -21,7 +21,7 @@ import { toast } from "sonner";
 
 const iconsMap = new Map();
 iconsMap.set("DSA",{icon:FaCode,iconColor:"text-red-500"});
-iconsMap.set("OS",{icon:IoHardwareChip,iconColor:"text-gray-500"});
+iconsMap.set("OS",{icon:IoHardwareChip,iconColor:"text-slate-600"});
 iconsMap.set("CN",{icon:LuNetwork,iconColor:"text-red-500"});
 iconsMap.set("DBMS",{icon:FiDatabase,iconColor:"text-violet-500"});
 iconsMap.set("PROJECT",{icon:GoGitPullRequestClosed,iconColor:"text-red-500"});
@@ -63,7 +63,7 @@ const InterviewTopicsStats = () => {
     fetch();
   }, [setAuthState]);
   return (
-    <Card className="bg-[#171717] border border-[#333333] text-white p-4 select-none">
+    <Card className="bg-[#171717] border border-[#333333] text-white p-2 sm:p-4 select-none">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
           <p className="text-xl sm:text-4xl flex items-center gap-3">
@@ -74,7 +74,7 @@ const InterviewTopicsStats = () => {
             Most discussed subjects this week.
           </p>
         </div>
-        <div className="flex flex-wrap gap-4 px-4">
+        <div className="flex flex-wrap gap-4 px-0 sm:px-4 ">
           { payload.length > 0 && payload.map((data, idx) => {
             return (
               <StatsCard
