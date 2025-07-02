@@ -37,7 +37,7 @@ const Topbar = ({
       </div>
 
       {/* Live Date */}
-      <div className="mt-1 sm:mt-0 w-fit px-2 flex gap-2 items-center rounded-full">
+      <div className="mt-1 sm:mt-0 w-fit px-0 sm:px-2 flex gap-2 items-center rounded-full">
         <div className="relative">
           <div className=" h-2 w-2 rounded-full bg-blue-400"></div>
           <div className="absolute inset-0 h-2 w-2 rounded-full bg-blue-400 animate-ping"></div>

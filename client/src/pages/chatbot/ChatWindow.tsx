@@ -42,7 +42,7 @@ const ChatWindow = ({
   };
 
   return (
-    <div className="absolute rounded-xl right-4 md:right-4 bottom-24 h-124 sm:h-120 w-86 sm:w-100 bg-[#171717] border border-white/20 text-white">
+    <div className="absolute h-[100vh] w-full bottom-0 right-0 md:h-[85vh] md:w-[40%] md:bottom-4 md:right-4 lg:w-[30%] rounded-xl border border-white/20 bg-[#171717] text-white">
       <div className="h-full flex flex-col">
         {/* topbar  */}
         <div className="px-4 py-2 flex justify-between items-center border-b border-[#333333] ">

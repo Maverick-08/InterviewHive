@@ -121,9 +121,9 @@ function NormalEffect({
 }
 
 const TypingDirection = {
-  Forward: 1 as 1,
-  Backward: -1 as -1,
-};
+  Forward: 1,
+  Backward: -1
+}as const;
 type TypingDirection = (typeof TypingDirection)[keyof typeof TypingDirection];
 
 function CursorWrapper({

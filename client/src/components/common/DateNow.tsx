@@ -18,7 +18,7 @@ const year = today.getFullYear();
 const ordinal = getOrdinal(day);
 
 const DateNow = () => {
-  return <div className="text-[8px] sm:text-[16px]">
+  return <div className="text-[10px] sm:text-[16px]">
     <span>{` ${month} ${day}${ordinal}, ${year}`}</span>
   </div>;
 };
