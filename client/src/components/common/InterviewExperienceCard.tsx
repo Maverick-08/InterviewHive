@@ -90,7 +90,7 @@ const InterviewExperienceCard = ({
 
   return (
     <Card
-      className={`bg-[#171717] rounded-sm text-white p-4 group w-full ${
+      className={`bg-[#171717] rounded-sm text-white p-2  sm:p-4 group w-full ${
         isSidebarActive ? "w-full" : "w-full "
       }  border border-[#333333] transition-all duration-300 ease-in-out delay-300 hover:border-neutral-600  font-mono gap-4`}
     >
@@ -186,7 +186,7 @@ const InterviewExperienceCard = ({
             handleViewCountUpdate();
           }}
           text="View Details "
-          className="bg-[#333333] hover:bg-[#333333] group-hover:text-white border border-[#17171717] text-md text-white/60  transition-colors delay-300 text-sm sm:text-lg"
+          className="bg-[#333333] hover:bg-[#333333] group-hover:text-white border border-[#17171717] text-white/60  transition-colors delay-300 text-sm sm:text-lg"
         />
       </div>
     </Card>

@@ -75,7 +75,7 @@ const Profile = () => {
 
             {/* shared interview experiences  */}
             <div className="w-full flex justify-center">
-              <div className="w-full px-4 pb-12 max-w-4xl">
+              <div className="w-full pb-12 max-w-4xl">
                 <Accordion type="single" collapsible>
                   <UserInterviews interviews={allInterviews} />
                   <InterviewModal />

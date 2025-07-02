@@ -30,7 +30,7 @@ const Reset = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center bg-[#171717]">
+    <div className="w-screen h-screen p-4 flex justify-center items-center bg-[#171717]">
       <Card className="p-4 w-xl bg-[#333333] border border-white/25 flex flex-col gap-6 font-mono">
         <p className="text-center text-white text-2xl">
           Enter Registered Email

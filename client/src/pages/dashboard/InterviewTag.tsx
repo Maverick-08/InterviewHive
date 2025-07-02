@@ -65,6 +65,11 @@ const InterviewTag = ({
       return;
     }
 
+    if(payload.tags.length < 3){
+      toast.warning("Please select minimum 3 tags");
+      return;
+    }
+
     // check for difficulty level
     if (difficultyLevel == "") {
       toast.warning("Please select difficulty level");

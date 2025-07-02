@@ -15,7 +15,7 @@ const UserInterviews = ({ interviews }: { interviews: Interview[] }) => {
           Shared Interviews
         </p>
       </AccordionTrigger>
-      <AccordionContent className="pt-8 px-4 text-white">
+      <AccordionContent className="pt-8 lg:px-4 text-white">
         <ListInterviews interviewData={interviews} />
       </AccordionContent>
     </AccordionItem>

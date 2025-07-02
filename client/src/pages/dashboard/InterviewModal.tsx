@@ -24,8 +24,20 @@ const InterviewModal = () => {
       border: "border-fuchsia-500 text-fuchsia-300",
     },
     {
-      bg: "bg-green-600/20",
-      border: "border-green-600 text-green-300",
+      bg: "bg-blue-600/20",
+      border: "border-blue-600 text-blue-300",
+    },
+    {
+      bg: "bg-sky-600/20",
+      border: "border-sky-600 text-sky-300",
+    },
+    {
+      bg: "bg-red-500/20",
+      border: "border-red-600 text-red-300",
+    },
+    {
+      bg: "bg-slate-600/20",
+      border: "border-slate-600 text-slate-300",
     },
   ];
   const [show, setShow] = useState(false);
@@ -38,7 +50,7 @@ const InterviewModal = () => {
   const setIsInterviewModalOpen = useInterviewModalStore(
     (state) => state.setIsInterviewModalOpen
   );
-  const isModalOpen =  useInterviewModalStore(
+  const isModalOpen = useInterviewModalStore(
     (state) => state.isInterviewModalOpen
   );
   const interviewDataFunction = useSelectedInterviewStore(
@@ -113,25 +125,19 @@ const InterviewModal = () => {
               <div className="flex items-center gap-2">
                 <span className="hidden sm:block">Tags: </span>
                 <div className="mt-2 sm:mt-0 flex flex-wrap sm:no-wrap items-center gap-2">
-                  {interviewData.tags.slice(0, 3).map((tag, idx) => {
+                  {interviewData.tags.map((tag, idx) => {
                     const color = tagColorClass[idx % tagColorClass.length];
                     return (
                       <span
                         key={idx + 100}
                         className={`px-3 py-0.5 text-[8px] sm:text-xs rounded-full ${color.bg}  ${color.border} `}
                       >
-                        {tag.tagName}
+                        {tag.tagName.length > 20
+                          ? tag.tagInitials
+                          : tag.tagName}
                       </span>
                     );
                   })}
-                  {interviewData.tags.length > 3 && (
-                    <div className="text-[6px] text-start">
-                      <span className="sm:text-[10px] rounded-full text-neutral-300">
-                        {" "}
-                        +{interviewData.tags.length - 3} more{" "}
-                      </span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
