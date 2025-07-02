@@ -124,12 +124,12 @@ const AllInterviews = () => {
   return (
     <div className="relative mt-8 flex flex-col gap-4 overflow-hidden">
       {/* title + search bar + filter  */}
-      <div className="p-2 sm:p-4 gap-2 lg:gap-0 flex flex-col md:flex-row rounded-md justify-between border-t border-white/10">
+      <div className="p-2 sm:p-4 gap-2 lg:gap-0 flex flex-col lg:flex-row rounded-md justify-between border-t border-white/10">
         {/* title  */}
-        <div className="text-2xl sm:text-3xl md:text-4xl text-center md:text-left">All Interviews</div>
+        <div className="text-2xl sm:text-3xl md:text-4xl text-center lg:text-left">All Interviews</div>
 
         {/* input tag + filter  */}
-        <div className="mt-4 sm:mt-0 flex flex-col sm:flex-row justify-center md:justify-start  gap-2 sm:gap-4">
+        <div className="mt-4 sm:mt-0 flex flex-col sm1:flex-row justify-center lg:justify-start  gap-2 sm:gap-4">
           {/* input  */}
           <div className="w-fit h-fit flex items-center justify-center px-1 sm:px-4 rounded-sm border border-[#333333]">
             <MdOutlineSearch className="size-6" />

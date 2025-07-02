@@ -6,6 +6,13 @@
   --font-raleway: "Raleway", monospace
 }
 
+@theme {
+  --breakpoint-sm1: 32rem; /* 512 px */
+  --breakpoint-sm2: 40rem; /* 640 px*/
+  --breakpoint-md1: 50rem; /* 800 px */
+  --breakpoint-md2: 57rem; /* 912 px*/
+}
+
 @layer utilities{
   .no-scroll {
   overflow: hidden;

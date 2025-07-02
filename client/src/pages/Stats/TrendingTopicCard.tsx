@@ -21,7 +21,7 @@ const TrendingTopicCard = ({
   iconContainerStyle?: string;
   tagStyle?: string;
 }) => {
-  console.log({ Icon, tag, interviewCount, percentage });
+  
   return (
     <div className="group">
       <Card
