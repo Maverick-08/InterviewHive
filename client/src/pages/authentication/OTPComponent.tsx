@@ -26,16 +26,20 @@ const OTPComponent = () => {
   const payload = getPayload();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(value == 0){
+  useEffect(() => {
+    if (value == 0) {
       setTimerStarted(false);
     }
-  },[value])
+  }, [value]);
 
-  useEffect(()=>{
-    const intervalId = timerStarted ? setInterval(()=>startCounter(),1000) : null;
-    return () => {if(intervalId) clearInterval(intervalId)};
-  },[timerStarted,startCounter])
+  useEffect(() => {
+    const intervalId = timerStarted
+      ? setInterval(() => startCounter(), 1000)
+      : null;
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [timerStarted, startCounter]);
 
   const handleSubmit = async () => {
     const digit0 = document.querySelector("#slot-0")?.innerHTML;
@@ -55,7 +59,7 @@ const OTPComponent = () => {
       const response = await postFunction("/api/register", { ...payload, otp });
       if (response.success) {
         setIsSubmitting(false);
-        toast.success(`${response.data}`);
+        toast.success(`${response.data.data}`);
         setTimeout(() => {
           navigate("/login");
         }, 500);
@@ -68,7 +72,7 @@ const OTPComponent = () => {
   };
 
   const handleResend = async () => {
-    if(isOTPSubmitting) return;
+    if (isOTPSubmitting) return;
     setIsOTPSubmitting(true);
     const response = await getFunction(`/api/register/sendOtp?email=${email}`);
     if (response.success) {
@@ -131,27 +135,35 @@ const OTPComponent = () => {
         </InputOTP>
       </div>
       <div>
-        {(timerStarted && value > 0) &&(
+        {timerStarted && value > 0 && (
           <p className="text-right text-xs text-blue-500">
             Resend otp in {value} s
           </p>
         )}
       </div>
-      <div className=" flex items-center gap-4">
+      <div className=" w-full flex items-center gap-4">
         <BlackButton
-          Icon={isSubmitting ? ImSpinner8 : undefined}
+          Icon={isOTPSubmitting ? ImSpinner8 : undefined}
           iconSize={`animate-spin`}
           disabled={timerStarted}
           text="Resend OTP"
-          containerStyle="flex justify-center items-center"
-          className="w-full font-mono"
-          onClick={()=>{
+          containerStyle="flex justify-center items-center text-nowrap"
+          className="font-mono"
+          onClick={() => {
             updateCounter(60);
-            setTimerStarted(true)
-            handleResend()
+            setTimerStarted(true);
+            handleResend();
           }}
         />
-        <WhiteButton text="Register" onClick={handleSubmit} />
+        <WhiteButton
+          text="Register"
+          onClick={handleSubmit}
+          Icon={isSubmitting ? ImSpinner8 : undefined}
+          iconSize={`animate-spin`}
+          disabled={isSubmitting}
+          containerStyle="flex justify-center items-center"
+          className="font-mono"
+        />
       </div>
     </div>
   );
