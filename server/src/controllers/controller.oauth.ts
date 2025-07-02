@@ -51,7 +51,7 @@ export const oAuthHandler = async (req: Request, res: Response) => {
         const userExists = await User.exists({email:emailId});
         let userId = userExists?.id;
         // If user's details are complete - allow him to access content
-        const contentAccess = (userExists?.password && userExists.courseId && userExists.yearOfPassingOut) ? true : false
+        const contentAccess = (userExists && userExists.courseId && userExists.yearOfPassingOut) ? true : false
 
         // 8. If account does not exists - create an account
         if(!userExists){
