@@ -14,6 +14,7 @@ import { FaMicrophone } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserStore } from "@/store/userStore";
 import { IoPersonSharp } from "react-icons/io5";
+import { cn } from "@/lib/utils";
 
 const SideDrawer = ({
   open,
@@ -41,14 +42,20 @@ const SideDrawer = ({
               <span className="absolute inset-0 bg-gradient-to-r to-transparent from-white/60" />
             </p>
           </DrawerHeader>
-          <div className="px-4 gap-2 flex flex-col  font-mono text-white">
+          <div className="px-2 gap-4 flex flex-col  font-mono text-white">
             {/* Dashboard */}
             <div
               onClick={() => {
                 navigate("/dashboard");
                 onOpenChange(false);
               }}
-              className="p-2 flex gap-2 transition-colors duration-300"
+              className={
+                cn(`px-2 py-1 font-mono flex items-center gap-2 rounded-md  text-white  ${
+                  pathname.includes("dashboard")
+                    ? "text-blue-500 bg-white/10"
+                    : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
+                }`)
+              }
             >
               <RiDashboardFill className="size-5" />
               <p>Dashboard</p>
@@ -59,7 +66,13 @@ const SideDrawer = ({
                 navigate("/bookmark");
                 onOpenChange(false);
               }}
-              className="p-2 flex gap-2 transition-colors duration-300"
+              className={
+                cn(`px-2 py-1 font-mono flex items-center gap-2 rounded-md  text-white  ${
+                  pathname.includes("bookmark")
+                    ? "text-blue-500 bg-white/10"
+                    : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
+                }`)
+              }
             >
               <FaBookmark className="size-5" />
               <p>Bookmark</p>
@@ -70,7 +83,13 @@ const SideDrawer = ({
                 navigate("/share");
                 onOpenChange(false);
               }}
-              className="p-2 flex gap-2 transition-colors duration-300"
+              className={
+                cn(`px-2 py-1 font-mono flex items-center gap-2 rounded-md  text-white  ${
+                  pathname.includes("share")
+                    ? "text-blue-500 bg-white/10"
+                    : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
+                }`)
+              }
             >
               <MdLibraryAdd className="size-5" />
               <p>Share</p>
@@ -81,7 +100,13 @@ const SideDrawer = ({
                 navigate("/connect");
                 onOpenChange(false);
               }}
-              className="p-2 flex gap-2 transition-colors duration-300"
+              className={
+                cn(`px-2 py-1 font-mono flex items-center gap-2 rounded-md  text-white  ${
+                  pathname.includes("connect")
+                    ? "text-blue-500 bg-white/10"
+                    : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
+                }`)
+              }
             >
               <IoIosChatboxes className="size-5" />
               <p>Connect</p>
@@ -92,7 +117,13 @@ const SideDrawer = ({
                 navigate("/prepare");
                 onOpenChange(false);
               }}
-              className="p-2 flex gap-2 transition-colors duration-300"
+              className={
+                cn(`px-2 py-1 font-mono flex items-center gap-2 rounded-md  text-white  ${
+                  pathname.includes("prepare")
+                    ? "text-blue-500 bg-white/10"
+                    : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
+                }`)
+              }
             >
               <FaMicrophone className="size-5" />
               <p>Practice</p>
@@ -102,11 +133,11 @@ const SideDrawer = ({
             <div
               onClick={() => navigate("/profile")}
               className={
-                `px-2 py-1 flex items-center gap-2 rounded-md border border-[#333333]  ${
+                cn(`px-2 py-1 font-mono flex items-center gap-2 rounded-md border border-[#333333] text-white  ${
                   pathname.includes("profile")
                     ? "text-blue-500 bg-white/10"
                     : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
-                }`
+                }`)
               }
             >
               <IoPersonSharp className="h-4 w-4" />
