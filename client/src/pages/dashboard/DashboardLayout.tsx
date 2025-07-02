@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import SideDrawer from "./SideDrawer";
+import { useUserStore } from "@/store/userStore";
 
 const sidebarVariants: Variants = {
   open: {
@@ -44,6 +45,7 @@ const DashboardLayout = () => {
   const isAuthenticated = useAuthStore((state) => state.authState);
   const pathname = useLocation().pathname;
   const [isSideDrawerActive,setIsSideDrawerActive] = useState(false);
+  const username = useUserStore(state=>state.username);
 
   useEffect(() => {
     if (isAuthenticated == false) {
@@ -183,8 +185,8 @@ const DashboardLayout = () => {
                         )}
                     >
                       <IoPersonSharp className="hidden md2:block md2:h-5 md2:w-5" />
-                      <div className="text-end text-sm md1:text-lg">
-                        {"Profile"}
+                      <div className="truncate whitespace-nowrap overflow-hidden flex-1 text-left text-sm md1:text-lg">
+                        {username ?? "Profile"}
                       </div>
                     </div>
                   </div>

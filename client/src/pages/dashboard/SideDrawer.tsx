@@ -6,13 +6,14 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import logo from "@/assets/logo.png";
-import avatar from "@/assets/doodle.png";
 import { RiDashboardFill } from "react-icons/ri";
 import { FaBookmark } from "react-icons/fa6";
 import { MdLibraryAdd } from "react-icons/md";
 import { IoIosChatboxes } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useUserStore } from "@/store/userStore";
+import { IoPersonSharp } from "react-icons/io5";
 
 const SideDrawer = ({
   open,
@@ -22,10 +23,12 @@ const SideDrawer = ({
   onOpenChange: (x: boolean) => void;
 }) => {
   const navigate = useNavigate();
+  const username = useUserStore((state) => state.username);
+  const pathname = useLocation().pathname;
   return (
     <div className="block sm1:hidden">
       <Drawer direction={`left`} open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="bg-[#171717] border border-[#333333]  max-w-[60%]">
+        <DrawerContent className="bg-[#171717] border border-[#333333]  max-w-[75%]">
           <DrawerHeader>
             <DrawerTitle className="font-mono text-white">
               <div className="flex gap-2 items-center">
@@ -95,22 +98,21 @@ const SideDrawer = ({
               <p>Practice</p>
             </div>
           </div>
-          <DrawerFooter className="">
+          <DrawerFooter className="p-2">
             <div
-              onClick={() => {
-                navigate("/profile");
-                onOpenChange(false);
-              }}
-              className="p-2 flex justify-between items-center rounded-md font-mono bg-[#333333] text-white"
+              onClick={() => navigate("/profile")}
+              className={
+                `px-2 py-1 flex items-center gap-2 rounded-md border border-[#333333]  ${
+                  pathname.includes("profile")
+                    ? "text-blue-500 bg-white/10"
+                    : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
+                }`
+              }
             >
-              <p>Vivek Ojha</p>
-              <p className="h-8 w-8 rounded-full object-contain bg-white/30 flex items-center justify-center overflow-hidden">
-                <img
-                  src={avatar}
-                  alt=""
-                  className="h-full w-full object-cover rounded-full"
-                />
-              </p>
+              <IoPersonSharp className="h-4 w-4" />
+              <div className="truncate whitespace-nowrap overflow-hidden flex-1 text-left text-lg">
+                {username ?? "Profile"}
+              </div>
             </div>
           </DrawerFooter>
         </DrawerContent>
