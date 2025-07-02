@@ -1,18 +1,27 @@
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import { Toaster } from "sonner";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-const OAuthId = import.meta.env.VITE_OAUTH_CLIENT_ID
+// import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Auth0Provider } from "@auth0/auth0-react";
+const clientId = import.meta.env.VITE_OAUTH_CLIENT_ID;
+const domain = import.meta.env.VITE_OAUTH_DOMAIN;
+const redirectUri = import.meta.env.VITE_OAUTH_REDIRECT_URI
 
 const App = () => {
   return (
     <div>
-      <GoogleOAuthProvider clientId={OAuthId}>
+      <Auth0Provider
+        domain={domain}
+        clientId={clientId}
+        authorizationParams={{
+          redirect_uri: redirectUri,
+        }}
+      >
         <Toaster richColors className="font-mono" />
         <BrowserRouter>
           <AppRoutes />
         </BrowserRouter>
-      </GoogleOAuthProvider>
+      </Auth0Provider>
     </div>
   );
 };

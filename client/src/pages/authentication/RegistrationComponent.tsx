@@ -7,7 +7,7 @@ import { FaRegCalendarCheck } from "react-icons/fa6";
 import WhiteButton from "@/components/common/WhiteButton";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineChrome } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   checkRegistrationDetails,
   courseOptions,
@@ -18,10 +18,10 @@ import { ImSpinner8 } from "react-icons/im";
 import { Combobox } from "@/components/ui/combobox";
 import { useRegisterUserStore } from "@/store/registerStore";
 import { getFunction, postFunction } from "@/utils/axiosRequest";
-import { useGoogleLogin } from "@react-oauth/google";
 import { useUserStore } from "@/store/userStore";
 import { useAuthStore } from "@/store/authStore";
 import { useContentAccessStore } from "@/store/contentAccessStore";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const RegistrationComponent = ({
   activateOTPComponent,
@@ -47,6 +47,7 @@ const RegistrationComponent = ({
     year !== null && year !== undefined ? String(year) : null
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isComboboxOpen, setIsComboboxOpen] = useState(false);
   const [isYearComboboxOpen, setIsYearComboboxOpen] = useState(false);
   const yearList = getYearList();
@@ -55,11 +56,61 @@ const RegistrationComponent = ({
   );
   const setUserState = useUserStore((state) => state.setUserState);
   const setAuthState = useAuthStore((state) => state.setAuthState);
-  const setContentAccessState = useContentAccessStore(state => state.setContentAccessibility);
+  const setContentAccessState = useContentAccessStore(
+    (state) => state.setContentAccessibility
+  );
+  const { isAuthenticated, user, loginWithPopup } = useAuth0();
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const fetch = async () => {
+        // Platform
+        const platform =
+          innerWidth < 640
+            ? "Mobile"
+            : innerWidth > 640 && innerWidth < 1024
+            ? "Tablet"
+            : "Laptop";
+
+        const response = await postFunction("/api/oauth", {
+          username: user.name,
+          email: user.email,
+          platform,
+        });
+
+        if (response.success) {
+          setIsLoggedIn(false);
+          const userData = response.data;
+          setUserState({
+            id: userData.userId,
+            username: userData.username,
+            avatar: userData.avatar,
+          });
+          setAuthState(true);
+          setContentAccessState(userData.contentAccess);
+          toast.success(`Logging In`);
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 500);
+        } else {
+          setIsLoggedIn(false);
+          toast.warning("Authentication Error");
+        }
+      };
+      fetch();
+    }
+  }, [
+    isAuthenticated,
+    user,
+    navigate,
+    setContentAccessState,
+    setUserState,
+    setAuthState,
+  ]);
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
-    
+
     const isPayloadValid = checkRegistrationDetails({
       username,
       email,
@@ -97,35 +148,11 @@ const RegistrationComponent = ({
     }
   };
 
-  const handleGoogleSignup = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-
-      const response = await postFunction("/api/oauth",{code:tokenResponse.code});
-
-      const userData:{userId:string,email:string;username:string,contentAccess:boolean} = response.data;
-
-      if(response.success){
-        // set user
-        setUserState({id:userData.userId,username:userData.username});
-        setAuthState(true);
-        setContentAccessState(userData.contentAccess);
-
-        // navigate to dashboard
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1000);
-
-        toast.success("Logging In");
-      }
-      else{
-        toast.warning(`${response.errMsg}`);
-      }
-    },
-    onError: () => {
-     toast.error("Google Authentication Failed")
-    },
-    flow: "auth-code", // or "auth-code" if using backend exchange
-  });
+  const handleOAuth = async () => {
+    if (isLoggedIn) return;
+    setIsLoggedIn(true);
+    await loginWithPopup();
+  };
 
   return (
     <div className="w-full max-w-md h-full min-h-screen px-4 flex flex-col gap-4 justify-center items-center text-white select-none font-mono">
@@ -254,7 +281,7 @@ const RegistrationComponent = ({
 
       <WhiteButton
         text="Continue with Google"
-        onClick={handleGoogleSignup}
+        onClick={handleOAuth}
         className="w-full font-mono flex items-center justify-center gap-2"
         Icon={AiOutlineChrome}
       />
