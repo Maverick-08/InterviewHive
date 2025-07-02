@@ -13,7 +13,7 @@ const Topbar = ({
     let location = useLocation().pathname.split("/")[1];
     location = location.slice(0,1).toUpperCase() + location.slice(1);
   return (
-    <div className="sm:flex items-center justify-between gap-4 px-4 py-5.5 text-white border-b border-white/30">
+    <div className="flex items-center justify-between gap-4 px-4 py-5.5 text-white border-b border-white/30">
       <div className="flex items-center gap-2">
         <div className="px-2 ">
         <BsLayoutSidebar onClick={() => setIsSidebarOpen(!isSideBarOpen)} className="cursor-pointer text-blue-500 size-5" />

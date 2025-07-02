@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import StatsCard from "@/components/common/StatsCard";
 import { IoHardwareChip } from "react-icons/io5";
 import { FaCode } from "react-icons/fa6";
 import { LuNetwork } from "react-icons/lu";
@@ -18,22 +17,26 @@ import { useEffect, useState } from "react";
 import { getFunction } from "@/utils/axiosRequest";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
+import TrendingTopicCard from "./TrendingTopicCard";
 
 const iconsMap = new Map();
-iconsMap.set("DSA",{icon:FaCode,iconColor:"text-red-500"});
-iconsMap.set("OS",{icon:IoHardwareChip,iconColor:"text-slate-600"});
-iconsMap.set("CN",{icon:LuNetwork,iconColor:"text-red-500"});
-iconsMap.set("DBMS",{icon:FiDatabase,iconColor:"text-violet-500"});
-iconsMap.set("PROJECT",{icon:GoGitPullRequestClosed,iconColor:"text-red-500"});
-iconsMap.set("OOP",{icon:BsBraces,iconColor:"text-red-500"});
-iconsMap.set("REACT",{icon:FaReact,iconColor:"text-red-500"});
-iconsMap.set("POSTGRESQL",{icon:SiPostgresql,iconColor:"text-red-500"});
-iconsMap.set("MONGODB",{icon:SiMongodb,iconColor:"text-green-700"});
-iconsMap.set("NODE",{icon:FaNodeJs,iconColor:"text-green-500"});
-iconsMap.set("JS",{icon:FaJs,iconColor:"text-yellow-500"});
-iconsMap.set("HLD",{icon:SlNote,iconColor:"text-blue-500"});
-iconsMap.set("LLD",{icon:SlNote,iconColor:"text-blue-500"});
-iconsMap.set("SD",{icon:SlNote,iconColor:"text-blue-500"});
+iconsMap.set("DSA", { icon: FaCode, iconColor: "text-red-500" });
+iconsMap.set("OS", { icon: IoHardwareChip, iconColor: "text-slate-600" });
+iconsMap.set("CN", { icon: LuNetwork, iconColor: "text-red-500" });
+iconsMap.set("DBMS", { icon: FiDatabase, iconColor: "text-violet-500" });
+iconsMap.set("PROJECT", {
+  icon: GoGitPullRequestClosed,
+  iconColor: "text-red-500",
+});
+iconsMap.set("OOP", { icon: BsBraces, iconColor: "text-red-500" });
+iconsMap.set("REACT", { icon: FaReact, iconColor: "text-red-500" });
+iconsMap.set("POSTGRESQL", { icon: SiPostgresql, iconColor: "text-red-500" });
+iconsMap.set("MONGODB", { icon: SiMongodb, iconColor: "text-green-700" });
+iconsMap.set("NODE", { icon: FaNodeJs, iconColor: "text-green-500" });
+iconsMap.set("JS", { icon: FaJs, iconColor: "text-yellow-500" });
+iconsMap.set("HLD", { icon: SlNote, iconColor: "text-blue-500" });
+iconsMap.set("LLD", { icon: SlNote, iconColor: "text-blue-500" });
+iconsMap.set("SD", { icon: SlNote, iconColor: "text-blue-500" });
 
 interface TrendingTopic {
   tagInitials: string;
@@ -74,21 +77,32 @@ const InterviewTopicsStats = () => {
             Most discussed subjects this week.
           </p>
         </div>
-        <div className="flex flex-wrap gap-4 px-0 sm:px-4 ">
-          { payload.length > 0 && payload.map((data, idx) => {
-            return (
-              <StatsCard
-                key={idx}
-                Icon={iconsMap.get(`${data.tagInitials}`) ? iconsMap.get(`${data.tagInitials}`).icon : TbTargetArrow}
-                iconContainerStyle={`${iconsMap.get(`${data.tagInitials}`) ? iconsMap.get(`${data.tagInitials}`).iconColor : "text-amber-500"}`}
-                growthPercentage={12}
-                totalCount={`${data.tagName ?? "Loading"}`}
-                tagline={`${data.count} Interviews`}
-                topicPercentage={`${data.prcentage}%`}
-              />
-            );
-          })}
-
+        <div className={`grid gap-8 grid-cols-1 lg:grid-cols-2`}>
+          {payload.length > 0 &&
+            payload.slice(0, 6).map((data, idx) => {
+              return (
+                <TrendingTopicCard
+                  key={idx}
+                  cardStyle="w-full h-full hover:scale-102 transition-all duration-300"
+                  Icon={
+                    iconsMap.get(data.tagInitials)
+                      ? iconsMap.get(data.tagInitials).icon
+                      : TbTargetArrow
+                  }
+                  iconStyle={
+                    iconsMap.get(data.tagInitials)
+                      ? iconsMap.get(data.tagInitials).iconColor
+                      : "text-amber-500"
+                  }
+                  tag={
+                    data.tagName.length > 20 ? data.tagInitials : data.tagName
+                  }
+                  tagStyle="text-lg sm:text-2xl"
+                  interviewCount={data.count}
+                  percentage={data.prcentage}
+                />
+              );
+            })}
         </div>
       </div>
     </Card>

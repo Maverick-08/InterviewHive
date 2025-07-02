@@ -87,7 +87,6 @@ const InterviewExperienceCard = ({
     await getFunction(`/api/interview/viewCount?interviewId=${interviewId}`);
   };
 
-  const [tagClicked, setTagClicked] = useState(false);
 
   return (
     <Card
@@ -142,56 +141,42 @@ const InterviewExperienceCard = ({
           <span>{CTCOffered ?? "Not Disclosed"}</span>
         </div>
         {/* tags  */}
-        <div className="flex gap-2 flex-wrap relative ">
-          <div className="flex gap-1 px-2 text-sm rounded-full bg-blue-500/20 border border-blue-700/10 text-blue-500">
+          <div className="flex items-center flex-wrap gap-2">
+          <div className="w-fit flex gap-1 px-2 text-sm rounded-full bg-blue-500/20 border border-blue-700/10 text-blue-500">
             <span className="">{degree}</span>
             <span>{yearOfPassingOut}</span>
           </div>
-          {tags.slice(0, 3).map((tag, idx) => (
-            <span
-              key={idx}
-              className="bg-neutral-500/20 px-3 py-0.5 rounded-full text-[12px] text-neutral-300"
-            >
-              {tag.tagName}
-            </span>
-          ))}
-          <div className="">
-            {tags.length > 3 && (
-            <div className="absolute">
-              <button
-                onClick={() => setTagClicked((prev) => !prev)}
-                className="bg-neutral-500/20 px-3 py-0.5 rounded-full text-[8px] sm:text-[12px] text-neutral-400  cursor-pointer "
+            {tags.slice(0, 3).map((tag, idx) => (
+              <span
+                key={idx}
+                className="bg-neutral-500/20 px-3 py-1 rounded-full tracking-wide text-xs text-neutral-300 text-nowrap"
               >
-                +{tags.length - 3} more
-              </button>
-              {tagClicked && (
-                <div className="w-56 left-0 mt-1 bg-neutral-800 text-white text-xs rounded-md px-3 py-2 z-100 shadow-lg">
-                  {tags.slice(3).map((tag, idx) => (
-                    <div key={idx} className="text-neutral-300">
-                      <span>{tag.tagName}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                {tag.tagName}
+              </span>
+            ))}
+
+            {tags.length > 3 ? (
+              <div className="bg-[#333333] group-hover:text-white transition-all durration-300 px-3 py-1 rounded-full tracking-wide text-xs text-neutral-300">+{tags.length - 3} more</div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
-      </div>
+  
       <p className="h-px w-full relative">
         <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
       </p>
 
       {/* analytics and view details button  */}
-      <div className=" mt-2 flex justify-between items-end font-mono">
-        <div className="flex gap-4">
+      <div className=" mt-2 flex justify-between items-center font-mono">
+        <div className="flex gap-2 sm:gap-4">
           <div className="flex items-center gap-2">
             <LuEye className="size-4 text-green-400/60" />
             <span>{viewCount ?? 234}</span>
           </div>
           <div className="flex items-center gap-1">
             <RxLightningBolt className="size-4 text-amber-400" />
-            <span>{difficultyLevel ?? "Medium"}</span>
+            <span className="text-sm sm:text-lg">{difficultyLevel ?? "Medium"}</span>
           </div>
         </div>
         <WhiteButton
@@ -201,7 +186,7 @@ const InterviewExperienceCard = ({
             handleViewCountUpdate();
           }}
           text="View Details "
-          className="bg-[#333333] hover:bg-[#333333] group-hover:text-white border border-[#17171717] text-md text-white/60  transition-colors delay-300"
+          className="bg-[#333333] hover:bg-[#333333] group-hover:text-white border border-[#17171717] text-md text-white/60  transition-colors delay-300 text-sm sm:text-lg"
         />
       </div>
     </Card>

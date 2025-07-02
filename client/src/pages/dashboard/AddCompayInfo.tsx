@@ -122,7 +122,7 @@ const AddCompanyInfo = ({
             <InputComponent
               title="Enter Company Name"
               value={companyName}
-              onChange={(e) => setCompanyName(e.target.value.trim())}
+              onChange={(e) => setCompanyName(e.target.value)}
               placeholder="Ex - Amazon, Razorpay"
               inputType={`text`}
               Icon={HiOutlineBuildingOffice2}

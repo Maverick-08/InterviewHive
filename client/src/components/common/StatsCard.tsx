@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 import type { IconType } from "react-icons";
 import { motion } from "framer-motion";
 
-const StatsCard = ({
+const   StatsCard = ({
   cardStyle,
   Icon,
   totalCount,

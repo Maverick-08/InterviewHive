@@ -13,7 +13,6 @@ import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useUserStore } from "@/store/userStore";
 import { cn } from "@/lib/utils";
 
 const sidebarVariants: Variants = {
@@ -42,7 +41,6 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
   const [authState, setAuthState] = useState(true);
   const isAuthenticated = useAuthStore((state) => state.authState);
-  const username = useUserStore((state) => state.username);
   const pathname = useLocation().pathname;
 
   useEffect(() => {
@@ -76,15 +74,15 @@ const DashboardLayout = () => {
                 {/* Top container */}
                 <div
                   onClick={() => navigate("/")}
-                  className="flex items-center gap-4 pb-4 cursor-pointer"
+                  className="pt-2 flex items-center gap-4 pb-4 cursor-pointer"
                 >
                   <img
                     src={Logo}
                     alt="Interview Hive Logo"
-                    className="h-6 xl:h-8 w-6 xl:w-8"
+                    className="hidden lg:block h-4 lg:h-6 xl:h-8 w-4 lg:w-6 xl:w-8"
                   />
-                  <span className="text-xl xl:text-2xl pb-1 xl:pb-0">
-                    Interview Hive.
+                  <span className="text-sm  lg:text-xl xl:text-2xl pb-1 xl:pb-0">
+                    Interview Hive
                   </span>
                 </div>
 
@@ -96,75 +94,75 @@ const DashboardLayout = () => {
                       <div
                         onClick={() => navigate("/dashboard")}
                         className={cn(
-                          `p-2 flex items-center gap-4 rounded-md  ${
+                          `p-2 flex items-center md:gap-2 lg:gap-4 rounded-md  ${
                             pathname.includes("dashboard")
                               ? "text-blue-500 bg-white/10"
                               : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
                           }`
                         )}
                       >
-                        <RiDashboardFill className="size-4" />
-                        <span className="text-xl">Dashboard</span>
+                        <RiDashboardFill className="hidden md:block size-4 shrink-0" />
+                        <span className="text-sm lg:text-xl">Dashboard</span>
                       </div>
 
                       {/* bookmark  */}
                       <div
                         onClick={() => navigate("/bookmark")}
                         className={cn(
-                          `p-2 flex items-center gap-4 rounded-md  ${
+                          `p-2 flex items-center md:gap-2 lg:gap-4 rounded-md  ${
                             pathname.includes("bookmark")
                               ? "text-blue-500 bg-white/10"
                               : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
                           }`
                         )}
                       >
-                        <FaBookmark className="size-4" />
-                        <span className="text-xl">Bookmark</span>
+                        <FaBookmark className="hidden md:block size-4" />
+                        <span className="text-sm lg:text-xl">Bookmark</span>
                       </div>
 
                       {/* share  */}
                       <div
                         onClick={() => navigate("/share")}
                         className={cn(
-                          `p-2 flex items-center gap-4 rounded-md  ${
+                          `p-2 flex items-center md:gap-2 lg:gap-4 rounded-md  ${
                             pathname.includes("share")
                               ? "text-blue-500 bg-white/10"
                               : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
                           }`
                         )}
                       >
-                        <MdLibraryAdd className="size-4" />
-                        <span className="text-xl">Share</span>
+                        <MdLibraryAdd className="hidden md:block size-4" />
+                        <span className="text-sm lg:text-xl">Share</span>
                       </div>
 
                       {/* connect  */}
                       <div
                         onClick={() => navigate("/connect")}
                         className={cn(
-                          `p-2 flex items-center gap-4 rounded-md  ${
+                          `p-2 flex items-center md:gap-2 lg:gap-4 rounded-md  ${
                             pathname.includes("connect")
                               ? "text-blue-500 bg-white/10"
                               : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
                           }`
                         )}
                       >
-                        <IoIosChatboxes className="size-4" />
-                        <span className="text-xl">Connect</span>
+                        <IoIosChatboxes className="hidden md:block size-4" />
+                        <span className="text-sm lg:text-xl">Connect</span>
                       </div>
 
                       {/* prepare  */}
                       <div
                         onClick={() => navigate("/prepare")}
                         className={cn(
-                          `p-2 flex items-center gap-4 rounded-md  ${
+                          `p-2 flex items-center md:gap-2 lg:gap-4rounded-md  ${
                             pathname.includes("prepare")
                               ? "text-blue-500 bg-white/10"
                               : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10"
                           }`
                         )}
                       >
-                        <FaMicrophone className="size-4" />
-                        <span className="text-xl">Prepare</span>
+                        <FaMicrophone className="hidden md:block size-4" />
+                        <span className="text-sm lg:text-xl">Prepare</span>
                       </div>
                     </div>
 
@@ -172,16 +170,16 @@ const DashboardLayout = () => {
                     <div
                       onClick={() => navigate("/profile")}
                       className={cn(
-                          `p-2 flex items-center gap-4 rounded-md border border-[#333333]  ${
+                          `p-2 flex items-center md:gap-2 lg:gap-4 rounded-md border border-[#333333]  ${
                             pathname.includes("profile")
                               ? "text-blue-500 bg-white/10"
                               : "hover:text-blue-500 transition-colors delay-10  hover:bg-white/10 "
                           }`
                         )}
                     >
-                      <IoPersonSharp className="size-4" />
-                      <div className="text-end text-xl">
-                        {username?.toUpperCase() ?? "User"}
+                      <IoPersonSharp className="hidden md:block size-4" />
+                      <div className="text-end text-sm lg:text-xl">
+                        {"Profile"}
                       </div>
                     </div>
                   </div>
