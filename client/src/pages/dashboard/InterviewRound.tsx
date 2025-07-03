@@ -16,6 +16,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import WhiteButton from "@/components/common/WhiteButton";
 import Question from "./Question";
 import { useInterviewStore } from "@/store/interview";
+import { toast } from "sonner";
 
 const InterviewRound = ({
   roundNumber,
@@ -41,8 +42,23 @@ const InterviewRound = ({
   const deleteInterviewRound = useInterviewStore(
     (state) => state.deleteInterviewRound
   );
-
   const { roundType, roundNote } = getInterviewRoundInfo(interviewRoundId);
+
+  const handleAddQuestion = (interviewRoundId:string) => {
+    if(interviewQuestions && interviewQuestions.length > 0){
+      const lastQuestion = interviewQuestions.at(interviewQuestions.length-1);
+      if(lastQuestion && lastQuestion.title == ""){
+        toast.warning("Empty Question !", {
+          description: "Each question must have a Title.",
+        });
+        return;
+      }
+      else addQuestion(interviewRoundId);
+    }
+    else{
+      addQuestion(interviewRoundId);
+    }
+  }
 
   return (
     <div className="pt-4 w-full flex gap-4">
@@ -59,7 +75,7 @@ const InterviewRound = ({
                 <div className="w-full flex flex-col gap-2">
                   <span className="">Select Round Type : </span>
 
-                  <div className="w-full px-4 py-2.5 flex justify-between items-center bg-[#333333] rounded-sm">
+                  <div className="w-full px-4 py-3 flex justify-between items-center bg-[#333333] rounded-sm">
                     <span className="text-neutral-400 text-sm sm:text-lg">
                       {roundType}
                     </span>
@@ -158,7 +174,7 @@ const InterviewRound = ({
                   })
                 }
                 placeholder={`Share guidance for this round.`}
-                className="bg-[#333333] h-52 w-full text-neutral-400 resize-none px-4 py-4 rounded-md text-sm sm:text-lg focus:outline-none placeholder:text-neutral-400 placeholder:text-lg"
+                className="bg-[#333333] h-32 w-full text-neutral-400 resize-none px-4 py-4 rounded-md text-sm sm:text-lg focus:outline-none placeholder:text-neutral-400 placeholder:text-lg"
               ></textarea>
             </div>
 
@@ -188,7 +204,7 @@ const InterviewRound = ({
             <div className="pt-4">
               <WhiteButton
                 onClick={() => {
-                  addQuestion(interviewRoundId);
+                  handleAddQuestion(interviewRoundId);
                 }}
                 text="Add Question"
                 Icon={IoIosAddCircleOutline}

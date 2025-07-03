@@ -5,6 +5,7 @@ import WhiteButton from "@/components/common/WhiteButton";
 import InterviewRound from "./InterviewRound";
 import { useInterviewStore } from "@/store/interview";
 import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
 
 const InterviewDetails = ({
   setComponentActive,
@@ -16,6 +17,21 @@ const InterviewDetails = ({
     (state) => state.addInterviewRound
   );
   const pathname = useLocation().pathname;
+
+  const handleInterviewRoundUpdate = () => {
+    if (interviewRounds.length > 0) {
+      const lastInterviewRound = interviewRounds.at(interviewRounds.length - 1);
+     
+      if (lastInterviewRound && lastInterviewRound.roundType == "") {
+        toast.warning("Empty Interview Rounds !", {
+          description: "Each round must have a Round Type.",
+        });
+        return;
+      } else addInterviewRound();
+    } else {
+      addInterviewRound();
+    }
+  };
 
   return (
     <Card componentStyle="px-4 py-4 sm:py-8 bg-[#171717] border-1 border-[#333333] rounded-md select-none">
@@ -48,7 +64,7 @@ const InterviewDetails = ({
           )}
           <div className="pt-8">
             <WhiteButton
-              onClick={() => addInterviewRound()}
+              onClick={handleInterviewRoundUpdate}
               text="Add Round"
               Icon={IoIosAddCircleOutline}
               className="bg-transparent text-neutral-400 hover:text-black"
