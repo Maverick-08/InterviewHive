@@ -1,4 +1,3 @@
-import SelectCourse from "@/components/common/SelectCourse";
 import WhiteButton from "@/components/common/WhiteButton";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useContentAccessStore } from "@/store/contentAccessStore";
@@ -16,15 +15,19 @@ const ProfileUpdateModal = ({
   open: boolean;
   onOpenChange: (x: boolean) => void;
 }) => {
-  const setContentAccessibilityState = useContentAccessStore(state => state.setContentAccessibility);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // content accessibility for OAuth users
+  const setContentAccessibilityState = useContentAccessStore(
+    (state) => state.setContentAccessibility
+  );
+
+  // User saved details
   const savedName = useUserStore((state) => state.username);
   const savedYearOfPassingOut = useUserStore((state) => state.yearOfPassingOut);
+  const savedCourseId = useUserStore((state) => state.courseId);
+  const savedXHandle = useUserStore((state) => state.xHandle);
+  const savedLinkedIn = useUserStore((state) => state.linkedIn);
 
-  const [userName, setUsername] = useState(
-    savedName ?? ""
-  );
-  const [selectedCourse, setSelectedCourse] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [yearOfPassingOut, setYearOfPassingOut] = useState<number | null>(
     savedYearOfPassingOut ?? null
   );
@@ -37,37 +40,58 @@ const ProfileUpdateModal = ({
 
   const handleUpdate = async () => {
     if (isSubmitting) return;
-
+    // Check 1 : If there's no update
     if (
-      savedName == userName &&
-      selectedCourse == "" &&
       savedYearOfPassingOut == yearOfPassingOut &&
-      xHandle == "" &&
-      linkedIn == ""
+      xHandle == savedXHandle &&
+      linkedIn == savedLinkedIn
     ) {
-      toast.warning(`Please make changes for updation.`);
+      toast.warning("Please make changes for update.");
+      return;
     }
-    else if(yearOfPassingOut && yearOfPassingOut > (new Date().getFullYear()) + 5){
+    // Check 2 : Year of passing out cannot be null
+    else if (!yearOfPassingOut) {
+      toast.warning("Empty fields are not allowed");
+      return;
+    }
+    // Check 3 : Invalid year of passing out
+    else if (yearOfPassingOut < 2020) {
+      toast.warning(
+        "Sorry registration is not possible for batches prior to 2020"
+      );
+      return;
+    }
+    // Check 4 : year of passing out check
+    // For MCA : Maximum 3 year from current year
+    // For Btech : Maximum 4 year from current year
+    // For Mtech : Maximum 2 year from current year
+    // For Dual : Maximum 5 year from current year
+    else if (
+      (savedCourseId == "MCA" &&
+        yearOfPassingOut > new Date().getFullYear() + 3) ||
+      ((savedCourseId == "BTECH-CSE" || savedCourseId == "BTECH-EE") &&
+        yearOfPassingOut > new Date().getFullYear() + 4) ||
+      (savedCourseId == "MDS" &&
+        yearOfPassingOut > new Date().getFullYear() + 3)
+    ) {
       toast.warning("Invalid year of passing out");
-    } 
-    else {
+      return;
+    } else {
       setIsSubmitting(true);
+      console.log({yearOfPassingOut,xHandle,linkedIn});
       const response = await postFunction("/api/profile/update", {
-        userName: savedName == userName ? undefined : userName,
-        courseId: selectedCourse ?? "NA",
         yearOfPassingOut,
         xHandle: xHandle == "" ? undefined : xHandle,
         linkedIn: linkedIn == "" ? undefined : linkedIn,
       });
 
-      if(response.success){
+      if (response.success) {
         toast.success(`Profile Updated Successfully`);
         setIsSubmitting(false);
         setContentAccessibilityState(response.data.contentAccess as boolean);
         onOpenChange(false);
-      }
-      else{
-        toast.warning(`${response.errMsg}`)
+      } else {
+        toast.warning(`${response.errMsg}`);
         setIsSubmitting(false);
       }
     }
@@ -77,7 +101,7 @@ const ProfileUpdateModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         aria-describedby=""
-        className="font-mono w-lg bg-[#181818] border border-white/30"
+        className="font-mono w-lg h-[70vh] overflow-y-scroll bg-[#181818] border border-white/30"
       >
         <DialogTitle className="text-2xl text-white text-center">
           Edit Profile Details
@@ -89,21 +113,17 @@ const ProfileUpdateModal = ({
             {/* Username  */}
             <div className="flex flex-col gap-2">
               <p className="text-lg text-white/55">Username</p>
-              <input
-                type="text"
-                value={userName}
-                onChange={(e) => setUsername(e.target.value)}
-                className="p-2 w-full border border-white/35 rounded-md text-white"
-              />
+              <div className="p-2 w-full border border-white/35 rounded-md text-neutral-500">
+                {savedName}
+              </div>
             </div>
 
             {/* Course  */}
             <div className="flex flex-col gap-2">
               <p className="text-lg text-white/55">Course</p>
-              <SelectCourse
-                selectedCourse={selectedCourse}
-                setSelectedCourse={setSelectedCourse}
-              />
+              <div className="p-2 w-full border border-white/35 rounded-md text-neutral-500">
+                {savedCourseId}
+              </div>
             </div>
 
             {/* Year of passing out  */}
@@ -113,7 +133,7 @@ const ProfileUpdateModal = ({
                 type="number"
                 value={yearOfPassingOut ?? ""}
                 onChange={(e) => setYearOfPassingOut(parseInt(e.target.value))}
-                className="p-2 w-full border border-white/35 rounded-md text-white"
+                className="p-2 focus:outline-none w-full border border-white/35 rounded-md text-white"
               />
             </div>
 
@@ -127,7 +147,7 @@ const ProfileUpdateModal = ({
                 type="text"
                 value={xHandle}
                 onChange={(e) => setxHandle(e.target.value)}
-                className="p-2 w-full border border-white/35 rounded-md text-white"
+                className="p-2 focus:outline-none w-full border border-white/35 rounded-md text-white"
               />
             </div>
 
@@ -142,7 +162,7 @@ const ProfileUpdateModal = ({
                 type="text"
                 value={linkedIn}
                 onChange={(e) => setLinkedIn(e.target.value)}
-                className="p-2 w-full border border-white/35 rounded-md text-white"
+                className="p-2 focus:outline-none w-full border border-white/35 rounded-md text-white"
               />
             </div>
           </div>

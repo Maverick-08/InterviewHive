@@ -85,6 +85,7 @@ export const userAuthController = async (req: Request, res: Response) => {
     res.status(code.Success).json({
       id: user.id,
       username: user.username,
+      courseId:user.courseId,
       degree: user.course_branch.degree,
       branch: user.course_branch.branch,
       yearOfPassingOut: user.yearOfPassingOut,

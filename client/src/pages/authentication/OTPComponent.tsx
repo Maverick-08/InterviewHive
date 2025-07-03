@@ -54,7 +54,7 @@ const OTPComponent = () => {
       return;
     } else {
       const otp = digit0 + digit1 + digit2 + digit3 + digit4 + digit5;
-      console.log({ ...payload, otp });
+      
       setIsSubmitting(true);
       const response = await postFunction("/api/register", { ...payload, otp });
       if (response.success) {

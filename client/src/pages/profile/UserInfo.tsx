@@ -103,28 +103,48 @@ const UserInfo = ({
         {/* socials  */}
         <div className="flex justify-end">
           <div className="text-neutral-400 flex gap-6">
-            <span className={` ${xHandle ? "hover:text-blue-500 hover:scale-125 transition-all duration-200 ease-in cursor-pointer" : ""} `}>
-              <a
-                href={`${xHandle ?? "#"}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+            <span
+              className={` ${
+                xHandle
+                  ? "hover:text-blue-500 hover:scale-125 transition-all duration-200 ease-in cursor-pointer"
+                  : ""
+              } `}
+            >
+              {xHandle ? (
+                <a
+                  href={`${xHandle}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaXTwitter className="h-6 w-6" />
+                </a>
+              ) : (
                 <FaXTwitter className="h-6 w-6" />
-              </a>
+              )}
             </span>
-            <span className="hover:text-blue-500 hover:scale-125 transition-all duration-200 ease-in cursor-pointer">
-              <a
-                href={`${linkedIn ?? "#"}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+            <span
+              className={` ${
+                linkedIn
+                  ? "hover:text-blue-500 hover:scale-125 transition-all duration-200 ease-in cursor-pointer"
+                  : ""
+              } `}
+            >
+              {linkedIn ? (
+                <a
+                  href={`${linkedIn}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaLinkedin className="h-6 w-6" />
+                </a>
+              ) : (
                 <FaLinkedin className="h-6 w-6" />
-              </a>
+              )}
             </span>
           </div>
         </div>
       </div>
-      <ProfileUpdateModal open={updateModal} onOpenChange={setUpdateModal}/>
+      <ProfileUpdateModal open={updateModal} onOpenChange={setUpdateModal} />
     </div>
   );
 };

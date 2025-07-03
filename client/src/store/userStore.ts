@@ -6,6 +6,7 @@ interface UserState {
   // Core user info - non-nullable fields initially
   id: string | null; // Allow null for initial state until user logs in
   username: string | null;
+  courseId: string |null;
   degree: string | null;
   branch: string | null;
   yearOfPassingOut: number | null;
@@ -29,6 +30,7 @@ type UserStateData = Omit<UserState, 'setUserState' | 'clearUserState' | 'setIsA
 const initialUserState: UserStateData = {
   id: null,
   username: null,
+  courseId:null,
   degree: null,
   branch: null,
   yearOfPassingOut: null,

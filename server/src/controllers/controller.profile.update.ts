@@ -6,29 +6,29 @@ const prisma = new PrismaClient();
 
 export const profileUpdateController = async (req:Request,res:Response) => {
     try{
-        const {username,courseId,yearOfPassingOut,xHandle,linkedIn} = req.body as {username:string,courseId:string,yearOfPassingOut:string,xHandle:string,linkedIn:string}
+        const {yearOfPassingOut,xHandle,linkedIn} = req.body as {yearOfPassingOut:number,xHandle:string,linkedIn:string}
 
         const userId = req.userId;
-        console.log({username,courseId,yearOfPassingOut,xHandle,linkedIn})
+        console.log({yearOfPassingOut,xHandle,linkedIn});
+
+        if(!yearOfPassingOut){
+            res.status(code.BadRequest).json({msg:"Invalid payload",info:"Year of passing out is missing"});
+            return;
+        }
 
         await prisma.user.update({
             where:{
                 id:userId
             },
             data:{
-                username: username ?? undefined,
-                yearOfPassingOut:parseInt(yearOfPassingOut) ?? null,
+                yearOfPassingOut,
                 xHandle: xHandle ?? null,
                 linkedIn: linkedIn ?? null,
-                course_branch:{
-                    connect:{
-                        courseInitials:courseId
-                    }
-                }
             }
         })
 
-        const contentAccess = (courseId && yearOfPassingOut) ? true : false;
+        // const contentAccess = (courseId && yearOfPassingOut) ? true : false;
+        const contentAccess = true;
 
         res.status(code.Success).json({contentAccess});
         return;

@@ -84,6 +84,7 @@ const SignupComponent = () => {
       const data: {
         id: string;
         username: string;
+        courseId:string;
         degree: string;
         branch: string | null;
         yearOfPassingOut: number;
