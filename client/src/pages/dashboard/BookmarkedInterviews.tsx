@@ -171,12 +171,28 @@ const BookmarkedInterviews = () => {
     }
   }, [debouncedValue, allInterviews]);
 
-  // On
+  // On Tags Change
+  useEffect(() => {
+    if (selectedTags.length > 0) {
+      const filteredInterviewsByTag: Interview[] = [];
+
+      for (const tag of selectedTags) {
+        for (const interview of allInterviews) {
+          interview.tags.map((interviewTag) => {
+            if (interviewTag.tagName == tag) {
+              filteredInterviewsByTag.push(interview);
+            }
+          });
+        }
+      }
+      setFilteredInterviews(filteredInterviewsByTag);
+    } else {
+      setFilteredInterviews(allInterviews);
+    }
+  }, [selectedTags, allInterviews]);
 
   return (
     <div className="pt-8 flex flex-col gap-16 w-full">
-      {/* title + search bar + filter  */}
-
       {/* Stats  */}
       <div className="w-full flex flex-wrap justify-start gap-8 items-center">
         <BookmarkCards
@@ -205,7 +221,6 @@ const BookmarkedInterviews = () => {
         />
       </div>
 
-
       {/* list interviews  */}
       {isLoading ? (
         <div className="w-full h-screen flex justify-center items-center">
@@ -214,8 +229,7 @@ const BookmarkedInterviews = () => {
       ) : (
         <div className="flex flex-col gap-8 justify-between w-full">
           <div className="flex flex-col sm:flex-row justify-between w-full">
-
-            {/* Bookmar Tag */}
+            {/* Title*/}
             <div className="flex-col sm:flex gap-1">
               <div className="text-xl sm:text-3xl">Bookmarked Interviews</div>
               <span className="w-fit px-2 flex justify-center text-xs text-yellow-400 bg-yellow-500/20 border border-yellow-400/50 rounded-full h-4">

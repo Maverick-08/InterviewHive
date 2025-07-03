@@ -31,7 +31,7 @@ export function InterviewFilters({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="flex items-center px-2 py-2 rounded-sm gap-2 text-neutral-400 border border-[#333333] cursor-pointer">
+        <div className="flex items-center px-2 py-2  rounded-sm gap-2 text-neutral-400 border border-[#333333] cursor-pointer">
           <span>Filters</span>
           <FaChevronDown className="size-4" />
         </div>
@@ -45,7 +45,7 @@ export function InterviewFilters({
               {tags.map((tag) => (
                 <CommandItem
                   key={tag.id}
-                  className="cursor-pointer"
+                  className="cursor-pointer font-mono"
                   value={tag.tagName}
                   onSelect={(currentValue) => {
                     let updatedTags:string[] = [];

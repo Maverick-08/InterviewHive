@@ -62,8 +62,8 @@ const InterviewRound = ({
 
   return (
     <div className="pt-4 w-full flex gap-4">
-      <AccordionItem value={`item-${roundNumber}`} className="flex-1">
-        <AccordionTrigger className="text-xl sm:text-2xl">{`Round ${roundNumber}`}</AccordionTrigger>
+      <AccordionItem value={`item-${roundNumber}`} className="flex-1 border-b border-white/50">
+        <AccordionTrigger className="text-xl sm:text-2xl ">{`Round ${roundNumber}`}</AccordionTrigger>
         <AccordionContent>
           <div className="flex flex-col gap-6 sm:gap-4 ">
             {/* select round type  */}
