@@ -5,11 +5,12 @@ import { getInterviewByIdController } from "../controllers/controller.interview.
 import { deleteInterviewByIdController } from "../controllers/controller.interview.deleteUserInterview";
 import { updateInterviewExperienceController } from "../controllers/controller.interview.updateInterviewExperience";
 import { getSavedInterviewsController } from "../controllers/controller.interview.getSavedInterviews";
-import { saveInterviewController } from "../controllers/controller.save.saveInterview";
+import { saveInterviewController } from "../controllers/controller.interview.saveInterview";
 import { getInterviewTags } from "../controllers/controller.interview.interviewTags";
 import { getAllInterviewsController } from "../controllers/controller.interview.getAllInterviews";
 import { getBookmarkStats } from "../controllers/controller.interview.bookmarkStats";
 import { viewCountHandler } from "../controllers/controller.interview.viewCount";
+import { unSaveInterviewController } from "../controllers/controller.interview.unSaveInterview";
 
 const router = Router();
 
@@ -28,8 +29,11 @@ router.route("/user").get(getUserInterviewsController);
 // get saved interviews of users
 router.route("/user/save").get(getSavedInterviewsController);
 
-// save/unsave interviews
+// save interviews
 router.route("/save").get(saveInterviewController);
+
+// unsave interviews
+router.route("/unsave").get(unSaveInterviewController);
 
 // bookmark stats
 router.route("/save/stats").get(getBookmarkStats);

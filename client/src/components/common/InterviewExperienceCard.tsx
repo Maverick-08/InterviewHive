@@ -3,7 +3,7 @@ import { GoBookmarkFill } from "react-icons/go";
 import { RxLightningBolt } from "react-icons/rx";
 import { LuEye } from "react-icons/lu";
 import WhiteButton from "./WhiteButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSidebarStore } from "@/store/SidebarStore";
 import type { Interview } from "@/types";
 import {
@@ -47,6 +47,7 @@ const InterviewExperienceCard = ({
   const isSidebarActive = useSidebarStore((state) => state.isSidebarActive);
   const pathname = useLocation().pathname;
   const [bookmarked, setBookmarked] = useState(pathname.includes("bookmark"));
+  const [isDashboardPageActive,setIsDahboardPageActive] = useState(false);
 
   const setIsInterviewModalOpen = useInterviewModalStore(
     (state) => state.setIsInterviewModalOpen
@@ -57,26 +58,49 @@ const InterviewExperienceCard = ({
   const isUserProfile = pathname.length - pathname.indexOf("profile") > 10;
   const navigate = useNavigate();
 
-  const handleBookmark = async () => {
-    const response = await getFunction(
-      `/api/interview/save?interviewId=${interviewId}`
-    );
+  useEffect(()=>{
+    if(pathname.includes("dashboard")){
+      setIsDahboardPageActive(true)
+    }
+    else setIsDahboardPageActive(false);
+  },[setIsDahboardPageActive,pathname])
 
-    if (!bookmarked) {
+  const handleBookmark = async () => {
+    if (isDashboardPageActive) {
+      // Dashboard page
+      const response = await getFunction(
+        `/api/interview/save?interviewId=${interviewId}`
+      );
       if (response.success) {
-        setBookmarked(true);
-        toast.success("Interview Saved Successfully !", {
-          description: "Check Bookmarks",
-        });
+        if(response.data.data == "saved"){
+
+          toast.info(`Interview is already saved`, {
+            description: "Check Bookmarks",
+          });
+        }
+        else{
+          toast.success(`Interview saved successfully`, {
+            description: "Check Bookmarks",
+          });
+          setBookmarked(true);
+        }
       } else {
         toast.warning(`${response.errMsg}`);
       }
     } else {
+      const response = await getFunction(
+        `/api/interview/unsave?interviewId=${interviewId}`
+      );
       if (response.success) {
-        setBookmarked(false);
-        toast.info("Interview Removed Successfully !", {
-          description: "Check Bookmarks",
-        });
+        if(response.data.data == "Already Unsaved"){
+          toast.info("Interview has already been removed",{
+            description:"Please refresh the page"
+          })
+        }
+        else{
+          toast.success("Interview removed successfully.");
+          setBookmarked(false);
+        }
       } else {
         toast.warning(`${response.errMsg}`);
       }
@@ -86,7 +110,6 @@ const InterviewExperienceCard = ({
   const handleViewCountUpdate = async () => {
     await getFunction(`/api/interview/viewCount?interviewId=${interviewId}`);
   };
-
 
   return (
     <Card
@@ -141,28 +164,30 @@ const InterviewExperienceCard = ({
           <span>{CTCOffered ?? "Not Disclosed"}</span>
         </div>
         {/* tags  */}
-          <div className="flex items-center flex-wrap gap-2">
+        <div className="flex items-center flex-wrap gap-2">
           <div className="w-fit flex gap-1 px-2 text-sm rounded-full bg-blue-500/20 border border-blue-700/10 text-blue-500">
             <span className="">{degree}</span>
             <span>{yearOfPassingOut}</span>
           </div>
-            {tags.slice(0, 3).map((tag, idx) => (
-              <span
-                key={idx}
-                className="bg-neutral-500/20 px-3 py-1 rounded-full tracking-wide text-xs text-neutral-300 text-nowrap"
-              >
-                {tag.tagName}
-              </span>
-            ))}
+          {tags.slice(0, 3).map((tag, idx) => (
+            <span
+              key={idx}
+              className="bg-neutral-500/20 px-3 py-1 rounded-full tracking-wide text-xs text-neutral-300 text-nowrap"
+            >
+              {tag.tagName}
+            </span>
+          ))}
 
-            {tags.length > 3 ? (
-              <div className="bg-[#333333] group-hover:text-white transition-all durration-300 px-3 py-1 rounded-full tracking-wide text-xs text-neutral-300">+{tags.length - 3} more</div>
-            ) : (
-              <></>
-            )}
-          </div>
+          {tags.length > 3 ? (
+            <div className="bg-[#333333] group-hover:text-white transition-all durration-300 px-3 py-1 rounded-full tracking-wide text-xs text-neutral-300">
+              +{tags.length - 3} more
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
-  
+      </div>
+
       <p className="h-px w-full relative">
         <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
       </p>
@@ -176,7 +201,9 @@ const InterviewExperienceCard = ({
           </div>
           <div className="flex items-center gap-1">
             <RxLightningBolt className="size-4 text-amber-400" />
-            <span className="text-sm sm:text-lg">{difficultyLevel ?? "Medium"}</span>
+            <span className="text-sm sm:text-lg">
+              {difficultyLevel ?? "Medium"}
+            </span>
           </div>
         </div>
         <WhiteButton

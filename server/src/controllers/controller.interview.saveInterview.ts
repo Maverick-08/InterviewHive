@@ -27,37 +27,43 @@ export const saveInterviewController = async (req: Request, res: Response) => {
 
     // 4. if the record does not exists
     if (!doesInterviewExists) {
-      res.status(code.BadRequest).json({ msg: "Invalid interview id" });
+      res
+        .status(code.BadRequest)
+        .json({ msg: "The Interview has been deleted" });
       return;
     }
 
-    // 5. if interview exists - save it (if not saved) delete it(if saved)
+    // 4. If user tries to save it's own interview
+    if (userId == doesInterviewExists.authorId) {
+      res
+        .status(code.BadRequest)
+        .json({ msg: "You are trying to save your own interview" });
+      return;
+    }
+
+    // 5. if interview is already saved
     const isInterviewSaved = await prisma.savedInterview.findFirst({
       where: {
         userId,
         interviewId,
       },
     });
-    
-    // 6. If it is saved - then delete it
+
+    // 6. If interview is already saved
     if (isInterviewSaved) {
-      await prisma.savedInterview.delete({
-        where: {
-          id: isInterviewSaved.id,
-        },
-      });
+      res.status(code.Success).json({ data: "Saved" });
+      return;
     } else {
-      // 7. if it is not saved then save it
       await prisma.savedInterview.create({
         data: {
           userId,
           interviewId,
         },
       });
-    }
 
-    res.status(code.SuccessNoContent).send();
-    return;
+      res.status(code.Success).json({ data: "Not Saved" });
+      return;
+    }
   } catch (err) {
     console.log("@saveInterview : \n", err);
     res.status(code.ServerError).json({ msg: "Internal Server Error" });
