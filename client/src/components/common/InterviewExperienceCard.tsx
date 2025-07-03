@@ -113,7 +113,7 @@ const InterviewExperienceCard = ({
 
   return (
     <Card
-      className={`bg-[#171717] rounded-sm text-white p-2  sm:p-4 group w-full ${
+      className={`bg-[#171717] rounded-sm text-white p-2 sm:p-4 group w-full ${
         isSidebarActive ? "w-full" : "w-full "
       }  border border-[#333333] transition-all duration-300 ease-in-out delay-300 hover:border-neutral-600  font-mono gap-4`}
     >
@@ -142,10 +142,10 @@ const InterviewExperienceCard = ({
             onClick={() => {
               navigate(`/profile/${userId}`);
             }}
-            className="flex gap-2 cursor-pointer"
+            className="flex gap-2 cursor-pointer max-w-full"
           >
             <span className="text-neutral-500">Candidate:</span>
-            <span>{candidate}</span>
+            <span className="truncate whitespace-nowrap overflow-hidden flex-1 text-left">{candidate}</span>
           </div>
         </div>
         {/* role  */}

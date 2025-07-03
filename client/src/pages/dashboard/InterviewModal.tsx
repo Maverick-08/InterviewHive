@@ -74,27 +74,29 @@ const InterviewModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsInterviewModalOpen}>
-      <DialogContent className="p-8 w-4xl max-h-160 sm:max-h-120 font-mono overflow-y-scroll bg-[#171717] border border-white/20 text-white">
-        <div className="flex flex-col w-full ">
+      <DialogContent className="px-4 py-6 sm:px-0 sm:py-0 sm:p-4 w-4xl max-h-160 sm:max-h-120 font-mono overflow-y-scroll bg-[#171717] border border-white/20 text-white">
+        <div className="flex flex-col w-full overflow-hidden">
           {/* Top conatiner  */}
           <div>
-            <RoughNotationGroup show={show}>
-              <p className="text-3xl relative">
-                <RoughNotation
-                  type="box"
-                  color="yellow"
-                  padding={8}
-                  animationDuration={1200}
-                >
-                  {interviewData.companyName}
-                </RoughNotation>
-              </p>
-            </RoughNotationGroup>
+            <div className="m-4 ">
+              <RoughNotationGroup show={show}>
+                <span className="text-3xl relative">
+                  <RoughNotation
+                    type="box"
+                    color="yellow"
+                    padding={8}
+                    animationDuration={1200}
+                  >
+                    {interviewData.companyName}
+                  </RoughNotation>
+                </span>
+              </RoughNotationGroup>
+            </div>
             <div className="flex flex-col my-4 text-neutral-400">
               {/* Candidate Name  */}
               <div className="flex items-center gap-2">
                 <span>Candidate: </span>
-                <span className="text-white/90">
+                <span className="truncate whitespace-nowrap overflow-hidden text-white/90">
                   {interviewData.user.username}
                 </span>
               </div>
