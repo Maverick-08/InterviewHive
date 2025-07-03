@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useEffect } from "react";
 import {
   useInterviewModalStore,
@@ -74,7 +74,8 @@ const InterviewModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsInterviewModalOpen}>
-      <DialogContent className="px-4 py-6 sm:px-0 sm:py-0 sm:p-4 w-4xl max-h-160 sm:max-h-120 font-mono overflow-y-scroll bg-[#171717] border border-white/20 text-white">
+      <DialogTitle />
+      <DialogContent aria-describedby="" className="px-4 py-6 sm:px-0 sm:py-0 sm:p-4 w-4xl max-h-160 sm:max-h-120 font-mono overflow-y-scroll bg-[#171717] border border-white/20 text-white">
         <div className="flex flex-col w-full overflow-hidden">
           {/* Top conatiner  */}
           <div>

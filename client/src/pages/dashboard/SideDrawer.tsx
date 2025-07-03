@@ -29,7 +29,7 @@ const SideDrawer = ({
   return (
     <div className="block sm1:hidden">
       <Drawer direction={`left`} open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="bg-[#171717] border border-[#333333]  max-w-[75%]">
+        <DrawerContent aria-describedby="" className="bg-[#171717] border border-[#333333]  max-w-[75%]">
           <DrawerHeader>
             <DrawerTitle className="font-mono text-white">
               <div className="flex gap-2 items-center">

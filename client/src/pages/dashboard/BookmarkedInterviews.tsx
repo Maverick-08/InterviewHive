@@ -20,6 +20,7 @@ import { FiClock } from "react-icons/fi";
 import BookmarkCards from "@/components/common/BookmarkCards";
 import { useAuthStore } from "@/store/authStore";
 import { getFunction } from "@/utils/axiosRequest";
+import InterviewModal from "./InterviewModal";
 
 const BookmarkedInterviews = () => {
   const [allInterviews, setAllInterviews] = useState<Interview[]>([]);
@@ -177,7 +178,7 @@ const BookmarkedInterviews = () => {
       {/* title + search bar + filter  */}
 
       {/* Stats  */}
-      <div className="w-full flex flex-wrap justify-center  gap-8 items-center">
+      <div className="w-full flex flex-wrap justify-start gap-8 items-center">
         <BookmarkCards
           title="Total Bookmarks"
           value={`${allInterviews.length}`}
@@ -254,6 +255,7 @@ const BookmarkedInterviews = () => {
               <ListInterviews interviewData={filteredInterviews} />
             )}
           </div>
+          <InterviewModal />
         </div>
       )}
 

@@ -85,6 +85,7 @@ const Profile = () => {
           </div>
         </AnimatedSection>
       )}
+      <InterviewModal />
     </div>
   );
 };

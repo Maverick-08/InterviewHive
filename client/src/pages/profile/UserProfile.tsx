@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import { getFunction } from "@/utils/axiosRequest";
 import Doodle from "@/assets/doodle.png";
+import InterviewModal from "../dashboard/InterviewModal";
 
 const avatarsMap = new Map();
 avatarsMap.set("Doodle",Doodle);
@@ -81,6 +82,7 @@ const UserProfile = () => {
             </Accordion>
           </div>
         </div>
+        <InterviewModal />
       </div>
     </AnimatedSection>
   );
