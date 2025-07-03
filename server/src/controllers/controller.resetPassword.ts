@@ -28,7 +28,7 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
         await Redis_Service.setResetPasswordToken(userId,secretToken);
 
         // 6. Send mail to the user
-        const resetLink = `http://localhost:5173/reset-password/${secretToken}/${userId}`;
+        const resetLink = `https://interview-hive.dev-projects.site/reset-password/${secretToken}/${userId}`;
         const html = `
           <div style="font-family: Arial, sans-serif; color: #333;">
             <h2>Reset Your Password</h2>
