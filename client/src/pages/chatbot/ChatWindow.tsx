@@ -23,6 +23,10 @@ const ChatWindow = ({
   );
   const loadResponse = useLoadResponseStore((state) => state.loadResponse);
 
+  useEffect(()=>{
+    clearPromptHistory();
+  },[clearPromptHistory])
+
   useEffect(() => {
     const fetch = async () => {
       const query = conversation.at(-1)?.message;
