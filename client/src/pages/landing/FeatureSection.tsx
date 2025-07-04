@@ -1,7 +1,7 @@
 import FeatureList from "@/components/common/FeatureList";
-import SavedInterviews from "../../assets/SavedInterviews.png";
-import FeatureSectionImage1 from "../../assets/LandingFeatureSection/featureSection1.png";
-import FeatureSectionImage2 from "../../assets/LandingFeatureSection/featureSection2.png";
+import profileSectionImage from "@/assets/LandingFeatureSection/pofileSection.png";
+import bookmarkSection from "@/assets/LandingFeatureSection/bookmarkSection.png";
+import shareSectionImage from "@/assets/LandingFeatureSection/shareSection.png";
 import { FaRegSave } from "react-icons/fa";
 import { FaUniversalAccess } from "react-icons/fa6";
 import { GiClick } from "react-icons/gi";
@@ -25,7 +25,7 @@ const FeatureSection = () => {
           ]}
           icons={[LuDatabaseZap, FaFileCode, FaCode]}
           colors={["text-violet-400", "text-red-400", "text-green-400"]}
-          image={FeatureSectionImage1}
+          image={shareSectionImage}
           contentOrder={`order-1`}
           imageOrder={`order-2`}
         />
@@ -42,7 +42,7 @@ const FeatureSection = () => {
           ]}
           icons={[FaFireFlameCurved, TiGroup, FaRegSave]}
           colors={["text-orange-400", "text-red-400", "text-green-400"]}
-          image={FeatureSectionImage2}
+          image={profileSectionImage}
           contentOrder={`order-1 md:order-2`}
           imageOrder={`order-2 md:order-1`}
         />
@@ -58,7 +58,7 @@ const FeatureSection = () => {
           ]}
           icons={[GiClick, FaUniversalAccess]}
           colors={["text-green-400", "text-yellow-400", "text-red-400"]}
-          image={SavedInterviews}
+          image={bookmarkSection}
           contentOrder={`order-1`}
           imageOrder={`order-2`}
         />

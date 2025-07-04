@@ -20,7 +20,7 @@ const Footer = () => {
   // const [isFeedbackFormOpen, setisFeedbackFormOpen] = useState(false);
   return (
     <AnimatedSection>
-      <div className="sm:flex w-full justify-between border-t-[1px] border-neutral-700 py-8 font-mono">
+      <div className="sm:flex w-full justify-between border-t-[1px] border-neutral-700 py-8 font-mono select-none">
         <footer className="p-2 sm:p-0 w-full max-w-6xl mx-auto flex flex-col text-white gap-24">
           {/* Footer 1 */}
           <div className="flex justify-between">
@@ -91,35 +91,35 @@ const Footer = () => {
             </div>
 
             {/* Right Section */}
-            <div className="hidden md:flex p-4 gap-8">
+            <div className="hidden md:flex p-4 gap-12">
               <div className="hidden lg:flex flex-col gap-2">
-                <h1 className="text-2xl">Legal.</h1>
+                <h1 className="text-2xl">Brewing.</h1>
                 <a
-                  href="https://code-crunch-tau.vercel.app/"
+                  
                   className="text-md text-white/70"
                 >
                   {" "}
-                  Refund Policy
+                  Alumni Connect
                 </a>
                 <a
-                  href="https://code-crunch-tau.vercel.app/"
+                  
                   className="text-md text-white/70"
                 >
                   {" "}
-                  Terms Of Service
+                  AI Analysis
                 </a>
                 <a
-                  href="https://code-crunch-tau.vercel.app/"
+                  
                   className="text-md text-white/70"
                 >
                   {" "}
-                  Privacy Policy
+                  All Streams
                 </a>
               </div>
               <div className="flex flex-col gap-2">
                 <h1 className="text-2xl">Pages.</h1>
                 <a
-                  href="https://code-crunch-tau.vercel.app/"
+                  href="#features"
                   className="text-md text-white/70"
                 >
                   {" "}
