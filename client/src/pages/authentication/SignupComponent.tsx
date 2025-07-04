@@ -4,7 +4,7 @@ import { IoChevronBackOutline, IoKeyOutline } from "react-icons/io5";
 // import { AiOutlineChrome } from "react-icons/ai";
 import WhiteButton from "@/components/common/WhiteButton";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
 import { toast } from "sonner";
 import { userAuth } from "./auth.util";
@@ -23,6 +23,7 @@ const SignupComponent = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const setUserState = useUserStore((state) => state.setUserState);
   const setAuthState = useAuthStore((state) => state.setAuthState);
+  const authState = useAuthStore((state) => state.authState);
   const setContentAccessState = useContentAccessStore(
     (state) => state.setContentAccessibility
   );
@@ -74,6 +75,13 @@ const SignupComponent = () => {
   //   setUserState,
   //   setAuthState,
   // ]);
+
+  // If user is logged in - route to dashboard
+  useEffect(()=>{
+    if(authState){
+      navigate("/dashboard")
+    }
+  },[authState,navigate])
 
   const handleSubmit = async () => {
     if (isSubmitting) return false;
