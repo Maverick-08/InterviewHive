@@ -18,6 +18,7 @@ import { ImSpinner8 } from "react-icons/im";
 import { Combobox } from "@/components/ui/combobox";
 import { useRegisterUserStore } from "@/store/registerStore";
 import { getFunction } from "@/utils/axiosRequest";
+import ConfirmationDialog from "./ConfirmationDialog";
 // import { useUserStore } from "@/store/userStore";
 // import { useAuthStore } from "@/store/authStore";
 // import { useContentAccessStore } from "@/store/contentAccessStore";
@@ -48,6 +49,7 @@ const RegistrationComponent = ({
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isConformationDialogOpen, setIsConformationDialogOpen] = useState(false)
   const [isComboboxOpen, setIsComboboxOpen] = useState(false);
   const [isYearComboboxOpen, setIsYearComboboxOpen] = useState(false);
   const yearList = getYearList();
@@ -263,14 +265,14 @@ const RegistrationComponent = ({
       {/* Register  */}
       <WhiteButton
         disabled={isSubmitting}
-        onClick={handleSubmit}
+        onClick={()=>setIsConformationDialogOpen(true)}
         Icon={isSubmitting ? ImSpinner8 : undefined}
         iconSize={`animate-spin`}
         text="Get OTP"
         containerStyle="flex justify-center items-center"
         className="mt-4 w-full font-mono"
       />
-
+      <ConfirmationDialog open={isConformationDialogOpen} onOpenChange={setIsConformationDialogOpen} handleSubmit={handleSubmit}/>
       {/* <div className="flex w-full items-center gap-2">
         <p className="h-px bg-gradient-to-r from-transparent to-white/40 w-full "></p>
         <p className="text-sm text-white/80">OR</p>
