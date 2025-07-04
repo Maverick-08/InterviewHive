@@ -98,3 +98,9 @@ model SavedInterview {
 
   @@unique([userId, interviewId])
 }
+
+model Feedback{
+  id String @id @default(cuid())
+  message String
+  createdAt DateTime @default(now())
+}

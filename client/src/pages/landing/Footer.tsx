@@ -5,11 +5,13 @@ import { FaGithubSquare } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getFunction } from "@/utils/axiosRequest";
+import Feedback from "./Feedback";
 // import { useState } from "react";
 
 const Footer = () => {
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false)
   const navigate = useNavigate();
   useEffect(()=> {
     const systemsCheck = async () => {
@@ -20,10 +22,10 @@ const Footer = () => {
   // const [isFeedbackFormOpen, setisFeedbackFormOpen] = useState(false);
   return (
     <AnimatedSection>
-      <div className="sm:flex w-full justify-between border-t-[1px] border-neutral-700 py-8 font-mono select-none">
+      <div className={`sm:flex w-full justify-between border-t-[1px] border-neutral-700 py-8 font-mono select-none ${isFeedbackOpen?"backdrop-blur-sm": "" }`}>
         <footer className="p-2 sm:p-0 w-full max-w-6xl mx-auto flex flex-col text-white gap-24">
           {/* Footer 1 */}
-          <div className="flex justify-between">
+          <div className="flex flex-col md:flex-row justify-between">
             {/* Left */}
             <div className="justify-start flex flex-col gap-4">
               <div className="flex gap-1 text-2xl items-center italic bg-gradient-to-b from-gray-500 to-white bg-clip-text text-transparent">
@@ -91,61 +93,63 @@ const Footer = () => {
             </div>
 
             {/* Right Section */}
-            <div className="hidden md:flex p-4 gap-12">
-              <div className="hidden lg:flex flex-col gap-2">
-                <h1 className="text-2xl">Brewing.</h1>
+            <div className="flex p-4 gap-12">
+              <div className="flex flex-col gap-2">
+                <h1 className="text-lg md:text-2xl">Brewing.</h1>
                 <a
                   
-                  className="text-md text-white/70"
+                  className="cursor-pointer text-sm md:text-md text-white/70"
                 >
                   {" "}
                   Alumni Connect
                 </a>
                 <a
                   
-                  className="text-md text-white/70"
+                  className="cursor-pointer text-sm md:text-md text-white/70"
                 >
                   {" "}
                   AI Analysis
                 </a>
                 <a
                   
-                  className="text-md text-white/70"
+                  className="cursor-pointer text-sm md:text-md text-white/70"
                 >
                   {" "}
                   All Streams
                 </a>
               </div>
               <div className="flex flex-col gap-2">
-                <h1 className="text-2xl">Pages.</h1>
+                <h1 className="text-lg md:text-2xl">Pages.</h1>
                 <a
                   href="#features"
-                  className="text-md text-white/70"
+                  className="cursor-pointer text-sm md:text-md text-white/70"
                 >
                   {" "}
                   Features
                 </a>
                 <a
                   onClick={() => navigate("/login")}
-                  className="cursor-pointer text-md text-white/70"
+                  className="cursor-pointer text-sm md:text-md text-white/70"
                 >
                   {" "}
                   Login
                 </a>
                 <a
                   onClick={() => navigate("/register")}
-                  className="cursor-pointer text-md text-white/70"
+                  className="cursor-pointer text-sm md:text-md text-white/70"
                 >
                   {" "}
                   Create Account
                 </a>
                 <a
                   // onClick={()=> setisFeedbackFormOpen(true)}
-                  className="cursor-pointer text-md text-white/70"
+                  className="cursor-pointer text-sm md:text-md text-white/70"
+                  onClick={()=>setIsFeedbackOpen(true)}
                 >
                   {" "}
                   Contact Support
                 </a>
+                <Feedback open={isFeedbackOpen} onOpenChange={setIsFeedbackOpen} />
               </div>
             </div>
           </div>
@@ -157,12 +161,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Feedback/ContactSupport Form
-          {isFeedbackFormOpen && 
-            <div className="h-100 w-20 border border-white overflow-scroll">
-            
-            </div>
-          } */}
         </footer>
       </div>
     </AnimatedSection>

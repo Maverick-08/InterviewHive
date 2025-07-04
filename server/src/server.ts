@@ -15,6 +15,7 @@ import ViewCount from "./routes/route.viewsCount";
 import OAUTH from "./routes/route.oauth";
 import ResetPassword from "./routes/route.resetPassword";
 import Profile from "./routes/route.profile";
+import Review from "./routes/route.feedback";
 
 const app = express();
 
@@ -53,7 +54,10 @@ app.use("/api/oauth",OAUTH);
 app.use("/api/refresh",Refresh);
 
 // Reset password
-app.use("/api/reset-password",ResetPassword)
+app.use("/api/reset-password",ResetPassword);
+
+// Add Review
+app.use("/api/review",Review);
 
 // ------- Middeleware - verify token -----------
 app.use(VerifyToken);
