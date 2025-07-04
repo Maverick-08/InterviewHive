@@ -23,6 +23,16 @@ const ChatWindow = ({
   );
   const loadResponse = useLoadResponseStore((state) => state.loadResponse);
 
+  useEffect(() => {
+  // Only apply on small screens
+  if (window.innerWidth < 640) {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }
+}, []);
+
   useEffect(()=>{
     clearPromptHistory();
   },[clearPromptHistory])
@@ -46,7 +56,7 @@ const ChatWindow = ({
   };
 
   return (
-    <div className="absolute h-[95vh] w-full bottom-0 right-0 md:h-[85vh] md:w-[40%] md:bottom-4 md:right-4 lg:w-[30%] rounded-xl border border-white/20 bg-[#171717] text-white">
+    <div className="absolute h-[90vh] w-full bottom-0 right-0 md:h-[85vh] md:w-[40%] md:bottom-4 md:right-4 lg:w-[30%] rounded-xl border border-white/20 bg-[#171717] text-white">
       <div className="h-full flex flex-col">
         {/* topbar  */}
         <div className="px-4 py-2 flex justify-between items-center border-b border-[#333333] ">
