@@ -81,14 +81,14 @@ const DashboardLayout = () => {
                 {/* Top container */}
                 <div
                   onClick={() => navigate("/")}
-                  className="flex items-center gap-4 pt-2 cursor-pointer"
+                  className="flex items-center gap-4 pt-2 cursor-pointer pb-[20px] sm2:pb-3"
                 >
                   <img
                     src={Logo}
                     alt="Interview Hive Logo"
                     className="hidden md2:block md2:h-6 md2:w-6"
                   />
-                  <span className="pb-[20px] sm2:pb-3 text-sm sm2:text-lg md1:text-xl text-nowrap">
+                  <span className="text-sm sm2:text-lg md1:text-xl text-nowrap">
                     Interview Hive
                   </span>
                 </div>
