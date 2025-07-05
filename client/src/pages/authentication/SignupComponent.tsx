@@ -12,9 +12,8 @@ import { useUserStore } from "@/store/userStore";
 import { useAuthStore } from "@/store/authStore";
 import { useContentAccessStore } from "@/store/contentAccessStore";
 import { SignInButton } from "@clerk/clerk-react";
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from "@clerk/clerk-react";
 import { postFunction } from "@/utils/axiosRequest";
-
 
 const SignupComponent = () => {
   const navigate = useNavigate();
@@ -28,11 +27,12 @@ const SignupComponent = () => {
   const setContentAccessState = useContentAccessStore(
     (state) => state.setContentAccessibility
   );
-  const {user} = useUser();
-  
+  const { user } = useUser();
+
   useEffect(() => {
     if (user) {
       const fetch = async () => {
+        setIsLoggedIn(true);
         // Platform
         const platform =
           innerWidth < 640
@@ -66,12 +66,10 @@ const SignupComponent = () => {
         }
       };
       fetch();
-    }
-    else{
+    } else {
       setIsLoggedIn(false);
     }
   }, [user, navigate, setUserState, setAuthState, setContentAccessState]);
-
 
   // If user is logged in - route to dashboard
   useEffect(() => {
@@ -115,13 +113,6 @@ const SignupComponent = () => {
     } else {
       toast.error(<p className="text-lg font-mono">Please fill all details</p>);
     }
-  };
-
-
-
-  const handleOAuth = async () => {
-    if (isLoggedIn) return;
-    setIsLoggedIn(true);
   };
 
   return (
@@ -192,9 +183,8 @@ const SignupComponent = () => {
           <SignInButton>
             <WhiteButton
               text="Continue with Google"
-              onClick={handleOAuth}
-              Icon={isSubmitting ? ImSpinner8 : AiOutlineChrome}
-              iconSize={`${isSubmitting ? "animate-spin" : ""}`}
+              Icon={isLoggedIn ? ImSpinner8 : AiOutlineChrome}
+              iconSize={`${isLoggedIn ? "animate-spin" : ""}`}
               className="w-full font-mono flex items-center justify-center gap-2"
               containerStyle="flex justify-center items-center"
             />

@@ -38,6 +38,7 @@ export const oAuthHandler = async (req: Request, res: Response) => {
       const user = await User.createUser({
         email: payload.email,
         username: payload.username,
+        courseId:"NA"
       });
       userId = user.id;
     }

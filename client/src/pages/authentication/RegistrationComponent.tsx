@@ -63,49 +63,49 @@ const RegistrationComponent = ({
   const setContentAccessState = useContentAccessStore(
     (state) => state.setContentAccessibility
   );
-  const {user} = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
-      if (user) {
-        const fetch = async () => {
-          // Platform
-          const platform =
-            innerWidth < 640
-              ? "Mobile"
-              : innerWidth > 640 && innerWidth < 1024
-              ? "Tablet"
-              : "Laptop";
-  
-          const response = await postFunction("/api/oauth", {
-            username: user.fullName,
-            email: user.emailAddresses[0].emailAddress,
-            platform,
+    if (user) {
+      const fetch = async () => {
+        setIsLoggedIn(true);
+        // Platform
+        const platform =
+          innerWidth < 640
+            ? "Mobile"
+            : innerWidth > 640 && innerWidth < 1024
+            ? "Tablet"
+            : "Laptop";
+
+        const response = await postFunction("/api/oauth", {
+          username: user.fullName,
+          email: user.emailAddresses[0].emailAddress,
+          platform,
+        });
+
+        if (response.success) {
+          setIsLoggedIn(false);
+          const userData = response.data;
+          setUserState({
+            id: userData.userId,
+            username: userData.username,
           });
-  
-          if (response.success) {
-            setIsLoggedIn(false);
-            const userData = response.data;
-            setUserState({
-              id: userData.userId,
-              username: userData.username,
-            });
-            setAuthState(true);
-            setContentAccessState(userData.contentAccess);
-            toast.success(`Logging In`);
-            setTimeout(() => {
-              navigate("/dashboard");
-            }, 500);
-          } else {
-            setIsLoggedIn(false);
-            toast.warning("Authentication Error");
-          }
-        };
-        fetch();
-      }
-      else{
-        setIsLoggedIn(false);
-      }
-    }, [user, navigate, setUserState, setAuthState, setContentAccessState]);
+          setAuthState(true);
+          setContentAccessState(userData.contentAccess);
+          toast.success(`Logging In`);
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 500);
+        } else {
+          setIsLoggedIn(false);
+          toast.warning("Authentication Error");
+        }
+      };
+      fetch();
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [user, navigate, setUserState, setAuthState, setContentAccessState]);
 
   const handleSubmit = async () => {
     if (isSubmitting) return;
@@ -145,11 +145,6 @@ const RegistrationComponent = ({
         setIsSubmitting(false);
       }
     }
-  };
-
-  const handleOAuth = async () => {
-    if (isLoggedIn) return;
-    setIsLoggedIn(true);
   };
 
   return (
@@ -285,9 +280,10 @@ const RegistrationComponent = ({
       <SignInButton>
         <WhiteButton
           text="Continue with Google"
-          onClick={handleOAuth}
+          Icon={isLoggedIn ? ImSpinner8 : AiOutlineChrome}
+          iconSize={`${isLoggedIn ? "animate-spin" : ""}`}
           className="w-full font-mono flex items-center justify-center gap-2"
-          Icon={AiOutlineChrome}
+          containerStyle="flex justify-center items-center"
         />
       </SignInButton>
 
