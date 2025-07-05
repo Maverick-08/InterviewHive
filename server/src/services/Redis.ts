@@ -89,7 +89,9 @@ export class Redis_Service {
     } else {
       const parsedValue = parseInt(viewCount);
       const thousandsCount = Math.floor(parsedValue / 1000);
-      const hundredsCount = Math.floor((parsedValue - thousandsCount * 1000) / 100);
+      const hundredsCount = Math.floor(
+        (parsedValue - thousandsCount * 1000) / 100
+      );
       if (thousandsCount == 0 && hundredsCount >= 0) {
         return `${parsedValue}`;
       }
@@ -110,52 +112,80 @@ export class Redis_Service {
     return;
   }
 
-  public static async getInterviewViewCount(interviewId:string){
+  public static async getInterviewViewCount(interviewId: string) {
     return await redisClient.get(`Interview:${interviewId}`);
   }
 
-  public static async setInterviewViewCount(interviewId:string,value:number){
-    return await redisClient.set(`Interview:${interviewId}`,JSON.stringify({viewCount:value,bookmarkCount:0}));
+  public static async setInterviewViewCount(
+    interviewId: string,
+    value: number
+  ) {
+    return await redisClient.set(
+      `Interview:${interviewId}`,
+      JSON.stringify({ viewCount: value, bookmarkCount: 0 })
+    );
   }
 
-  public static async setMailCount(emailId:string,count:number){
-    const response = await redisClient.set(`COUNT:${emailId}`,count,'EX',24*60*60);
+  public static async setMailCount(emailId: string, count: number) {
+    const response = await redisClient.set(
+      `COUNT:${emailId}`,
+      count,
+      "EX",
+      24 * 60 * 60
+    );
     return response == "OK" ? true : false;
   }
 
-  public static async getMailCount(emailId:string){
+  public static async getMailCount(emailId: string) {
     const count = await redisClient.get(`COUNT:${emailId}`);
     return count;
   }
 
-  public static async createOtp(email:string,otp:number){
-    return await redisClient.set(`OTP:${email}`,otp,'EX',10*60);// 10 mins
+  public static async createOtp(email: string, otp: number) {
+    return await redisClient.set(`OTP:${email}`, otp, "EX", 10 * 60); // 10 mins
   }
 
-  public static async verifyOtp(email:string,otp:number){
+  public static async verifyOtp(email: string, otp: number) {
     const cachedOtp = await redisClient.get(`OTP:${email}`);
     const otpValue = parseInt(cachedOtp as string);
-    console.log("(cached,user)",otpValue,otp);
-    return otp==otpValue;
+    console.log("(cached,user)", otpValue, otp);
+    return otp == otpValue;
   }
 
-  public static async setResetPasswordToken(userId:string,secret:string){
-    await redisClient.set(`RESET_PASSWORD:${userId}`,secret,'EX',10*60);
+  public static async setResetPasswordToken(userId: string, secret: string) {
+    await redisClient.set(
+      `RESET_PASSWORD:${userId}`,
+      JSON.stringify({ secret, createdAt: new Date() }),
+      "EX",
+      15 * 60
+    );
   }
 
-  public static async verifyPasswordToken(userId:string,secret:string){
+  public static async getResetPasswordToken(userId: string) {
+    return await redisClient.get(`RESET_PASSWORD:${userId}`);
+  }
+
+  public static async verifyPasswordToken(userId: string, secret: string) {
     const cachedSecret = await redisClient.get(`RESET_PASSWORD:${userId}`);
-    
-    if(!cachedSecret) return {success:false,msg:"The reset password link has been expired"};
 
-    if(secret == cachedSecret){
-      return {success:true,msg:""}
+    if (!cachedSecret)
+      return {
+        success: false,
+        msg: "The reset password link has been expired",
+      };
+
+    const parsedSecret = JSON.parse(cachedSecret);
+    console.log("parsed secret : ", parsedSecret);
+    const cachedSecretToken = parsedSecret.secret;
+
+    if (secret == cachedSecretToken) {
+      return { success: true, msg: "" };
     }
 
-    return {success:false,msg:"Invalid Action"}; 
+    return { success: false, msg: "Invalid Action" };
   }
 
-  public static async invalidateSecretToken(userId:string){
+  public static async invalidateSecretToken(userId: string) {
     return await redisClient.del(`RESET_PASSWORD:${userId}`);
   }
 }

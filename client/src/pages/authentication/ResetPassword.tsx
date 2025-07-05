@@ -50,6 +50,10 @@ const ResetPassword = () => {
     if (response.success) {
       toast.success(`${response.data.data}`);
       setIsSubmitting(false);
+      setTimeout(() => {
+        navigate("/login");
+        toast.success("Login with new credentials")
+      }, 500);
     } else {
       toast.warning(`${response.errMsg}`);
       setIsSubmitting(false);

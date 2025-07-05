@@ -3,7 +3,6 @@ import { code } from "../config/status-code";
 import crypto from "crypto";
 import { Redis_Service } from "../services/Redis";
 import { User } from "../services/User";
-// import { sendEmail } from "../utils/utils.mail";
 import { sendEmailResend } from "../utils/utils.resend-email";
 
 export const resetPasswordHandler = async (req: Request, res: Response) => {
@@ -26,14 +25,29 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
       return;
     }
 
-    // 5. Check mail count
+    // 5. If request to reset password comes again - < 5 mins
+    const cachedSecret = await Redis_Service.getResetPasswordToken(user.id);
+    if(cachedSecret){
+      const parsedSecret = JSON.parse(cachedSecret);
+      const createdAt = parsedSecret.createdAt;
+      const currentTime = new Date().getTime()
+      const secretCreationTime = new Date(createdAt).getTime();
+      const timeDiff = Math.floor((currentTime-secretCreationTime)/1000);
+
+      if(timeDiff <= 300){ // 5 mins have not elapsed
+        res.status(code.Forbidden).json({msg:"New link will be sent after 5 mins"});
+        return;
+      }
+    }
+
+    // 6. Check mail count
     const mailCount = await Redis_Service.getMailCount(email);
 
-    // 6. If mail count is null
+    // 7. If mail count is null
     if (!mailCount) {
       await Redis_Service.setMailCount(email, 1);
     }
-    // 7. Check if mail count has exceeded it's limit
+    // 8. Check if mail count has exceeded it's limit
     else {
       const parsedMailCount = parseInt(mailCount);
 
@@ -50,17 +64,17 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
       }
     }
 
-    // 8. Get user details
+    // 9. Get user details
     const userId = user.id as string;
     const mailAddress = user.email as string;
 
-    // 9. Generate secret token
+    // 10. Generate secret token
     const secretToken = crypto.randomBytes(32).toString("hex");
 
-    // 10. Save this secret token in cache
+    // 11. Save this secret token in cache
     await Redis_Service.setResetPasswordToken(userId, secretToken);
 
-    // 11. Mail draft
+    // 12. Mail draft
     const resetLink = `https://interview-hive.dev-projects.site/reset-password/${secretToken}/${userId}`;
     const html = `
           <div style="font-family: Arial, sans-serif; color: #333;">
@@ -68,19 +82,19 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
             <p>Hello,</p>
             <p>We received a request to reset your password. Click the button below to reset it:</p>
             <a href="${resetLink}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">Reset Password</a>
-            <p><strong>Note:</strong> This link is valid for only 10 minutes.</p>
+            <p><strong>Note:</strong> This link is valid for only 15 minutes.</p>
             <p>If you did not request a password reset, please ignore this email.</p>
             <p>Thanks,<br/>The InterviewHive Team</p>
           </div>
         `;
-    // 12. Send mail
+    // 13. Send mail
     const response = await sendEmailResend({
       to: mailAddress,
       subject: "Password Reset",
       html,
     });
 
-    // 13. If failed to send mail
+    // 14. If failed to send mail
     if (!response.success) {
       // Failed to send mail - due to rate limit
       if (response.rateLimitExceeded) {
@@ -93,7 +107,7 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
         return;
       }
     } 
-    // 14. If mail sent successfully
+    // 15. If mail sent successfully
     else {
       res
         .status(code.Success)

@@ -13,7 +13,7 @@ export const sendEmailResend = async ({
   html: string;
 }) => {
   const { data, error } = await resend.emails.send({
-    from: "Interview Hive <noreply@interview-hive.dev-projects.site>",
+    from: "Interview Hive <service@interview-hive.dev-projects.site>",
     to: [`${to}`],
     subject: `${subject}`,
     html,

@@ -106,14 +106,14 @@ const SignupComponent = () => {
         setUserState({ ...data });
         setAuthState(true);
         setContentAccessState(true);
-        toast.success(<p className="text-lg font-mono">Login Successful.</p>, {
+        toast.success("Login Successful", {
           description: "Navigating to Dashboard.",
         });
         setTimeout(() => {
           navigate("/dashboard");
         }, 2000);
       } else {
-        toast.error(<p className="text-lg font-mono">{response.data}</p>);
+        toast.error(`${response.data}`);
       }
       setIsSubmitting(false);
     } else {

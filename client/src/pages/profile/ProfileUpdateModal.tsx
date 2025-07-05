@@ -30,9 +30,7 @@ const ProfileUpdateModal = ({
   const setUser = useUserStore((state) => state.setUserState);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(
-    savedCourseId == "NA" ? "" : savedCourseId
-  );
+  const [selectedCourse, setSelectedCourse] = useState("");
   const [yearOfPassingOut, setYearOfPassingOut] = useState<number | null>(
     savedYearOfPassingOut ?? null
   );
@@ -42,6 +40,8 @@ const ProfileUpdateModal = ({
   const [linkedIn, setLinkedIn] = useState(
     useUserStore((state) => state.linkedIn) ?? ""
   );
+
+  // console.log(selectedCourse);
 
   const handleUpdate = async () => {
     if (isSubmitting) return;
@@ -55,7 +55,7 @@ const ProfileUpdateModal = ({
       return;
     }
     // Check for selected course
-    else if (selectedCourse == "") {
+    else if (selectedCourse == "" || selectedCourse==null) {
       toast.warning("Please update course.");
       return;
     }
@@ -89,7 +89,7 @@ const ProfileUpdateModal = ({
       return;
     } else {
       setIsSubmitting(true);
-      console.log({selectedCourse, yearOfPassingOut, xHandle, linkedIn });
+      // console.log({selectedCourse, yearOfPassingOut, xHandle, linkedIn });
       const response = await postFunction("/api/profile/update", {
         yearOfPassingOut,
         courseId: selectedCourse,
