@@ -89,6 +89,12 @@ const RegistrationComponent = ({
           setUserState({
             id: userData.userId,
             username: userData.username,
+            courseId: userData.courseId,
+            degree: userData.degree,
+            branch: userData.branch,
+            yearOfPassingOut: userData.yearOfPassingOut,
+            xHandle: userData.xHandle,
+            linkedIn: userData.linkedIn,
           });
           setAuthState(true);
           setContentAccessState(userData.contentAccess);

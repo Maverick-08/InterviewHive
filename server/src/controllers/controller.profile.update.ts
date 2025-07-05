@@ -6,13 +6,18 @@ const prisma = new PrismaClient();
 
 export const profileUpdateController = async (req:Request,res:Response) => {
     try{
-        const {yearOfPassingOut,xHandle,linkedIn} = req.body as {yearOfPassingOut:number,xHandle:string,linkedIn:string}
+        const {courseId,yearOfPassingOut,xHandle,linkedIn} = req.body as {yearOfPassingOut:number,xHandle:string,linkedIn:string;courseId:string}
 
         const userId = req.userId;
-        console.log({yearOfPassingOut,xHandle,linkedIn});
+        console.log({courseId,yearOfPassingOut,xHandle,linkedIn});
 
         if(!yearOfPassingOut){
             res.status(code.BadRequest).json({msg:"Invalid payload",info:"Year of passing out is missing"});
+            return;
+        }
+
+        if(!courseId){
+            res.status(code.BadRequest).json({msg:"Invalid payload",info:"Course Id is missing"});
             return;
         }
 
@@ -24,13 +29,17 @@ export const profileUpdateController = async (req:Request,res:Response) => {
                 yearOfPassingOut,
                 xHandle: xHandle ?? null,
                 linkedIn: linkedIn ?? null,
+                course_branch:{
+                    connect:{
+                        courseInitials:courseId
+                    }
+                }
             }
         })
 
-        // const contentAccess = (courseId && yearOfPassingOut) ? true : false;
         const contentAccess = true;
 
-        res.status(code.Success).json({contentAccess});
+        res.status(code.Success).json({courseId,yearOfPassingOut,xHandle,linkedIn,contentAccess});
         return;
     }
     catch(err){

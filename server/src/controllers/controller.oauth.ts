@@ -38,7 +38,7 @@ export const oAuthHandler = async (req: Request, res: Response) => {
       const user = await User.createUser({
         email: payload.email,
         username: payload.username,
-        courseId:"NA"
+        courseId: "NA",
       });
       userId = user.id;
     }
@@ -62,13 +62,19 @@ export const oAuthHandler = async (req: Request, res: Response) => {
     setRefreshToken(res, refreshToken);
 
     // 8. Return
-    res
-      .status(code.Success)
-      .json({
-        userId,
-        username: payload.username,
-        contentAccess,
-      });
+    res.status(code.Success).json({
+      userId,
+      username: payload.username,
+      courseId: userExists ? userExists.courseId : "NA",
+      degree: userExists ? userExists.course_branch.degree : "Not Available",
+      branch: userExists ? userExists.course_branch.branch : "Not Available",
+      yearOfPassingOut: userExists
+        ? userExists.yearOfPassingOut
+        : "Not Available",
+      linkedIn: userExists ? userExists.linkedIn : null,
+      xHandle: userExists ? userExists.xHandle : null,
+      contentAccess,
+    });
     return;
   } catch (err) {
     console.log("@oAuthHandler : \n", err);

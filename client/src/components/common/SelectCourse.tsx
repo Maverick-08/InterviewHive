@@ -16,8 +16,8 @@ const SelectCourse = ({
   return (
     <Select>
       <SelectTrigger className="w-full text-white">
-        {selectedCourse == "" ? (
-          <SelectValue placeholder="Course" className="text-neutral-500" />
+        {selectedCourse == "" || selectedCourse == null? (
+          <SelectValue placeholder="Course" className="text-neutral-500 py-1.5" />
         ) : (
           <p className="text-lg">{selectedCourse}</p>
         )}
@@ -31,6 +31,12 @@ const SelectCourse = ({
           value="BTECH-CSE"
         >
           BTECH-CSE
+        </SelectItem>
+        <SelectItem
+          onClick={() => setSelectedCourse("BTECH-EE")}
+          value="BTECH-EE"
+        >
+          BTECH-EE
         </SelectItem>
         <SelectItem
           onClick={() => setSelectedCourse("MTECH-CSE")}

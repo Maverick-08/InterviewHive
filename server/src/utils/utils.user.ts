@@ -24,8 +24,17 @@ export const createUser = async ({
 }: {
   payload: UserRegistrationDetails;
 }) => {
+  // Remove courseId from payload before passing to Prisma
+  const { courseId, ...userPayload } = payload;
   const user = await prisma.user.create({
-    data: { ...payload,courseId: payload.courseId ?? "NA"},
+    data: { 
+      ...userPayload,
+      course_branch: {
+        connect: {
+          courseInitials: courseId
+        }
+      }
+    },
   });
 
   return user;

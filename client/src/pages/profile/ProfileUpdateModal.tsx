@@ -1,3 +1,4 @@
+import SelectCourse from "@/components/common/SelectCourse";
 import WhiteButton from "@/components/common/WhiteButton";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useContentAccessStore } from "@/store/contentAccessStore";
@@ -26,8 +27,12 @@ const ProfileUpdateModal = ({
   const savedCourseId = useUserStore((state) => state.courseId);
   const savedXHandle = useUserStore((state) => state.xHandle);
   const savedLinkedIn = useUserStore((state) => state.linkedIn);
+  const setUser = useUserStore((state) => state.setUserState);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(
+    savedCourseId == "NA" ? "" : savedCourseId
+  );
   const [yearOfPassingOut, setYearOfPassingOut] = useState<number | null>(
     savedYearOfPassingOut ?? null
   );
@@ -49,6 +54,12 @@ const ProfileUpdateModal = ({
       toast.warning("Please make changes for update.");
       return;
     }
+    // Check for selected course
+    else if (selectedCourse == "") {
+      toast.warning("Please update course.");
+      return;
+    }
+
     // Check 2 : Year of passing out cannot be null
     else if (!yearOfPassingOut) {
       toast.warning("Empty fields are not allowed");
@@ -78,9 +89,10 @@ const ProfileUpdateModal = ({
       return;
     } else {
       setIsSubmitting(true);
-      console.log({yearOfPassingOut,xHandle,linkedIn});
+      console.log({selectedCourse, yearOfPassingOut, xHandle, linkedIn });
       const response = await postFunction("/api/profile/update", {
         yearOfPassingOut,
+        courseId: selectedCourse,
         xHandle: xHandle == "" ? undefined : xHandle,
         linkedIn: linkedIn == "" ? undefined : linkedIn,
       });
@@ -88,6 +100,12 @@ const ProfileUpdateModal = ({
       if (response.success) {
         toast.success(`Profile Updated Successfully`);
         setIsSubmitting(false);
+        setUser({
+          courseId: response.data.courseId,
+          yearOfPassingOut: response.data.yearOfPassingOut,
+          xHandle: response.data.xHandle,
+          linkedIn: response.data.linkedIn,
+        });
         setContentAccessibilityState(response.data.contentAccess as boolean);
         onOpenChange(false);
       } else {
@@ -121,9 +139,16 @@ const ProfileUpdateModal = ({
             {/* Course  */}
             <div className="flex flex-col gap-2">
               <p className="text-lg text-white/55">Course</p>
-              <div className="p-2 w-full border border-white/35 rounded-md text-neutral-500">
-                {savedCourseId}
-              </div>
+              {savedCourseId == "NA" ? (
+                <SelectCourse
+                  selectedCourse={selectedCourse ?? ""}
+                  setSelectedCourse={setSelectedCourse}
+                />
+              ) : (
+                <div className="p-2 w-full border border-white/35 rounded-md text-neutral-500">
+                  {savedCourseId}
+                </div>
+              )}
             </div>
 
             {/* Year of passing out  */}
