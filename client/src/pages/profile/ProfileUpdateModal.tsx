@@ -103,6 +103,8 @@ const ProfileUpdateModal = ({
         setUser({
           courseId: response.data.courseId,
           yearOfPassingOut: response.data.yearOfPassingOut,
+          degree:response.data.degree,
+          branch:response.data.branch,
           xHandle: response.data.xHandle,
           linkedIn: response.data.linkedIn,
         });
