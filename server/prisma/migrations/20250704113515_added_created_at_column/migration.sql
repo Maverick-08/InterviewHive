@@ -12,4 +12,4 @@ ALTER TABLE "Feedback" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT 
 ALTER TABLE "Interview" ALTER COLUMN "viewCount" SET DATA TYPE INTEGER;
 
 -- DropTable
-DROP TABLE "vectorStore";
+-- DROP TABLE "vectorStore";

@@ -16,7 +16,6 @@ export const oAuthHandler = async (req: Request, res: Response) => {
       username: string;
       email: string;
       platform: "Mobile" | "Tablet" | "Laptop";
-      picture?: string;
     };
 
     // 2. Checks
@@ -39,7 +38,6 @@ export const oAuthHandler = async (req: Request, res: Response) => {
       const user = await User.createUser({
         email: payload.email,
         username: payload.username,
-        avatar: payload.picture,
       });
       userId = user.id;
     }
@@ -68,7 +66,6 @@ export const oAuthHandler = async (req: Request, res: Response) => {
       .json({
         userId,
         username: payload.username,
-        avatar:payload.picture,
         contentAccess,
       });
     return;
