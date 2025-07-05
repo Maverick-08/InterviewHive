@@ -118,6 +118,16 @@ export class Redis_Service {
     return await redisClient.set(`Interview:${interviewId}`,JSON.stringify({viewCount:value,bookmarkCount:0}));
   }
 
+  public static async setMailCount(emailId:string,count:number){
+    const response = await redisClient.set(`COUNT:${emailId}`,count,'EX',24*60*60);
+    return response == "OK" ? true : false;
+  }
+
+  public static async getMailCount(emailId:string){
+    const count = await redisClient.get(`COUNT:${emailId}`);
+    return count;
+  }
+
   public static async createOtp(email:string,otp:number){
     return await redisClient.set(`OTP:${email}`,otp,'EX',10*60);// 10 mins
   }

@@ -3,33 +3,66 @@ import { code } from "../config/status-code";
 import crypto from "crypto";
 import { Redis_Service } from "../services/Redis";
 import { User } from "../services/User";
-import { sendEmail } from "../utils/utils.mail";
+// import { sendEmail } from "../utils/utils.mail";
+import { sendEmailResend } from "../utils/utils.resend-email";
 
 export const resetPasswordHandler = async (req: Request, res: Response) => {
   try {
-        // 1. Extract user id
-        const {email} = req.query as unknown as {email:string};
+    // 1. Extract user id
+    const { email } = req.query as unknown as { email: string };
 
-        // 2. If there's no email
-        if(!email){
-            res.status(code.BadRequest).json({msg:"Invalid payload"});
-            return;
-        }
+    // 2. If there's no email
+    if (!email) {
+      res.status(code.BadRequest).json({ msg: "Invalid payload" });
+      return;
+    }
 
-        // 3. Get user details
-        const user = await User.exists({email});
-        const userId = user?.id as string;
-        const mailAddress = user?.email as string;
+    // 3. Get user details
+    const user = await User.exists({ email });
 
-        // 4. Generate secret token
-        const secretToken = crypto.randomBytes(32).toString("hex");
+    // 4. If user does not exists
+    if (!user) {
+      res.status(code.BadRequest).json({ msg: "The user is not registered" });
+      return;
+    }
 
-        // 5. Save this secret token in cache
-        await Redis_Service.setResetPasswordToken(userId,secretToken);
+    // 5. Check mail count
+    const mailCount = await Redis_Service.getMailCount(email);
 
-        // 6. Send mail to the user
-        const resetLink = `https://interview-hive.dev-projects.site/reset-password/${secretToken}/${userId}`;
-        const html = `
+    // 6. If mail count is null
+    if (!mailCount) {
+      await Redis_Service.setMailCount(email, 1);
+    }
+    // 7. Check if mail count has exceeded it's limit
+    else {
+      const parsedMailCount = parseInt(mailCount);
+
+      // If limit is exceeded - return
+      if (parsedMailCount > 3) {
+        res
+          .status(code.Forbidden)
+          .json({ msg: "Account's Mail limit has exceeded" });
+        return;
+      }
+      // If limit has not exceeded - increase count
+      else {
+        await Redis_Service.setMailCount(email, parsedMailCount + 1);
+      }
+    }
+
+    // 8. Get user details
+    const userId = user.id as string;
+    const mailAddress = user.email as string;
+
+    // 9. Generate secret token
+    const secretToken = crypto.randomBytes(32).toString("hex");
+
+    // 10. Save this secret token in cache
+    await Redis_Service.setResetPasswordToken(userId, secretToken);
+
+    // 11. Mail draft
+    const resetLink = `https://interview-hive.dev-projects.site/reset-password/${secretToken}/${userId}`;
+    const html = `
           <div style="font-family: Arial, sans-serif; color: #333;">
             <h2>Reset Your Password</h2>
             <p>Hello,</p>
@@ -40,11 +73,33 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
             <p>Thanks,<br/>The InterviewHive Team</p>
           </div>
         `;
-        await sendEmail(mailAddress, "Reset Password","", html);
+    // 12. Send mail
+    const response = await sendEmailResend({
+      to: mailAddress,
+      subject: "Password Reset",
+      html,
+    });
 
-        res.status(code.Success).json({data:"Reset password link has been sent to your mail."});
+    // 13. If failed to send mail
+    if (!response.success) {
+      // Failed to send mail - due to rate limit
+      if (response.rateLimitExceeded) {
+        res.status(code.ServiceUnavailable).json({
+          msg: "our mail server limit has expired. Try again tomorrow",
+        });
         return;
-
+      } else {
+        res.status(code.ServerError).json({ msg: "Mail server error" });
+        return;
+      }
+    } 
+    // 14. If mail sent successfully
+    else {
+      res
+        .status(code.Success)
+        .json({ data: "Reset password link has been sent to your mail." });
+      return;
+    }
   } catch (err) {
     console.log("@resendOtpHandler : \n", err);
     res
