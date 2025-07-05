@@ -2,11 +2,11 @@ import ComingSoon from "../../assets/ComingSoon.png";
 
 const Chat = () => {
   return (
-    <div className="w-full max-w-6xl h-screen flex flex-col gap-4 justify-center items-center">
-      <img src={ComingSoon} alt="" className="w-80 h-80"/>
-      <p className="text-xl sm:text-4xl font-mono text-white">Currently In Development</p>
+    <div className="h-[70vh] flex flex-col gap-8 justify-center items-center">
+      <img src={ComingSoon} className="h-32 w-32 md:h-64 md:w-64 rounded-lg"/>
+      <p className="text-lg sm:text-xl text-balance">Currently in Development</p>
     </div>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;
