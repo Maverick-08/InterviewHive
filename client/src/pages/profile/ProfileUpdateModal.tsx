@@ -55,7 +55,7 @@ const ProfileUpdateModal = ({
       return;
     }
     // Check for selected course
-    else if (selectedCourse == "" || selectedCourse==null) {
+    else if (savedCourseId=="NA" && (selectedCourse == "" || selectedCourse==null)) {
       toast.warning("Please update course.");
       return;
     }
@@ -92,7 +92,7 @@ const ProfileUpdateModal = ({
       // console.log({selectedCourse, yearOfPassingOut, xHandle, linkedIn });
       const response = await postFunction("/api/profile/update", {
         yearOfPassingOut,
-        courseId: selectedCourse,
+        courseId: savedCourseId !== "NA"? savedCourseId : selectedCourse,
         xHandle: xHandle == "" ? undefined : xHandle,
         linkedIn: linkedIn == "" ? undefined : linkedIn,
       });

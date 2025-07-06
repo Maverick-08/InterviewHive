@@ -18,6 +18,9 @@ const MockInterview = () => {
         navigator.userAgent
       );
 
+      console.log(navigator.userAgent);
+      console.log(result);
+
     setIsMobileDevice(result);
   }, []);
 
@@ -30,11 +33,11 @@ const MockInterview = () => {
   }
 
   return (
-    <div className="h-[80vh] flex justify-center items-center">
+    <div className="h-[80vh] p-4 flex justify-center">
       {screenActiveState == "Track Selection" ? (
         <TrackSelection activateInterviewScreen={setScreenActiveState} />
       ) : (
-        <Interview />
+        <Interview activateTrackSelection={setScreenActiveState}/>
       )}
     </div>
   );
