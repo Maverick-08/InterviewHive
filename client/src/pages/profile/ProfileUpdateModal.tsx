@@ -30,7 +30,6 @@ const ProfileUpdateModal = ({
   const setUser = useUserStore((state) => state.setUserState);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState("");
   const [yearOfPassingOut, setYearOfPassingOut] = useState<number | null>(
     savedYearOfPassingOut ?? null
   );
@@ -49,10 +48,7 @@ const ProfileUpdateModal = ({
       return;
     }
     // Check for selected course
-    else if (
-      (savedCourseId == "NA" && selectedCourse == "") ||
-      selectedCourse == null
-    ) {
+    else if (savedCourseId == "NA") {
       toast.warning("Please update course.");
       return;
     }
@@ -89,10 +85,7 @@ const ProfileUpdateModal = ({
       // console.log({selectedCourse, yearOfPassingOut, xHandle, linkedIn });
       const response = await postFunction("/api/profile/update", {
         yearOfPassingOut,
-        courseId:
-          savedCourseId == "NA" || !savedCourseId
-            ? selectedCourse
-            : savedCourseId,
+        courseId: savedCourseId,
         xHandle: xHandle == "" ? undefined : xHandle,
         linkedIn: linkedIn == "" ? undefined : linkedIn,
       });
@@ -141,16 +134,12 @@ const ProfileUpdateModal = ({
             {/* Course  */}
             <div className="flex flex-col gap-2">
               <p className="text-lg text-white/55">Course</p>
-              {savedCourseId == "NA" ? (
-                <SelectCourse
-                  selectedCourse={selectedCourse}
-                  setSelectedCourse={setSelectedCourse}
-                />
-              ) : (
-                <div className="p-2 w-full border border-white/35 rounded-md text-neutral-500">
+
+              <SelectCourse />
+
+              {/* <div className="p-2 w-full border border-white/35 rounded-md text-neutral-500">
                   {savedCourseId}
-                </div>
-              )}
+                </div> */}
             </div>
 
             {/* Year of passing out  */}
@@ -172,7 +161,7 @@ const ProfileUpdateModal = ({
               </div>
               <input
                 type="text"
-                value={xHandle??""}
+                value={xHandle ?? ""}
                 onChange={(e) => setxHandle(e.target.value)}
                 className="p-2 focus:outline-none w-full border border-white/35 rounded-md text-white"
               />
@@ -187,7 +176,7 @@ const ProfileUpdateModal = ({
 
               <input
                 type="text"
-                value={linkedIn??""}
+                value={linkedIn ?? ""}
                 onChange={(e) => setLinkedIn(e.target.value)}
                 className="p-2 focus:outline-none w-full border border-white/35 rounded-md text-white"
               />

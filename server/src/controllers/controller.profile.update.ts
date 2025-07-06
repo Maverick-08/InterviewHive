@@ -14,7 +14,7 @@ export const profileUpdateController = async (req: Request, res: Response) => {
     };
 
     const userId = req.userId;
-    console.log({ courseId, yearOfPassingOut, xHandle, linkedIn });
+    // console.log({ courseId, yearOfPassingOut, xHandle, linkedIn });
 
     if (!yearOfPassingOut) {
       res

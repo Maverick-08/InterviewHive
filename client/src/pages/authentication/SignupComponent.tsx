@@ -23,7 +23,7 @@ const SignupComponent = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const setUserState = useUserStore((state) => state.setUserState);
   const setAuthState = useAuthStore((state) => state.setAuthState);
-  const authState = useAuthStore((state) => state.authState);
+  // const authState = useAuthStore((state) => state.authState);
   const setContentAccessState = useContentAccessStore(
     (state) => state.setContentAccessibility
   );
@@ -78,11 +78,11 @@ const SignupComponent = () => {
   }, [user, navigate, setUserState, setAuthState, setContentAccessState]);
 
   // If user is logged in - route to dashboard
-  useEffect(() => {
-    if (authState) {
-      navigate("/dashboard");
-    }
-  }, [authState, navigate]);
+  // useEffect(() => {
+  //   if (authState) {
+  //     navigate("/dashboard");
+  //   }
+  // }, [authState, navigate]);
 
   const handleSubmit = async () => {
     if (isSubmitting) return false;
