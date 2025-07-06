@@ -34,14 +34,8 @@ const ProfileUpdateModal = ({
   const [yearOfPassingOut, setYearOfPassingOut] = useState<number | null>(
     savedYearOfPassingOut ?? null
   );
-  const [xHandle, setxHandle] = useState(
-    useUserStore((state) => state.xHandle) ?? ""
-  );
-  const [linkedIn, setLinkedIn] = useState(
-    useUserStore((state) => state.linkedIn) ?? ""
-  );
-
-  // console.log(selectedCourse);
+  const [xHandle, setxHandle] = useState(savedXHandle);
+  const [linkedIn, setLinkedIn] = useState(savedLinkedIn);
 
   const handleUpdate = async () => {
     if (isSubmitting) return;
@@ -55,7 +49,10 @@ const ProfileUpdateModal = ({
       return;
     }
     // Check for selected course
-    else if (savedCourseId=="NA" && (selectedCourse == "" || selectedCourse==null)) {
+    else if (
+      (savedCourseId == "NA" && selectedCourse == "") ||
+      selectedCourse == null
+    ) {
       toast.warning("Please update course.");
       return;
     }
@@ -92,7 +89,10 @@ const ProfileUpdateModal = ({
       // console.log({selectedCourse, yearOfPassingOut, xHandle, linkedIn });
       const response = await postFunction("/api/profile/update", {
         yearOfPassingOut,
-        courseId: savedCourseId !== "NA"? savedCourseId : selectedCourse,
+        courseId:
+          savedCourseId == "NA" || !savedCourseId
+            ? selectedCourse
+            : savedCourseId,
         xHandle: xHandle == "" ? undefined : xHandle,
         linkedIn: linkedIn == "" ? undefined : linkedIn,
       });
@@ -103,8 +103,8 @@ const ProfileUpdateModal = ({
         setUser({
           courseId: response.data.courseId,
           yearOfPassingOut: response.data.yearOfPassingOut,
-          degree:response.data.degree,
-          branch:response.data.branch,
+          degree: response.data.degree,
+          branch: response.data.branch,
           xHandle: response.data.xHandle,
           linkedIn: response.data.linkedIn,
         });
@@ -143,7 +143,7 @@ const ProfileUpdateModal = ({
               <p className="text-lg text-white/55">Course</p>
               {savedCourseId == "NA" ? (
                 <SelectCourse
-                  selectedCourse={selectedCourse ?? ""}
+                  selectedCourse={selectedCourse}
                   setSelectedCourse={setSelectedCourse}
                 />
               ) : (
@@ -172,7 +172,7 @@ const ProfileUpdateModal = ({
               </div>
               <input
                 type="text"
-                value={xHandle}
+                value={xHandle??""}
                 onChange={(e) => setxHandle(e.target.value)}
                 className="p-2 focus:outline-none w-full border border-white/35 rounded-md text-white"
               />
@@ -187,7 +187,7 @@ const ProfileUpdateModal = ({
 
               <input
                 type="text"
-                value={linkedIn}
+                value={linkedIn??""}
                 onChange={(e) => setLinkedIn(e.target.value)}
                 className="p-2 focus:outline-none w-full border border-white/35 rounded-md text-white"
               />

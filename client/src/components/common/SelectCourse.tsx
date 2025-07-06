@@ -13,13 +13,17 @@ const SelectCourse = ({
   selectedCourse: string;
   setSelectedCourse: (x: string) => void;
 }) => {
+
   return (
     <Select>
       <SelectTrigger className="w-full text-white">
-        {selectedCourse == "" || selectedCourse == null? (
-          <SelectValue placeholder="Course" className="text-neutral-500 py-1.5" />
+        {selectedCourse == "" || selectedCourse == null ? (
+          <SelectValue
+            placeholder="Course"
+            className="text-neutral-500 py-1.5"
+          />
         ) : (
-          <p className="text-lg">{selectedCourse}</p>
+          <p className="text-lg py-1.5">{selectedCourse}</p>
         )}
       </SelectTrigger>
       <SelectContent className="bg-[#181818] border border-white/30 text-neutral-500">

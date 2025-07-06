@@ -14,7 +14,7 @@ export const profileUpdateController = async (req: Request, res: Response) => {
     };
 
     const userId = req.userId;
-    // console.log({ courseId, yearOfPassingOut, xHandle, linkedIn });
+    console.log({ courseId, yearOfPassingOut, xHandle, linkedIn });
 
     if (!yearOfPassingOut) {
       res
@@ -26,7 +26,7 @@ export const profileUpdateController = async (req: Request, res: Response) => {
       return;
     }
 
-    if (!courseId) {
+    if (!courseId || courseId == "") {
       res
         .status(code.BadRequest)
         .json({ msg: "Invalid payload", info: "Course Id is missing" });
