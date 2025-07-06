@@ -9,7 +9,7 @@ export const getAccessToken = ({
   userId: string;
 }) => {
   return jwt.sign({ userId }, ACCESS_TOKEN_KEY, {
-    expiresIn: "2Minutes",
+    expiresIn: "30Minutes",
   });
 };
 
