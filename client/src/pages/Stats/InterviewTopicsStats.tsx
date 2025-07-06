@@ -55,7 +55,7 @@ const InterviewTopicsStats = () => {
       if (response.success) {
         setPayload(response.data as TrendingTopic[]);
       } else if (!response.isAuthenticated) {
-        toast.error(`${response.errMsg}`);
+        // toast.error(`${response.errMsg}`);
         setTimeout(() => {
           setAuthState(false);
         }, 1000);
