@@ -5,46 +5,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useUserStore } from "@/store/userStore";
 
-const SelectCourse = () => {
-  const savedCourseId = useUserStore((state) => state.courseId);
-  const setCourseId = useUserStore((state) => state.setUserState);
+const SelectCourse = ({
+  selectedCourse,
+  setSelectedCourse,
+}: {
+  selectedCourse: string | null;
+  setSelectedCourse: (x: string) => void;
+}) => {
+
   return (
     <Select>
       <SelectTrigger className="w-full text-white">
         <SelectValue
-          placeholder={`${savedCourseId == "NA" ? "Course" : savedCourseId}`}
+          placeholder={`${selectedCourse == null ? "Course" : selectedCourse}`}
           className="text-neutral-500 py-1.5"
         />
       </SelectTrigger>
       <SelectContent className="bg-[#181818] border border-white/30 text-neutral-500">
         <SelectItem
-          onClick={() => setCourseId({ courseId: "MCA" })}
+          onClick={() => setSelectedCourse("MCA" )}
           value="MCA"
         >
           MCA
         </SelectItem>
         <SelectItem
-          onClick={() => setCourseId({ courseId: "BTECH-CSE" })}
+          onClick={() => setSelectedCourse("BTECH-CSE")}
           value="BTECH-CSE"
         >
           BTECH-CSE
         </SelectItem>
         <SelectItem
-          onClick={() => setCourseId({ courseId: "BTECH-EE" })}
+          onClick={() => setSelectedCourse("BTECH-EE" )}
           value="BTECH-EE"
         >
           BTECH-EE
         </SelectItem>
         <SelectItem
-          onClick={() => setCourseId({ courseId: "MTECH-CSE" })}
+          onClick={() => setSelectedCourse("MTECH-CSE")}
           value="MTECH-CSE"
         >
           MTECH-CSE
         </SelectItem>
         <SelectItem
-          onClick={() => setCourseId({ courseId: "MDS" })}
+          onClick={() => setSelectedCourse("MDS")}
           value="MDS"
         >
           MDS

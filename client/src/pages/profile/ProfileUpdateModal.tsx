@@ -35,11 +35,14 @@ const ProfileUpdateModal = ({
   );
   const [xHandle, setxHandle] = useState(savedXHandle);
   const [linkedIn, setLinkedIn] = useState(savedLinkedIn);
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+
+  console.log("Selected Course : ",selectedCourse)
 
   const handleUpdate = async () => {
     if (isSubmitting) return;
-    // Check 1 : Saved course id is not updated 
-    if (savedCourseId == "NA") {
+    // Check 1 : Saved course id is not updated
+    if (selectedCourse == null) {
       toast.warning("Please update course.");
       return;
     }
@@ -76,7 +79,7 @@ const ProfileUpdateModal = ({
       // console.log({selectedCourse, yearOfPassingOut, xHandle, linkedIn });
       const response = await postFunction("/api/profile/update", {
         yearOfPassingOut,
-        courseId: savedCourseId,
+        courseId: selectedCourse,
         xHandle: xHandle == "" ? undefined : xHandle,
         linkedIn: linkedIn == "" ? undefined : linkedIn,
       });
@@ -125,7 +128,10 @@ const ProfileUpdateModal = ({
             {/* Course  */}
             <div className="flex flex-col gap-2">
               <p className="text-lg text-white/55">Course</p>
-              <SelectCourse />
+              <SelectCourse
+                selectedCourse={selectedCourse}
+                setSelectedCourse={setSelectedCourse}
+              />
             </div>
 
             {/* Year of passing out  */}
