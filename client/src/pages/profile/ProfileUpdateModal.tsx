@@ -38,17 +38,8 @@ const ProfileUpdateModal = ({
 
   const handleUpdate = async () => {
     if (isSubmitting) return;
-    // Check 1 : If there's no update
-    if (
-      savedYearOfPassingOut == yearOfPassingOut &&
-      xHandle == savedXHandle &&
-      linkedIn == savedLinkedIn
-    ) {
-      toast.warning("Please make changes for update.");
-      return;
-    }
-    // Check for selected course
-    else if (savedCourseId == "NA") {
+    // Check 1 : Saved course id is not updated 
+    if (savedCourseId == "NA") {
       toast.warning("Please update course.");
       return;
     }
@@ -76,7 +67,7 @@ const ProfileUpdateModal = ({
       ((savedCourseId == "BTECH-CSE" || savedCourseId == "BTECH-EE") &&
         yearOfPassingOut > new Date().getFullYear() + 4) ||
       (savedCourseId == "MDS" &&
-        yearOfPassingOut > new Date().getFullYear() + 3)
+        yearOfPassingOut > new Date().getFullYear() + 5)
     ) {
       toast.warning("Invalid year of passing out");
       return;
@@ -134,12 +125,7 @@ const ProfileUpdateModal = ({
             {/* Course  */}
             <div className="flex flex-col gap-2">
               <p className="text-lg text-white/55">Course</p>
-
               <SelectCourse />
-
-              {/* <div className="p-2 w-full border border-white/35 rounded-md text-neutral-500">
-                  {savedCourseId}
-                </div> */}
             </div>
 
             {/* Year of passing out  */}

@@ -8,16 +8,25 @@ import { useNavigate } from "react-router-dom";
 import questionsList from "./utils";
 import { useSelectedTrack } from "@/store/selectedTrackStore";
 
-const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>void}) => {
+const Interview = ({
+  activateTrackSelection,
+}: {
+  activateTrackSelection: (x: string) => void;
+}) => {
   const isSideBarActive = useSidebarStore((state) => state.isSidebarActive);
   const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
   const [endInterview, setEndInterview] = useState(false);
-  const selectedTrack = useSelectedTrack(state=>state.selectedTrack)
-  const questions = questionsList.get(selectedTrack as string) as string[];
+  const selectedTrack = useSelectedTrack((state) => state.selectedTrack);
+  const questions = questionsList.get(selectedTrack?.value as string) as string[];
   const [counter, setCounter] = useState<number>(-1);
-  const { status, startRecording, stopRecording, mediaBlobUrl, pauseRecording } =
-    useReactMediaRecorder({ video: true, audio: true, screen: true });
-    const navigate = useNavigate();
+  const {
+    status,
+    startRecording,
+    stopRecording,
+    mediaBlobUrl,
+    pauseRecording,
+  } = useReactMediaRecorder({ video: true, audio: true, screen: true });
+  const navigate = useNavigate();
 
   // Prevent page reload
   useEffect(() => {
@@ -25,7 +34,7 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
       if (status == "recording" && !endInterview) {
         toast.warning("Please end Interview first");
         event.preventDefault();
-        alert("Dont")
+        alert("Dont");
       }
     };
     window.addEventListener("beforeunload", reload);
@@ -34,16 +43,16 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
   }, [status, endInterview]);
 
   // Prevent back key press before interview ends
-  useEffect(()=>{
+  useEffect(() => {
     window.history.pushState(null, "", window.location.href);
     const handlePopState = () => {
-      if(status == "recording" && !endInterview){
-        toast.warning("Please end Interview first.")
+      if (status == "recording" && !endInterview) {
+        toast.warning("Please end Interview first.");
         window.history.pushState(null, "", window.location.href);
       }
-      if(status !== "recording"){
-        navigate("/prepare")
-        activateTrackSelection("Track Selection")
+      if (status !== "recording") {
+        navigate("/prepare");
+        activateTrackSelection("Track Selection");
       }
     };
 
@@ -52,7 +61,7 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
     return () => {
       window.removeEventListener("popstate", handlePopState);
     };
-  },[status,endInterview,navigate,activateTrackSelection])
+  }, [status, endInterview, navigate, activateTrackSelection]);
 
   // Download
   useEffect(() => {
@@ -110,15 +119,13 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
         <div className="h-full flex flex-col gap-2 ">
           {/* Recording Status  */}
           <div className="flex items-center gap-2">
-            <div className="relative">
-              <div className=" h-2 w-2 rounded-full bg-red-600"></div>
-              <div
-                className={`absolute inset-0 h-2 w-2 rounded-full bg-red-600 ${
-                  status == "recording" ? "animate-ping" : ""
-                }`}
-              ></div>
-            </div>
-            <p className="text-neutral-500">
+            <div className=" h-2 w-2 rounded-full bg-red-600"></div>
+
+            <p
+              className={`text-lg text-white ${
+                status == "recording" ? "animate-caret-blink" : ""
+              }`}
+            >
               {status == "recording"
                 ? "Recording In Progress"
                 : "Start Recording"}
@@ -137,12 +144,18 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
       </div>
 
       {/* Questions + progress + control buttons  */}
-      <div className="w-[35%] h-full flex flex-col justify-between">
+      <div className="w-[38%] h-full flex flex-col justify-between">
         {/* Question card + Progress bar  */}
         <div className="flex flex-col gap-8">
+
+          {/* Selected Tracks  */}
+          <div className="p-4 flex items-start gap-2 rounded-lg text-nowrap border border-neutral-800 bg-[#171717]">
+            <span className="text-white/70 ">Selected Track:</span><span className="truncate whitespace-nowrap overflow-ellipsis ">{selectedTrack?.key}</span>
+          </div>
+
           {/* Questions  */}
-          <div className="p-4 flex flex-col items-center gap-4 rounded-lg border border-neutral-800 bg-[#171717]">
-            <p className="text-lg">
+          <div className="p-4 h-44 max-h-48 w-full flex flex-col items-center justify-between gap-4 rounded-lg border border-white/25  bg-[#171717]">
+            <p className="text-left text-lg">
               {counter >= 0
                 ? questions.at(counter)
                 : "Click on Start Button to start the Interview"}
@@ -150,8 +163,10 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
             <WhiteButton
               disabled={counter == -1 || counter >= questions.length}
               onClick={() => {
-                if(status == 'stopped'){
-                  toast.warning("Recording is stopped",{description:"Please resume recording"});
+                if (status == "stopped") {
+                  toast.warning("Recording is stopped", {
+                    description: "Please resume recording",
+                  });
                   return;
                 }
                 if (counter + 1 < questions.length) {
@@ -168,12 +183,12 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
           </div>
 
           {/* progress bar  */}
-          <div className="p-4 flex flex-col gap-2 rounded-lg border border-neutral-800 bg-[#171717]">
+          <div className="p-4 flex flex-col gap-2 rounded-lg border border-neutral-800 text-neutral-400 bg-[#171717]">
             <div className="flex items-center justify-between">
               <span>Progress</span>
-              <span>
-                Question {counter < 0 ? 0 : counter + 1} of {questions.length}
-              </span>
+              <div>
+                Question <span className="text-white">{counter < 0 ? 0 : counter + 1}</span> of <span className="text-white">{questions.length}</span>
+              </div>
             </div>
             <div>
               <div className="w-full rounded-sm bg-neutral-500">
@@ -191,14 +206,14 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
         </div>
 
         {/* Control buttons  */}
-        <div className="p-4 flex items-center justify-between rounded-lg border border-neutral-800 bg-[#171717]">
+        <div className="w-full flex flex-col lg:flex-row items-center justify-between lg:justify-end gap-4 rounded-lg ">
           <WhiteButton
             text="End Interview"
             onClick={() => {
               stopRecording();
               setEndInterview(true);
             }}
-            className=" bg-red-500 hover:bg-red-500 text-white hover:scale-110 transition-all duration-300 ease-in"
+            className="w-full p-2 lg:p-2 bg-red-500/80 hover:bg-red-500 text-white hover:scale-102 transition-all duration-300 ease-in  lg:text-md"
           />
           <WhiteButton
             text={`${
@@ -212,7 +227,7 @@ const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>
                 if (counter == -1) setCounter(0);
               }
             }}
-            className=" bg-green-500 hover:bg-green-500 text-white hover:scale-110 transition-all duration-300 ease-in"
+            className="w-full p-2 lg:p-2 bg-green-500/80 hover:bg-green-500 text-white hover:scale-103 transition-all duration-300 ease-in lg:text-md"
           />
         </div>
       </div>

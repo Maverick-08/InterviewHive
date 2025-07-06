@@ -1,20 +1,23 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { devtools } from "zustand/middleware";
+
+interface Track{
+  key:string,
+  value:string
+}
 
 interface SelectedTrack {
-  selectedTrack: string | null;
-  setSelectedTrack: (x: string) => void;
+  selectedTrack: Track | null;
+  setSelectedTrack: (x: Track) => void;
 }
 
 export const useSelectedTrack = create<SelectedTrack>()(
   devtools(
-    persist(
+    
       (set) => ({
         selectedTrack: null,
-        setSelectedTrack: (x: string) => set({ selectedTrack: x }),
+        setSelectedTrack: (x: Track) => set({ selectedTrack: x }),
       }),
-      { name: "selectedTrack" }
-    ),
     { name: "SelectedTrack" }
   )
 );
