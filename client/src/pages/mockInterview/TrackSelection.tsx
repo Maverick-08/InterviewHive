@@ -1,12 +1,15 @@
 import { MdOutlinePersonAddAlt1 } from "react-icons/md";
 import SelectTracks from "./SelectTracks";
 import WhiteButton from "@/components/common/WhiteButton";
+import { useSelectedTrack } from "@/store/selectedTrackStore";
+import { toast } from "sonner";
 
 const TrackSelection = ({
   activateInterviewScreen,
 }: {
   activateInterviewScreen: (x: string) => void;
 }) => {
+  const selectedTrack = useSelectedTrack((state) => state.selectedTrack);
   return (
     <div className="w-full max-w-6xl h-full flex flex-col bg-[#333333] rounded-lg">
       {/* Title & Tagline */}
@@ -32,7 +35,15 @@ const TrackSelection = ({
           <div className="w-full p-4 flex justify-end ">
             <WhiteButton
               text="Start Interview"
-              onClick={()=>activateInterviewScreen("Interview")}
+              onClick={() => {
+                if (!selectedTrack) {
+                  toast.warning(
+                    "Please select a track before procedding to Interview"
+                  );
+                } else {
+                  activateInterviewScreen("Interview");
+                }
+              }}
               className="bg-neutral-800 hover:bg-neutral-800 text-neutral-600 hover:text-neutral-400 hover:scale-110 transition-all duration-300 ease-in-out"
             />
           </div>

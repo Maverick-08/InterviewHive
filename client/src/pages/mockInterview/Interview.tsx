@@ -5,18 +5,15 @@ import Webcam from "react-webcam";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import questionsList from "./utils";
+import { useSelectedTrack } from "@/store/selectedTrackStore";
 
 const Interview = ({activateTrackSelection}:{activateTrackSelection:(x:string)=>void}) => {
   const isSideBarActive = useSidebarStore((state) => state.isSidebarActive);
   const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
   const [endInterview, setEndInterview] = useState(false);
-
-  const questions = [
-    "Explain Normalization",
-    "Explain the difference bewtween join and subqueries.",
-    "Explain logical schema",
-    "Explain SQL vs No Sql",
-  ];
+  const selectedTrack = useSelectedTrack(state=>state.selectedTrack)
+  const questions = questionsList.get(selectedTrack as string) as string[];
   const [counter, setCounter] = useState<number>(-1);
   const { status, startRecording, stopRecording, mediaBlobUrl, pauseRecording } =
     useReactMediaRecorder({ video: true, audio: true, screen: true });
